@@ -70,4 +70,7 @@ class Reservation(Document):
     delivery_date = DateTimeField()
     pickup_date = DateTimeField()
     
+    item_copy = ReferenceField(ItemCopy)
+    item = ReferenceField(Item)
+
     person_profile = EmbeddedDocumentField(PersonProfile)
