@@ -41,3 +41,23 @@ class ItemCopy(Document):
     last_borrowing_date = DateTimeField()
     kind = StringField(max_length=45)
     item = ReferenceField(Item)
+
+class PersonProfile(EmbeddedDocument):
+    """Represents the profile a person, as embedded inside borrowings and reservations."""
+    sex = StringField(max_length=1)
+    age = StringField(max_length=45)
+    category = StringField(max_length=45)
+    postcode = IntField()
+    person_count = IntField()
+
+class Borrowing(Document):
+    """Represents an instance of a borrowing of an item, containing information like dates and the profile of the person that borrwed the item."""
+
+    from_date = DateTimeField()
+    until_date = DateTimeField()
+    is_extended = BooleanField()
+
+    item_copy = ReferenceField(ItemCopy)
+    item = ReferenceField(Item)
+
+    person_profile = EmbeddedDocumentField(PersonProfile)
