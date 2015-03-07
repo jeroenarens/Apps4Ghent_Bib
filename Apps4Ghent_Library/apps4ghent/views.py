@@ -1,3 +1,6 @@
-from django.shortcuts import render
+from rest_framework_mongoengine.generics import ListCreateAPIView
+from .serializers import *
 
-# Create your views here.
+class ItemList(ListCreateAPIView):
+    serializer_class = ItemSerializer
+    queryset = Item.objects.all()
