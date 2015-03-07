@@ -1,0 +1,9 @@
+# VIM swap files
+*.swp
+
+# Python
+__pycache__/
+*.pyc
+
+# database
+*.sqlite3
