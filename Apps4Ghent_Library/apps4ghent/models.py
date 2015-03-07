@@ -61,3 +61,13 @@ class Borrowing(Document):
     item = ReferenceField(Item)
 
     person_profile = EmbeddedDocumentField(PersonProfile)
+
+class Reservation(Document):
+    """Represents an instance of a reservation, containg information like dates and the profile of the person that reserved the item."""
+    pickup_location = StringField(max_length=45)
+    dropoff_location = StringField(max_length=45)
+    request_date = DateTimeField()
+    delivery_date = DateTimeField()
+    pickup_date = DateTimeField()
+    
+    person_profile = EmbeddedDocumentField(PersonProfile)
