@@ -8,3 +8,7 @@ class ItemSerializer(DocumentSerializer):
 class ItemCopySerializer(DocumentSerializer):
     class Meta:
         model = ItemCopy
+
+class BorrowingSerializer(DocumentSerializer):
+    class Meta:
+        model = Borrowing
