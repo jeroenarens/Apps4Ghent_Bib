@@ -1,4 +1,4 @@
-from mongoengine import Document, StringField, IntField, BooleanField
+from mongoengine import *
 
 # TODO: put blank constraints on the fields of models as soon as we get some example data 
 class Item(Document):
@@ -29,3 +29,14 @@ class Item(Document):
     age_description = StringField(max_length=45)
     AVI = StringField(max_length=45)
     complete_title = StringField(max_length=45)
+
+class ItemCopy(Document):
+    """Represent a physical copy of an item."""
+
+    location = StringField(max_length=45)
+    in_date = DateTimeField()
+    out_date = DateTimeField()
+    last_intake_date = DateTimeField()
+    last_borrowing_date = DateTimeField()
+    kind = StringField(max_length=45)
+    item = ReferenceField(Item)
