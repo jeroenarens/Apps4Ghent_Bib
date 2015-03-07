@@ -39,6 +39,7 @@ INSTALLED_APPS = (
 
     'rest_framework',
     'rest_framework_mongoengine',
+    'apps4ghent',
 )
 
 MIDDLEWARE_CLASSES = (
