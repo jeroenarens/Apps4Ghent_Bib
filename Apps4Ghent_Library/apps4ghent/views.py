@@ -12,3 +12,7 @@ class ItemCopyList(ListCreateAPIView):
 class BorrowingList(ListCreateAPIView):
     serializer_class = BorrowingSerializer
     queryset = Borrowing.objects.all()
+
+class ReservationList(ListCreateAPIView):
+    serializer_class = ReservationSerializer
+    queryset = Reservation.objects.all()

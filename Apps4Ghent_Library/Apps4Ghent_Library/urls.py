@@ -8,5 +8,6 @@ urlpatterns = patterns('',
     url(r'^items/$', views.ItemList.as_view()),
     url(r'^item-copies/$', views.ItemCopyList.as_view()),
     url(r'^borrowings/$', views.BorrowingList.as_view()),
+    url(r'^reservations/$', views.ReservationList.as_view()),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )

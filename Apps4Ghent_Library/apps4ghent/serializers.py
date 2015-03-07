@@ -12,3 +12,7 @@ class ItemCopySerializer(DocumentSerializer):
 class BorrowingSerializer(DocumentSerializer):
     class Meta:
         model = Borrowing
+
+class ReservationSerializer(DocumentSerializer):
+    class Meta:
+        model = Reservation
