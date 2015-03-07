@@ -33,6 +33,7 @@ class Item(Document):
 class ItemCopy(Document):
     """Represent a physical copy of an item."""
 
+    barcode = StringField(max_length=45)
     location = StringField(max_length=45)
     in_date = DateTimeField()
     out_date = DateTimeField()
