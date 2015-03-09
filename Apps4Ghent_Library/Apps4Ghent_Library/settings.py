@@ -42,6 +42,16 @@ INSTALLED_APPS = (
     'apps4ghent',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+   'django.contrib.auth.context_processors.auth',
+   'django.core.context_processors.debug',
+   'django.core.context_processors.i18n',
+   'django.core.context_processors.media',
+   'django.core.context_processors.static',
+   'django.core.context_processors.tz',
+   'django.contrib.messages.context_processors.messages',
+)
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -98,8 +108,20 @@ USE_L10N = True
 
 USE_TZ = True
 
+#configure the template directories
+TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates')
 
+TEMPLATE_DIRS = (
+    TEMPLATE_PATH,
+)
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#configure the static files directories
+STATIC_PATH = os.path.join(BASE_DIR,'static')
+
+STATICFILES_DIRS = (
+    STATIC_PATH,
+)

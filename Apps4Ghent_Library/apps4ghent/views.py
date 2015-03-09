@@ -1,5 +1,9 @@
+from django.shortcuts import  render, render_to_response
 from rest_framework_mongoengine.generics import ListCreateAPIView
 from .serializers import *
+
+def index(request):
+   return render_to_response('index.html')
 
 class ItemList(ListCreateAPIView):
     serializer_class = ItemSerializer
@@ -16,3 +20,4 @@ class BorrowingList(ListCreateAPIView):
 class ReservationList(ListCreateAPIView):
     serializer_class = ReservationSerializer
     queryset = Reservation.objects.all()
+
