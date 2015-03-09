@@ -1,0 +1,69 @@
+\documentclass[11pt,a4paper,oneside,notitlepage]{report}
+\usepackage[english]{babel}
+
+\setlength{\hoffset}{-1in}
+\setlength{\voffset}{-1in}
+\setlength{\topmargin}{2cm}
+\setlength{\headheight}{0.5cm}
+\setlength{\headsep}{1cm}
+\setlength{\oddsidemargin}{2.5cm}
+\setlength{\evensidemargin}{2.5cm}
+\setlength{\textwidth}{17cm}
+\setlength{\textheight}{23.3cm}
+\setlength{\footskip}{1.5cm}
+
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+% \usepackage[colorlinks]{hyperref}
+
+%\pagestyle{fancy}
+\titleformat{\chapter}{}{}{0em}{\bf\LARGE}
+\renewcommand{\chaptermark}[1]{\markright{\MakeUppercase{#1}}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection~#1}}
+\titlespacing*{\chapter}{0pt}{-40pt}{10pt}
+
+\newcommand{\headerfmt}[1]{\textsl{\textsf{#1}}}
+\newcommand{\headerfmtpage}[1]{\textsf{#1}}
+
+\fancyhf{}
+\fancyhead[LE,RO]{\headerfmtpage{\thepage}}
+\fancyhead[LO]{\headerfmt{\rightmark}}
+\fancyhead[RE]{\headerfmt{\leftmark}}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{ % eerste bladzijde van een hoofdstuk
+  \fancyhf{}
+  \fancyhead[LE,RO]{\headerfmtpage{\thepage}}
+  \fancyhead[LO]{\headerfmt{\rightmark}}
+  \fancyhead[RE]{\headerfmt{\leftmark}}
+  \renewcommand{\headrulewidth}{0.5pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+\renewcommand{\baselinestretch}{1.5}
+\hyphenation{ditmagnooitgesplitstworden dit-woord-splitst-hier}
+
+\begin{document}
+
+% title
+\include{title}
+
+% geen paginanummering tot we aan de inhoudsopgave komen
+\pagestyle{empty}
+
+% table of contents
+\tableofcontents
+
+\include{chapter-introduction}
+
+\include{chapter-organisation}
+
+\include{chapter-meetings}
+
+%start
+
+
+
+\end{document}
