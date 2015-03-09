@@ -36,3 +36,15 @@
   \item The most promising project we will focus on is a \emph{visualisation of the distribution of the books across Ghent over time}.
   \item If possible it might be nice to incorporate the concept of \emph{Goodreads}, which we could suggest on the \emph{data dive}.
 \end{itemize}
+
+\section{Meeting with Team 26/02}
+{\bf present}: Everyone of the team\\
+{\bf purpose}: Discuss feedback, decide on architecture\\
+\begin{itemize}
+  \item We worked out the basic of the architecture and identified the biggest separate blocks as \emph{Fronted}, \emph{Backend}, \emph{Database} and \emph{Syncing}.
+  \item We decided to use Django on the backend.
+  \item On the frontend (obviously) HTML5/CSS/Javascript will be used. A visualisation framework for drawing maps and charts still need to be decided on before next meeting.
+  \item The syncing part will by written in Python as to minimise the number of different languages used and can probably be integrated into Django.
+  \item A REST API will need to be decided to provide communication between frontend and backend.
+  \item As soon as the data for the library has been put online, we can start defining the Rest API between the \emph{Syncing} block and the \emph{TheDataTank} endpoint.
+\end{itemize}
