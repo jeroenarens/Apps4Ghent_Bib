@@ -1,0 +1,17 @@
+\select@language {english}
+\contentsline {chapter}{\numberline {1}Introduction}{2}
+\contentsline {chapter}{\numberline {2}General project decisions}{3}
+\contentsline {section}{\numberline {2.1}Role decisions}{3}
+\contentsline {section}{\numberline {2.2}Infrastructure decisions}{3}
+\contentsline {chapter}{\numberline {3}Application}{4}
+\contentsline {chapter}{\numberline {4}Overview of meetings}{5}
+\contentsline {section}{\numberline {4.1}Meeting with Team 13/02}{5}
+\contentsline {section}{\numberline {4.2}Meeting with Client 25/02}{5}
+\contentsline {section}{\numberline {4.3}Meeting with Team 25/02}{6}
+\contentsline {section}{\numberline {4.4}Meeting with Prof. Mannens 26/02}{6}
+\contentsline {section}{\numberline {4.5}Meeting with Team 26/02}{7}
+\contentsline {section}{\numberline {4.6}Meeting with journalists 03/03}{7}
+\contentsline {section}{\numberline {4.7}Short meeting with people from the library 03/03}{8}
+\contentsline {section}{\numberline {4.8}Short meeting about linked data 09/03}{8}
+\contentsline {chapter}{\numberline {5}Overview of events}{10}
+\contentsline {section}{\numberline {5.1}Apps for Ghent data-dive 09/03}{10}
