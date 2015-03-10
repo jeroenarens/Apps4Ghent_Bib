@@ -119,3 +119,5 @@ crashlytics-build.properties
 *.toc
 *.log
 *.pdf
+*.gz
+*.dvi
