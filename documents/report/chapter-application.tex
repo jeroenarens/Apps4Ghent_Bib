@@ -14,6 +14,43 @@ We make use of 3 main components in the backend. First there is the RML unit whi
 
 On initial load of the webpage an empty map of Ghent is shown with one big number counting the sum of all books ever loaned. This map is divided in statistical sectors. The shape of these sectors is dynamic (online available) and will be retrieved every time the page is loaded. Under the map will be a slider showing the time span for the data published. Every sector can be selected, if none is, the data represented is for all of Ghent.  The numbers shown are the amount of books that fit the query. The query is defined by the optional arguments; sector, time span and properties of the books. An example; sector="A2", book: genre="horror". This query will give the amount of horror books loaned in sector A2 from the oldest (1996) to the youngest (2014) data (because time span is not specified). The book properties of the query are given in an input section above the map. Also shown on the map are distribution locations (libraries). A second layer of visualised data shows where books are loaned from. This relation between statistical sector and library can be visualised by a line. The user can zoom in and out on this map and it's visualised data by scrolling.
 
+\subsection{API}
+
+In order to provide data to the frontend and external services (such as linked data applications), an API has to be decided on. The aim of this section is to give an overview of the calls that can be made this API and the kind of data it will return.
+
+\subsubsection{Root URL}
+
+{\bf Usage}:
+\begin{verbatim}
+http://api.honegger.elis.ugent.be/v1/}
+\end{verbatim}
+
+The API will be accessible through URLs that start with \texttt{http://api.honegger.elis.ugent.be/v1/}, where \texttt{v1} indicates the major version of the API. This version number is included so future versions of the API can deprecate certain parts without having to worry about external services breaking because of these changes.
+
+\subsubsection{Items}
+
+{\bf Usage}:
+\begin{verbatim}
+http://api.honegger.elis.ugent.be/v1/items/[?param_1=value_1]
+  [&param_2=value_2]...[&param_n=value_n][/count]
+\end{verbatim}
+
+{\bf Parameters}:
+\begin{itemize}
+  \item \texttt{sector}: Identifier for the statistical sector. When provided, only items that were loaned by people living in the given sector will be returned.
+  \item \texttt{age\_description}: Description of the target age of the item.
+  \item \texttt{from\_date}: When provided, only items that were loaned after (and including) the given date are returned.
+  \item \texttt{until\_date}: When provided, only items that were loaned before (and including) the given date are returned.
+  \item \texttt{limit}: The maximum number of items that should be returned.
+  \item \texttt{order}: A comma-seperated list of properties on which to sort the data in ascending order. Descending order can be achieved by adding a $-$ before the property.
+\end{itemize}
+
+The main resources that are provided by the API are \emph{items} present in the library, such as \emph{books} and \emph{DVDs}.
+By calling the URL listed above, a list of \emph{items} can be fetched that can be filtered using various optional parameters.
+The return value should be a list of \emph{items} containing their unique identifiers, various metadata properties (such as title, genre, theme, ...), the library the item was loaned from and the number of times the items was loaned, given the parameters.\\
+
+Because the main visualisation can get away with only the number of loans for all items given a set of parameters, an extra \texttt{/count} action can be used, which simply returns the number of loans instead of a list of items.
+
 \section{Use case}
 
 The library personel can use the web application in two ways, reactively and pro-actively. Respectively by searching on a specific book (title) or on a certain group of books (genre, target-age,...) and look for differences between current distribution (visualised per library) and preffered distribution (visualised per sector). If the demand of a certain book is skewed for a sector, the copies can be moved closer (closer library) to this sector. If the demand of a group correlates with a sector the personel can decide to anticipate the demand of similar books in this group and move the whole group.
