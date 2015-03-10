@@ -7,12 +7,16 @@
  \item Jeroen will be the scheduler for this project. (25/02)
  \item Harald will be the continuous integration manager. (25/02)
  \item Damian will take care of the tasks of the system administrator. (25/02)
+ \item Damian will take care of continuous integration system. (3/03)
+ \item Harald will be reponsible for frontend matters. (3/03)
+ \item Enver will focus on providing API. (3/03)
+ \item Jeroen will help with Django related problems in backend due to his experience. (3/03)
 \end{itemize}
 
 \section{Infrastructure decisions}
 \begin{itemize}
 	\item A private git repository is set up via Github on which the project development will take place.
-    \item To keep the communication clear and well structured, Slack is used to handle the communication between the computer science students. Communication with other sources will be done by email. 
+    \item To keep the communication clear and well structured, Slack is used to handle the communication between the computer science students. Communication with other sources will be done by email.
     \item Slack will also be used for stand-up meetings with the group. If a call is needed, Google hangouts (integrated into Slack) will be used.
 \end{itemize}
 
@@ -29,3 +33,16 @@
     Data is not released on time & M & Less features can be constructed\\
   \end{tabular}
 \end{center}
+
+\section{Technologies used}
+
+\begin{itemize}
+	\item Django with django REST framework for the web application and API.
+	\item Apache2 webserver with Web Server Gateway Interface (WSGI) for serving Python applications.
+	\item MongoDB No-SQL database to store JSON-like documents, consistent with JSON-LD mapping.
+  \item HighCharts and HighMaps for visualisation on the client side.
+  \item RML for mapping CSV data to JSON-LD
+\end{itemize}
+
+Open source licences and fast development for all above components outweighed usage of other technologies.
+

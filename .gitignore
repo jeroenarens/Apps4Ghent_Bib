@@ -115,7 +115,7 @@ crashlytics-build.properties
 
 # Latex files
 *.aux
-*.syntex.gz
+*.synctex.gz
 *.toc
 *.log
 *.pdf
