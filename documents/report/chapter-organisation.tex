@@ -7,6 +7,10 @@
  \item Jeroen will be the scheduler for this project. (25/02)
  \item Harald will be the continuous integration manager. (25/02)
  \item Damian will take care of the tasks of the system administrator. (25/02)
+ \item Damian will take care of continuous integration system. (3/03)
+ \item Harald will be reponsible for frontend matters. (3/03)
+ \item Enver will focus on providing API. (3/03)
+ \item Jeroen will help with Django related problems in backend due to his experience. (3/03)
 \end{itemize}
 
 \section{Infrastructure decisions}
@@ -26,6 +30,12 @@
       Frontend is not interactive & H & . Also no story can be extracted\\
     & &  for the journalist students \\
     Data not specific enough & M & Features can be less accurate \\
-    Data too late available & M & Less features can be constructed\\
+    Data not available on time & M & Less features can be constructed\\
   \end{tabular}
 \end{center}
+
+\section{Technologies used}
+
+The main website is developed in a free Python framework Django. It enables programmers to create software made of reusable components, which makes the development process faster than in typical approach. The website is hosted on Apache2 webserver with a module for Web Server Gateway Inteface (WSGI) for Python applications. As for database, there is MongoDB used. It is a database engine where we leverage storing data in JSON-like documents. Additionally, the stored data stored should be interoperable with other services (open data) and therefore will be consistent with JSON-LD method. All above advantages, together with open source licences for all components outweighed other technologies.
+
+
