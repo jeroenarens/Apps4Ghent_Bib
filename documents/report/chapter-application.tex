@@ -1,1 +1,15 @@
 \chapter{Application}
+
+
+\section{Functional requirements}
+
+\subsection{User interface}
+
+On initial load of the webpage an empty map of Ghent is shown with one big number counting the sum of all books ever loaned. This map is divided in statistical sectors. The shape of these sectors is dynamic (online available) and will be retrieved every time the page is loaded. Under the map will be a slider showing the time span for the data published. Every sector can be selected, if none is, the data represented is for all of Ghent.  The numbers shown are the amount of books that fit the query. The query is defined by the optional arguments; sector, time span and properties of the books. An example; sector="A2", book: genre="horror". This query will give the amount of horror books loaned in sector A2 from the oldest (1996) to the youngest (2014) data (because time span is not specified). The book properties of the query are given in an input section above the map. Also shown on the map are distribution locations (libraries). A second layer of data is not in which sector the queried items (books) loaner lives but which library these persons  loaned from. This relation between statistical sector and library can be visualised by a line. The user can zoom in and out on this map and it's visualised data by scrolling. 
+
+\section{Use case}
+
+The library personel can use the web application in two ways. Reactive and pro-active
+
+
+ on a specific book (title) and look for differences between current distribution (number for a library) and preffered distribution (number for a sector). This is 
