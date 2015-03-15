@@ -68,14 +68,11 @@ class Borrower(Document):
 class Borrowing(Document):
     """Represents an instance of a borrowing of an item, containing information like dates and the profile of the person that borrwed the item."""
 
+    bid = IntField()
     from_date = DateTimeField()
-    until_date = DateTimeField()
-    is_extended = BooleanField()
-
-    item_copy = ReferenceField(ItemCopy)
-    item = ReferenceField(Item)
-
-    person_profile = EmbeddedDocumentField(PersonProfile)
+    loan_period = IntField() # in days
+    borrower = ReferenceField(Borrower)
+    item_copy = ReferenceField(ItemCopy) # Barcode
 
 class Reservation(Document):
     """Represents an instance of a reservation, containg information like dates and the profile of the person that reserved the item."""
