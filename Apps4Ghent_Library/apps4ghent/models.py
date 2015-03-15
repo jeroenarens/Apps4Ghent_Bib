@@ -47,12 +47,23 @@ class Item(Document):
     # Reverse relations
     item_copies = ListField(ReferenceField("ItemCopy"))
 
-    def get_borrowings(self):
+    def get_borrowings(self, from_date=None, until_date=None):
         """Returns a list of borrowings of the physical copies of this item."""
-        borrowings = []
+
+        filtered_borrowings = []
         for item_copy in self.item_copies:
-            borrowings.extend(item_copy.borrowings)
-        return borrowings
+            borrowings = item_copy.borrowings
+            
+            # Filter borrowings
+            borrowings = filter(lambda b: b.from_date.date() >= from_date, borrowings) if from_date else borrowings
+            borrowings = filter(lambda b: b.until_date().date() <= until_date, borrowings) if until_date else borrowings
+            
+            # Add results
+            filtered_borrowings.extend(borrowings)
+        return filtered_borrowings
+
+    def has_borrowings(self, from_date=None, until_date=None):
+        return not not self.get_borrowings(from_date=from_date, until_date=until_date)
 
 class ItemCopy(Document):
     """Represent a physical copy of an item."""
