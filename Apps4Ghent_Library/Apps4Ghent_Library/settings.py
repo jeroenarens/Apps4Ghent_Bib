@@ -39,6 +39,7 @@ INSTALLED_APPS = (
 
     'rest_framework',
     'rest_framework_mongoengine',
+    'django_filters_mongoengine',
     'apps4ghent',
 )
 
