@@ -1,6 +1,7 @@
 import django_filters_mongoengine as filters
 import django_filters
 
+from django.utils import dateparse
 from django.shortcuts import  render, render_to_response
 from mongoengine.django.shortcuts import get_document_or_404
 from rest_framework.viewsets import ViewSet
@@ -70,7 +71,18 @@ class ItemFilter(filters.FilterSet):
         model = Item
         fields = ['ISBN', 'title']
 
+# TODO Items are filtered correctly on their before_date and until_date, but still all borrowings (even those outside the date range) are returned
 class BorrowedItemsView(FilteredListAPIView):
     filter_class = ItemFilter
     queryset = Item.objects.all()
     serializer_class = BorrowedItemSerializer
+
+    def get_queryset(self):
+        # Perform basic filtering
+        filtered_qs = super(BorrowedItemsView, self).get_queryset()
+
+        from_date = dateparse.parse_date(self.request.QUERY_PARAMS.get('from_date', None) or '')
+        until_date = dateparse.parse_date(self.request.QUERY_PARAMS.get('until_date', None) or '')
+        filtered_qs = filter(lambda item: item.has_borrowings(from_date=from_date, until_date=until_date), filtered_qs)
+
+        return filtered_qs
