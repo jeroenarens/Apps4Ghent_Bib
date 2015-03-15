@@ -54,6 +54,17 @@ class ItemCopy(Document):
     kind = StringField(max_length=45)
     item = ReferenceField(Item)
 
+class Borrower(Document):
+    """Represents a person who borrows something from the library."""
+    borrower_id = IntField()
+    borrower = StringField(max_length=45)
+    sex = StringField(max_length=45)
+    sector = StringField(max_length=45)
+    postcode = IntField()
+    subscription_year = IntField()
+    subscription_location = StringField(max_length=45)
+    category = StringField(max_length=45)
+
 class PersonProfile(EmbeddedDocument):
     """Represents the profile a person, as embedded inside borrowings and reservations."""
     sex = StringField(max_length=1)
