@@ -6,7 +6,7 @@ class Item(Document):
     storing mostly its description"""
 
     # General information (can be used "outside library context")
-    BB_number = StringField(max_length=45)
+    BB_number = StringField(max_length=45, primary_key=True)
     year_published = StringField(max_length=45)
     ISBN = StringField(max_length=45)
     title = StringField(max_length=45)
@@ -45,7 +45,7 @@ class Item(Document):
 class ItemCopy(Document):
     """Represent a physical copy of an item."""
 
-    barcode = StringField(max_length=45)
+    barcode = StringField(max_length=45, primary_key=True)
     location = StringField(max_length=45)
     in_date = DateTimeField()
     out_date = DateTimeField()
@@ -56,7 +56,7 @@ class ItemCopy(Document):
 
 class Borrower(Document):
     """Represents a person who borrows something from the library."""
-    borrower_id = IntField()
+    borrower_id = IntField(primary_key=True)
     borrower = StringField(max_length=45)
     sex = StringField(max_length=45)
     sector = StringField(max_length=45)
@@ -68,7 +68,7 @@ class Borrower(Document):
 class Borrowing(Document):
     """Represents an instance of a borrowing of an item, containing information like dates and the profile of the person that borrwed the item."""
 
-    bid = IntField()
+    bid = IntField(primary_key=True)
     from_date = DateTimeField()
     loan_period = IntField() # in days
     borrower = ReferenceField(Borrower)
