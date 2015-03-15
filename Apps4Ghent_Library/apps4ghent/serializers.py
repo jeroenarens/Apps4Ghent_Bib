@@ -4,6 +4,7 @@ from rest_framework_mongoengine.serializers import DocumentSerializer
 class ItemSerializer(DocumentSerializer):
     class Meta:
         model = Item
+        depth = 2
 
 class ItemCopySerializer(DocumentSerializer):
     class Meta:

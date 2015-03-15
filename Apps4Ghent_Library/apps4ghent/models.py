@@ -42,6 +42,9 @@ class Item(Document):
     pages = IntField()
     series_edition = StringField(max_length=45)
 
+    # Reverse relations
+    item_copies = ListField(ReferenceField("ItemCopy"))
+
 class ItemCopy(Document):
     """Represent a physical copy of an item."""
 
