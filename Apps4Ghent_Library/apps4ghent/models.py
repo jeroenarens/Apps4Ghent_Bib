@@ -1,3 +1,5 @@
+import datetime
+
 from mongoengine import *
 
 # TODO: put blank constraints on the fields of models as soon as we get some example data 
@@ -95,6 +97,10 @@ class Borrowing(Document):
 
     def borrowing_count(self):
         return 1 # TODO
+
+    def until_date(self):
+        """Returns a `DateTime` that specifies how long this borrowing is valid"""
+        return self.from_date + datetime.timedelta(days=self.loan_period)
 
 class Reservation(Document):
     """Represents an instance of a reservation, containg information like dates and the profile of the person that reserved the item."""
