@@ -1,6 +1,10 @@
+import django_filters_mongoengine as filters
+import django_filters
+
 from django.shortcuts import  render, render_to_response
 from mongoengine.django.shortcuts import get_document_or_404
 from rest_framework.viewsets import ViewSet
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
 from .serializers import *
@@ -51,3 +55,22 @@ class ReservationViewSet(ReadOnlyDocumentViewSet):
     model = Reservation
     serializer_class = ReservationSerializer
 
+class FilteredListAPIView(ListAPIView):
+    def get_queryset(self):
+        filter_cls = getattr(self, 'filter_class', None)
+        queryset = getattr(self, 'queryset', None)
+        assert filter_cls, '`filter_class` argument not specified, cannot proceed.'
+        assert queryset, '`queryset` argument not specified, cannot proceed.'
+
+        return filter_cls(self.request.GET, queryset=queryset).qs
+
+class ItemFilter(filters.FilterSet):
+    title = filters.StringFilter(lookup_type='icontains')
+    class Meta:
+        model = Item
+        fields = ['ISBN', 'title']
+
+class BorrowedItemsView(FilteredListAPIView):
+    filter_class = ItemFilter
+    queryset = Item.objects.all()
+    serializer_class = BorrowedItemSerializer

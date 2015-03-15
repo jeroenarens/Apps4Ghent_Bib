@@ -45,6 +45,13 @@ class Item(Document):
     # Reverse relations
     item_copies = ListField(ReferenceField("ItemCopy"))
 
+    def get_borrowings(self):
+        """Returns a list of borrowings of the physical copies of this item."""
+        borrowings = []
+        for item_copy in self.item_copies:
+            borrowings.extend(item_copy.borrowings)
+        return borrowings
+
 class ItemCopy(Document):
     """Represent a physical copy of an item."""
 
@@ -56,6 +63,9 @@ class ItemCopy(Document):
     last_borrowing_date = DateTimeField()
     kind = StringField(max_length=45)
     item = ReferenceField(Item)
+
+    # Reverse relation
+    borrowings = ListField(ReferenceField("Borrowing"))
 
 class Borrower(Document):
     """Represents a person who borrows something from the library."""
@@ -76,6 +86,15 @@ class Borrowing(Document):
     loan_period = IntField() # in days
     borrower = ReferenceField(Borrower)
     item_copy = ReferenceField(ItemCopy) # Barcode
+
+    def from_library(self):
+        return None # TODO
+
+    def to_sector(self):
+        return self.borrower.sector
+
+    def borrowing_count(self):
+        return 1 # TODO
 
 class Reservation(Document):
     """Represents an instance of a reservation, containg information like dates and the profile of the person that reserved the item."""
