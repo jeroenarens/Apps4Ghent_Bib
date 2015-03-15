@@ -1,27 +1,53 @@
 from django.shortcuts import  render, render_to_response
-from rest_framework_mongoengine.generics import ListAPIView
+from mongoengine.django.shortcuts import get_document_or_404
+from rest_framework.viewsets import ViewSet
+from rest_framework.response import Response
+
 from .serializers import *
 
 def index(request):
    return render_to_response('index.html')
 
-class ItemList(ListAPIView):
+class ReadOnlyDocumentViewSet(ViewSet):
+    """Viewset for mongodb documents that provides an implementation for `list` and `retrieve`"""
+    def list(self, request):
+        model_cls = getattr(self, 'model', None)
+        serializer_cls = getattr(self, 'serializer_class', None)
+        assert model_cls, '`model` argument not specified, cannot proceed.'
+        assert serializer_cls, '`serializer_class` argument not specified, cannot proceed.'
+
+        queryset = model_cls.objects.all()
+        serializer = serializer_cls(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        model_cls = getattr(self, 'model', None)
+        serializer_cls = getattr(self, 'serializer_class', None)
+        assert model_cls, '`model` argument not specified, cannot proceed.'
+        assert serializer_cls, '`serializer_class` argument not specified, cannot proceed'
+
+        queryset = model_cls.objects.all()
+        document = get_document_or_404(queryset, pk=pk)
+        serializer = serializer_cls(document)
+        return Response(serializer.data)
+
+class ItemsViewSet(ReadOnlyDocumentViewSet):
+    model = Item
     serializer_class = ItemSerializer
-    queryset = Item.objects.all()
 
-class ItemCopyList(ListAPIView):
+class ItemCopyViewSet(ReadOnlyDocumentViewSet):
+    model = ItemCopy
     serializer_class = ItemCopySerializer
-    queryset = ItemCopy.objects.all()
 
-class BorrowerList(ListAPIView):
+class BorrowerViewSet(ReadOnlyDocumentViewSet):
+    model = Borrower
     serializer_class = BorrowerSerializer
-    queryset = Borrower.objects.all()
 
-class BorrowingList(ListAPIView):
+class BorrowingViewSet(ReadOnlyDocumentViewSet):
+    model = Borrowing
     serializer_class = BorrowingSerializer
-    queryset = Borrowing.objects.all()
 
-class ReservationList(ListAPIView):
+class ReservationViewSet(ReadOnlyDocumentViewSet):
+    model = Reservation
     serializer_class = ReservationSerializer
-    queryset = Reservation.objects.all()
 
