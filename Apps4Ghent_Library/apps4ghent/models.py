@@ -4,31 +4,43 @@ from mongoengine import *
 class Item(Document):
     """Represents an item present in the library (e.g. a book),
     storing mostly its description"""
-    
+
     # General information (can be used "outside library context")
     BB_number = StringField(max_length=45)
-    title = StringField(max_length=45)
+    year_published = StringField(max_length=45)
     ISBN = StringField(max_length=45)
+    title = StringField(max_length=45)
+    item_type = StringField(max_length=45) # material, kind
     ISSN = StringField(max_length=45)
-    material = StringField(max_length=45)
-    visible_in_webopace = BooleanField()
-    author_and_functions = StringField(max_length=45)
 
     # Information that can only be used "inside library context"
-    number_of_pages = IntField()
-    keywords = StringField(max_length=45)
-    genre = StringField(max_length=45)
-    theme = StringField(max_length=45)
+    series_title = StringField(max_length=45)
+    literarytype = StringField(max_length=45)
     language = StringField(max_length=45)
-    translated = StringField(max_length=1)
-    literary_nature = StringField(max_length=45)
-    edition = StringField(max_length=45)
-    impressum = StringField(max_length=45)
+    age = StringField(max_length=45)
+
     SISO = StringField(max_length=45)
+    SISO_libraries = StringField(max_length=45)
     ZIZO = StringField(max_length=45)
-    age_description = StringField(max_length=45)
     AVI = StringField(max_length=45)
-    complete_title = StringField(max_length=45)
+    EAN = StringField(max_length=45)
+
+    category_youth = StringField(max_length=45)
+    category_music = StringField(max_length=45)
+    category_adults = StringField(max_length=45)
+
+    keywords_local = StringField(max_length=45)
+    keywords_youth = StringField(max_length=45)
+    keywords_libraries = StringField(max_length=45)
+    keyword_youth = StringField(max_length=45)
+    keyword_adults = StringField(max_length=45)
+
+    author_type = StringField(max_length=45)
+    author_lastname = StringField(max_length=45)
+    author_firstname = StringField(max_length=45)
+    publisher = StringField(max_length=45)
+    pages = IntField()
+    series_edition = StringField(max_length=45)
 
 class ItemCopy(Document):
     """Represent a physical copy of an item."""
