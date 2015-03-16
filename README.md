@@ -34,7 +34,8 @@ Besides these directories, also a manage.py file is present which will be used t
 How to run?
 -------------
 before running the project itself, please install python3.4 ([Link](https://www.python.org/downloads/)) and Django 1.7 ([Link](https://docs.djangoproject.com/en/1.7/topics/install/)) <br />
-to set up the django project, first install the packages from the requirements file with the following command: 
+Also make sure you have installed mongodb and you have the mongodb service running on your pc when starting the server ([Link](http://docs.mongodb.org/manual/installation/)).<br/>
+To set up the django project, first install the packages from the requirements file with the following command: 
 <br />
  <code> pip3 install -r requirements.txt </code>
 <br/>
