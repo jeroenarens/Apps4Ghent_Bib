@@ -36,15 +36,15 @@ How to run?
 before running the project itself, please install python3.4 ([Link](https://www.python.org/downloads/)) and Django 1.7 ([Link](https://docs.djangoproject.com/en/1.7/topics/install/)) <br />
 to set up the django project, first install the packages from the requirements file with the following command: 
 <br />
- <code> pip3 install -r requirements.txt </code>. 
+ <code> pip3 install -r requirements.txt </code>
 <br/>
 Afterwards, set up the database with:
 <br />
- <code> python3 manage.py syncdb </code>. 
+ <code> python3 manage.py syncdb </code>
 <br />
 Now you can start the server by typing: 
 <br />
-<code> python3 manage.py runserver </code>.
+<code> python3 manage.py runserver </code>
 <br/> <br/>
 Be aware that you do not need to change any settings, you should be able to run this project locally without changing anything to these settings!
 
