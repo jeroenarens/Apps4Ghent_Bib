@@ -1,39 +1,80 @@
+import datetime
+
 from mongoengine import *
 
 # TODO: put blank constraints on the fields of models as soon as we get some example data 
 class Item(Document):
     """Represents an item present in the library (e.g. a book),
     storing mostly its description"""
-    
+
     # General information (can be used "outside library context")
-    BB_number = StringField(max_length=45)
-    title = StringField(max_length=45)
+    BB_number = StringField(max_length=45, primary_key=True)
+    year_published = StringField(max_length=45)
     ISBN = StringField(max_length=45)
+    title = StringField(max_length=45)
+    item_type = StringField(max_length=45) # material, kind
     ISSN = StringField(max_length=45)
-    material = StringField(max_length=45)
-    visible_in_webopace = BooleanField()
-    author_and_functions = StringField(max_length=45)
 
     # Information that can only be used "inside library context"
-    number_of_pages = IntField()
-    keywords = StringField(max_length=45)
-    genre = StringField(max_length=45)
-    theme = StringField(max_length=45)
+    series_title = StringField(max_length=45)
+    literarytype = StringField(max_length=45)
     language = StringField(max_length=45)
-    translated = StringField(max_length=1)
-    literary_nature = StringField(max_length=45)
-    edition = StringField(max_length=45)
-    impressum = StringField(max_length=45)
+    age = StringField(max_length=45)
+
     SISO = StringField(max_length=45)
+    SISO_libraries = StringField(max_length=45)
     ZIZO = StringField(max_length=45)
-    age_description = StringField(max_length=45)
     AVI = StringField(max_length=45)
-    complete_title = StringField(max_length=45)
+    EAN = StringField(max_length=45)
+
+    category_youth = StringField(max_length=45)
+    category_music = StringField(max_length=45)
+    category_adults = StringField(max_length=45)
+
+    keywords_local = StringField(max_length=45)
+    keywords_youth = StringField(max_length=45)
+    keywords_libraries = StringField(max_length=45)
+    keyword_youth = StringField(max_length=45)
+    keyword_adults = StringField(max_length=45)
+
+    author_type = StringField(max_length=45)
+    author_lastname = StringField(max_length=45)
+    author_firstname = StringField(max_length=45)
+    publisher = StringField(max_length=45)
+    pages = IntField()
+    series_edition = StringField(max_length=45)
+
+    # Reverse relations
+    item_copies = ListField(ReferenceField("ItemCopy"))
+
+    def get_borrowings(self, from_date=None, until_date=None):
+        """Returns a list of borrowings of the physical copies of this item."""
+
+        # Return the cached borrowings if they exist
+        filtered_borrowings = getattr(self, 'cached_borrowings', None)
+        if filtered_borrowings:
+            return filtered_borrowings
+
+        # No cached borrowings, do regular execution
+        filtered_borrowings = []
+        for item_copy in self.item_copies:
+            borrowings = item_copy.borrowings
+            
+            # Filter borrowings
+            borrowings = filter(lambda b: b.from_date.date() >= from_date, borrowings) if from_date else borrowings
+            borrowings = filter(lambda b: b.until_date().date() <= until_date, borrowings) if until_date else borrowings
+            
+            # Add results
+            filtered_borrowings.extend(borrowings)
+        return filtered_borrowings
+
+    def has_borrowings(self, from_date=None, until_date=None):
+        return not not self.get_borrowings(from_date=from_date, until_date=until_date)
 
 class ItemCopy(Document):
     """Represent a physical copy of an item."""
 
-    barcode = StringField(max_length=45)
+    barcode = StringField(max_length=45, primary_key=True)
     location = StringField(max_length=45)
     in_date = DateTimeField()
     out_date = DateTimeField()
@@ -42,25 +83,41 @@ class ItemCopy(Document):
     kind = StringField(max_length=45)
     item = ReferenceField(Item)
 
-class PersonProfile(EmbeddedDocument):
-    """Represents the profile a person, as embedded inside borrowings and reservations."""
-    sex = StringField(max_length=1)
-    age = StringField(max_length=45)
-    category = StringField(max_length=45)
+    # Reverse relation
+    borrowings = ListField(ReferenceField("Borrowing"))
+
+class Borrower(Document):
+    """Represents a person who borrows something from the library."""
+    borrower_id = IntField(primary_key=True)
+    borrower = StringField(max_length=45)
+    sex = StringField(max_length=45)
+    sector = StringField(max_length=45)
     postcode = IntField()
-    person_count = IntField()
+    subscription_year = IntField()
+    subscription_location = StringField(max_length=45)
+    category = StringField(max_length=45)
 
 class Borrowing(Document):
     """Represents an instance of a borrowing of an item, containing information like dates and the profile of the person that borrwed the item."""
 
+    bid = IntField(primary_key=True)
     from_date = DateTimeField()
-    until_date = DateTimeField()
-    is_extended = BooleanField()
+    loan_period = IntField() # in days
+    borrower = ReferenceField(Borrower)
+    item_copy = ReferenceField(ItemCopy) # Barcode
 
-    item_copy = ReferenceField(ItemCopy)
-    item = ReferenceField(Item)
+    def from_library(self):
+        return getattr(self, 'from_library_cached', None)
 
-    person_profile = EmbeddedDocumentField(PersonProfile)
+    def to_sector(self):
+        return getattr(self, 'to_sector_cached', self.borrower and self.borrower.sector)
+
+    def borrowing_count(self):
+        return getattr(self, 'borrowing_count_cached', 1)
+
+    def until_date(self):
+        """Returns a `DateTime` that specifies how long this borrowing is valid"""
+        return self.from_date + datetime.timedelta(days=self.loan_period)
 
 class Reservation(Document):
     """Represents an instance of a reservation, containg information like dates and the profile of the person that reserved the item."""
@@ -73,4 +130,4 @@ class Reservation(Document):
     item_copy = ReferenceField(ItemCopy)
     item = ReferenceField(Item)
 
-    person_profile = EmbeddedDocumentField(PersonProfile)
+    borrower = ReferenceField(Borrower)
