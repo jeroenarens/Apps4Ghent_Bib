@@ -91,3 +91,11 @@ class BorrowedItemsView(FilteredListAPIView):
                 filtered_items.append(item)
 
         return filtered_items
+
+class BorrowedItemsBorrowingsView(BorrowedItemsView):
+    serializer_class = BorrowedItemsBorrowingsSerializer
+    def get_queryset(self):
+        filtered_items = super(BorrowedItemsBorrowingsView, self).get_queryset()
+        filtered_borrowings = map(lambda item: item.cached_borrowings, filtered_items)
+        flattened_borrowings = [el for sublist in filtered_borrowings for el in sublist]
+        return flattened_borrowings

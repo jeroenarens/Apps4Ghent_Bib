@@ -107,13 +107,13 @@ class Borrowing(Document):
     item_copy = ReferenceField(ItemCopy) # Barcode
 
     def from_library(self):
-        return None # TODO
+        return getattr(self, 'from_library_cached', None)
 
     def to_sector(self):
-        return self.borrower.sector
+        return getattr(self, 'to_sector_cached', self.borrower and self.borrower.sector)
 
     def borrowing_count(self):
-        return 1 # TODO
+        return getattr(self, 'borrowing_count_cached', 1)
 
     def until_date(self):
         """Returns a `DateTime` that specifies how long this borrowing is valid"""
