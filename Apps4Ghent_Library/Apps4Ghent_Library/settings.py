@@ -87,7 +87,6 @@ import mongoengine
 config_module = __import__('Apps4Ghent_Library.database_credentials', globals(), locals(), 'database_credentials')
 for setting in dir(config_module):
     if setting == setting.upper():
-        print(setting)
         locals()[setting] = getattr(config_module, setting)
 
 mongoengine.connect(_MONGODB_NAME, host=_MONGODB_DATABASE_HOST)
