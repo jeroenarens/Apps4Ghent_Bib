@@ -83,16 +83,12 @@ DATABASES = {
 # http://docs.mongoengine.org/django.html
 import mongoengine
 
-_MONGODB_USER = 'mongouser'
-_MONGODB_PASSWD = 'password'
-_MONGODB_HOST = 'localhost'
-_MONGODB_NAME = 'apps4ghent'
-
-# Connection string without any authentication
-_MONGODB_DATABASE_HOST = 'mongodb://%s/%s' % (_MONGODB_HOST, _MONGODB_NAME)
-
-# Connection string with user/pass authentication
-#_MONGODB_DATABASE_HOST = 'mongodb://%s:%s@%s/%s' % (_MONGODB_USER, _MONGODB_PASSWD, _MONGODB_HOST, _MONGODB_NAME)
+# Load database credentials from a separate file 'database_credentials.py'
+config_module = __import__('Apps4Ghent_Library.database_credentials', globals(), locals(), 'database_credentials')
+for setting in dir(config_module):
+    if setting == setting.upper():
+        print(setting)
+        locals()[setting] = getattr(config_module, setting)
 
 mongoengine.connect(_MONGODB_NAME, host=_MONGODB_DATABASE_HOST)
 
