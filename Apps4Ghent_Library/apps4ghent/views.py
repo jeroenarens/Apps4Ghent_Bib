@@ -80,8 +80,8 @@ class BorrowedItemsView(FilteredListAPIView):
         # Perform basic filtering
         filtered_qs = super(BorrowedItemsView, self).get_queryset()
 
-        from_date = dateparse.parse_date(self.request.QUERY_PARAMS.get('from_date', None) or '')
-        until_date = dateparse.parse_date(self.request.QUERY_PARAMS.get('until_date', None) or '')
+        from_date = dateparse.parse_date(self.request.QUERY_PARAMS.get('from_date', ''))
+        until_date = dateparse.parse_date(self.request.QUERY_PARAMS.get('until_date', ''))
 
         filtered_items = []
         for item in filtered_qs:
