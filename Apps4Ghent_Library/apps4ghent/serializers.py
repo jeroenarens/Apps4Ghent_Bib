@@ -11,23 +11,28 @@ class ItemSerializer(DocumentSerializer):
 class ItemCopySerializer(DocumentSerializer):
     class Meta:
         model = ItemCopy
+        depth = 2
 
 class BorrowerSerializer(DocumentSerializer):
     class Meta:
         model = Borrower
+        depth = 2
 
 class BorrowingSerializer(DocumentSerializer):
     class Meta:
         model = Borrowing
+        depth = 2
 
 class EmbeddedBorrowingSerializer(DocumentSerializer):
     class Meta:
         model = Borrowing
         fields = ('from_library', 'to_sector', 'borrowing_count', 'from_date', 'until_date')
+        depth = 2
 
 class ReservationSerializer(DocumentSerializer):
     class Meta:
         model = Reservation
+        depth = 2
 
 class BorrowedItemSerializer(DocumentSerializer):
     borrowings = EmbeddedBorrowingSerializer(source='get_borrowings', read_only=True, many=True)
