@@ -50,6 +50,12 @@ class Item(Document):
     def get_borrowings(self, from_date=None, until_date=None):
         """Returns a list of borrowings of the physical copies of this item."""
 
+        # Return the cached borrowings if they exist
+        filtered_borrowings = getattr(self, 'cached_borrowings', None)
+        if filtered_borrowings:
+            return filtered_borrowings
+
+        # No cached borrowings, do regular execution
         filtered_borrowings = []
         for item_copy in self.item_copies:
             borrowings = item_copy.borrowings

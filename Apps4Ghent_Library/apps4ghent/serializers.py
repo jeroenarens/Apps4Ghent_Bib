@@ -25,7 +25,7 @@ class EmbeddedBorrowingSerializer(DocumentSerializer):
     borrowing_count = serializers.IntegerField(read_only=True)
     class Meta:
         model = Borrowing
-        fields = ('from_library', 'to_sector', 'borrowing_count')
+        fields = ('from_library', 'to_sector', 'borrowing_count', 'from_date', 'until_date')
 
 class ReservationSerializer(DocumentSerializer):
     class Meta:

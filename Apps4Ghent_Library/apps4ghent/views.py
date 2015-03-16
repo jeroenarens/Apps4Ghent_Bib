@@ -71,7 +71,6 @@ class ItemFilter(filters.FilterSet):
         model = Item
         fields = ['ISBN', 'title']
 
-# TODO Items are filtered correctly on their before_date and until_date, but still all borrowings (even those outside the date range) are returned
 class BorrowedItemsView(FilteredListAPIView):
     filter_class = ItemFilter
     queryset = Item.objects.all()
@@ -83,6 +82,12 @@ class BorrowedItemsView(FilteredListAPIView):
 
         from_date = dateparse.parse_date(self.request.QUERY_PARAMS.get('from_date', None) or '')
         until_date = dateparse.parse_date(self.request.QUERY_PARAMS.get('until_date', None) or '')
-        filtered_qs = filter(lambda item: item.has_borrowings(from_date=from_date, until_date=until_date), filtered_qs)
 
-        return filtered_qs
+        filtered_items = []
+        for item in filtered_qs:
+            # Save the fetched borrowings as a property of an item
+            item.cached_borrowings = item.get_borrowings(from_date=from_date, until_date=until_date)
+            if item.cached_borrowings:
+                filtered_items.append(item)
+
+        return filtered_items
