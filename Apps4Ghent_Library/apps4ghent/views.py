@@ -99,3 +99,9 @@ class BorrowedItemsBorrowingsView(BorrowedItemsView):
         filtered_borrowings = map(lambda item: item.cached_borrowings, filtered_items)
         flattened_borrowings = [el for sublist in filtered_borrowings for el in sublist]
         return flattened_borrowings
+    
+class BorrowedItemsBorrowingsCountView(BorrowedItemsBorrowingsView):
+    def get(self, request, format=None):
+        # TODO This can be done in a more performant efficient manner
+        borrowings = self.get_queryset()
+        return Response(len(borrowings))

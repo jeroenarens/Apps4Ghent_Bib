@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     
     # Api section
+    url(r'^api/v1/borrowed-items/borrowings/count', views.BorrowedItemsBorrowingsCountView.as_view()),
     url(r'^api/v1/borrowed-items/borrowings', views.BorrowedItemsBorrowingsView.as_view()),
     url(r'^api/v1/borrowed-items', views.BorrowedItemsView.as_view()),
     url(r'^api/v1/', include(router.urls)),
