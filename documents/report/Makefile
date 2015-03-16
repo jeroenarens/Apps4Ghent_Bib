@@ -1,4 +1,4 @@
-OUTPUT_DIR=./out
+OUTPUT_DIR=./output
 
 all: pdf
 
