@@ -1,0 +1,5 @@
+{
+  "barcode": "_id",
+  //"barcode": "barcode",
+  "item_id": "item"
+}

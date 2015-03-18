@@ -1,0 +1,79 @@
+#!/usr/bin/ruby
+# vim: filetype=ruby
+
+require 'csv'
+require 'optparse'
+
+RESOURCE_TYPES = [:borrowers, :borrowings, :items]
+
+def valid_borrowings_row?(bid, from_date, borrower, barcode, loan_period)
+  barcode.downcase != "null"
+end
+
+def valid_borrowers_row?(id, code, birth_year, sex, sector, postcode, subscription_year, subscription_location, category)
+  s = sector.downcase
+  s != "null" && s != "unknown"
+end
+
+def valid_items_row?(id, year_published, isbn, siso, avi, category_youth, ean_wrong, issn_wrong, zizo, literarytype, siso_libraries, title, type, category_music, language, keywords_youth, issn, author_type, series_title, publisher, age, keywords_local, category_adults, pages, keyword_adults, series_edition, isbn_wrong, keywords_libraries, author_lastname, ean, author_firstname, keyword_youth, *args)
+  true
+end
+
+def parse_options
+  options = {}
+
+  parser = OptionParser.new do |opts|
+    executable_name = File.basename($PROGRAM_NAME)
+    opts.banner = <<EOF
+Removes any corrupt, incomplete or unuseable rows from a given CSV file.
+
+Usage: #{executable_name} -t (#{RESOURCE_TYPES.join('|')}) -i path/to/input.csv
+EOF
+    opts.on("-i CSV_FILE", "--input CSV_FILE") do |csv|
+      options[:input_file] = csv
+    end
+
+    opts.on("-t TYPE", "--type TYPE", RESOURCE_TYPES) do |type|
+      options[:type] = type
+    end
+  end
+
+  begin
+    parser.parse!(ARGV)
+    raise "Please specify the type of the file!" unless options[:type]
+    raise "Please supply an input file !" if ARGV.empty?
+
+    options[:input_file] = ARGV.shift
+
+    return options
+  rescue StandardError => e
+    STDERR.puts "Error: #{e.message}"
+    STDERR.puts
+    STDERR.puts parser.help
+
+    exit(1)
+  end
+end
+
+def valid_row?(type, props)
+  send("valid_#{type}_row?".to_sym, *props)
+end
+
+# Main program
+
+# Parse options
+options = parse_options
+input_file = options[:input_file]
+resource_type = options[:type]
+
+# Loop through CSV and process
+headers_printed = false
+CSV.foreach(input_file, headers: true, return_headers: true, col_sep: ';', skip_blanks: true) do |row|
+  begin
+    props = (row.map {|v| v[1]})
+    
+    puts row.to_csv(col_sep: ';') if row.header_row? || valid_row?(resource_type, props)
+  rescue StandardError => e
+    STDERR.puts "Error caught on line #{$.}: #{e}"
+  end
+end

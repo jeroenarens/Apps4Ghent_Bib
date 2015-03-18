@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+# vim: filetype=ruby
+
+CSV_DIR = "../processed"
+OUTPUT_DIR = "../processed/json"
+MAPPINGS_DIR = "mappings"
+
+files = [ "items_800.csv", "borrowings_1000.csv", "borrowers.csv", "item_copies_1000b_800i.csv" ]
+mappings = [ "items.json", "borrowings.json", "borrowers.json", "item_copies.json"]
+output_files = ["items_800.json", "borrowings_1000.json", "borrowers.json", "item_copies_1000b_800i.json"]
+
+i = 0
+while i < files.size
+  file = files[i]
+  mapping_file = mappings[i]
+  output_file = output_files[i]
+
+  STDERR.puts "Convering #{file} to #{output_file} using mapping #{mapping_file}..."
+  `./convert_csv_to_json -i #{CSV_DIR}/#{file} -m #{MAPPINGS_DIR}/#{mapping_file} > #{OUTPUT_DIR}/#{output_file}`
+  i += 1
+end

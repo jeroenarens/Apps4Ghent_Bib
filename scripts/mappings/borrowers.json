@@ -1,0 +1,12 @@
+{
+  "lener": "_id",
+  //"id": "borrower_id",
+  "id": "borrower",
+  //geboortejaar": "geboortejaar",
+  "geslacht": "sex",
+  "sector": "sector",
+  "postcode": "postcode",
+  "inschrijving_jaar": "subscription_year",
+  "inschrijving_locatie": "subscript_location",
+  "categorie": "category"
+}

@@ -1,0 +1,8 @@
+{
+  "bid": "_id",
+  //"bid": "bid",
+  "datumvan": "from_date",
+  "lener": "borrower",
+  "barcode": "item_copy",
+  "ontleentermijn": "loan_period"
+}

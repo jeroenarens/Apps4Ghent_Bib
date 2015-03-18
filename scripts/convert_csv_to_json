@@ -1,0 +1,52 @@
+#!/usr/bin/env ruby
+# vim: filetype=ruby
+
+require 'optparse'
+require 'json'
+require 'csv'
+require 'ostruct'
+
+def parse_options
+  options = OpenStruct.new
+
+  parser = OptionParser.new do |opts|
+    opts.banner = "Usage: convert_csv_to_json -i path/to/input.csv -m path/to/mapping.json"
+
+    opts.on("-i INPUT_CSV") { |i| options.csv_file = i }
+    opts.on("-m MAPPING_FILE.json") { |m| options.mapping_file = m }
+  end
+
+  begin
+    parser.parse!(ARGV)
+    raise "Please provide the input CSV file" unless options.csv_file
+    raise "Please provide a valid mapping file" unless options.mapping_file
+
+    return options
+  rescue => e
+    STDERR.puts "Error: #{e.message}"
+    STDERR.puts
+    STDERR.puts parser.help
+    exit(1)
+  end
+end 
+
+options = parse_options
+
+# Load the json file specifying the mappings
+mappings = JSON.parse(File.read(options.mapping_file))
+
+csv_options = {headers: true, col_sep: ';'}
+CSV.foreach(options.csv_file, csv_options) do |row|
+  new_row_hash = {}
+
+  begin
+  row_hash = row.to_hash  
+  mappings.each do |original_header, new_header|
+    new_row_hash[new_header] = row_hash[original_header]
+  end
+  rescue => e
+    STDERR.puts "An error occured on line #{$.}: #{e.message}"
+  end
+
+  puts JSON.generate(new_row_hash)
+end
