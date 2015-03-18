@@ -80,13 +80,18 @@ class BorrowedItemsView(FilteredListAPIView):
         # Perform basic filtering
         filtered_qs = super(BorrowedItemsView, self).get_queryset()
 
+        # Get dates to filter on
         from_date = dateparse.parse_date(self.request.QUERY_PARAMS.get('from_date', ''))
         until_date = dateparse.parse_date(self.request.QUERY_PARAMS.get('until_date', ''))
+        
+        # Get locations to filter on
+        sector = self.request.QUERY_PARAMS.get('sector', '')
 
+        # Do actual filtering
         filtered_items = []
         for item in filtered_qs:
             # Save the fetched borrowings as a property of an item
-            item.cached_borrowings = item.get_borrowings(from_date=from_date, until_date=until_date)
+            item.cached_borrowings = item.get_borrowings(from_date=from_date, until_date=until_date, to_sector=sector)
             if item.cached_borrowings:
                 filtered_items.append(item)
 
