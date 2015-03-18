@@ -17,9 +17,10 @@ class ItemMethodsTest(TestCase):
     def setUp(self):
         item = Item.objects.create(BB_number="SOMEBBNUMBER1", title="Some title")
         item_copy = ItemCopy.objects.create(barcode="SOMEBARCODE1", item=item)
-        borrower = Borrower.objects.create(borrower_id=1, borrower="Some guy", sector="SECTOR1", postcode=9000)
-        borrowing1 = Borrowing.objects.create(bid=1, from_date=datetime.date(2015, 1, 1), loan_period=32, item_copy=item_copy, borrower=borrower)
-        borrowing2 = Borrowing.objects.create(bid=2, from_date=datetime.date(2015, 2, 18), loan_period=10, item_copy=item_copy, borrower=borrower)
+        borrower1 = Borrower.objects.create(borrower_id=1, borrower="Some guy", sector="SECTOR1", postcode=9000)
+        borrower2 = Borrower.objects.create(borrower_id=2, borrower="Some guy 2", sector="SECTOR2", postcode=9001)
+        borrowing1 = Borrowing.objects.create(bid=1, from_date=datetime.date(2015, 1, 1), loan_period=32, item_copy=item_copy, borrower=borrower1)
+        borrowing2 = Borrowing.objects.create(bid=2, from_date=datetime.date(2015, 2, 18), loan_period=10, item_copy=item_copy, borrower=borrower2)
         
         item.item_copies.append(item_copy)
         item.save()
@@ -27,7 +28,7 @@ class ItemMethodsTest(TestCase):
         item_copy.borrowings.append(borrowing2)
         item_copy.save()
 
-    def test_get_borrowings_returns_correct_list(self):
+    def test_get_borrowings_returns_correct_list_for_dates(self):
         item = Item.objects.get(pk="SOMEBBNUMBER1")
         borrowing1 = Borrowing.objects.get(pk=1)
         borrowing2 = Borrowing.objects.get(pk=2)
