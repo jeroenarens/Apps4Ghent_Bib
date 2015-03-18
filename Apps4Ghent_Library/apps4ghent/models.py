@@ -41,7 +41,7 @@ class Item(Document):
     author_lastname = StringField(max_length=45)
     author_firstname = StringField(max_length=45)
     publisher = StringField(max_length=45)
-    pages = IntField()
+    pages = StringField(max_length=45)
     series_edition = StringField(max_length=45)
 
     # Reverse relations
@@ -89,19 +89,19 @@ class ItemCopy(Document):
 
 class Borrower(Document):
     """Represents a person who borrows something from the library."""
-    borrower_id = IntField(primary_key=True)
+    borrower_id = StringField(primary_key=True)
     borrower = StringField(max_length=45)
     sex = StringField(max_length=45)
     sector = StringField(max_length=45)
     postcode = IntField()
-    subscription_year = IntField()
+    subscription_year = StringField()
     subscription_location = StringField(max_length=45)
     category = StringField(max_length=45)
 
 class Borrowing(Document):
     """Represents an instance of a borrowing of an item, containing information like dates and the profile of the person that borrwed the item."""
 
-    bid = IntField(primary_key=True)
+    bid = StringField(primary_key=True)
     from_date = DateTimeField()
     loan_period = IntField() # in days
     borrower = ReferenceField(Borrower)
