@@ -13,15 +13,35 @@ from .serializers import *
 def index(request):
    return render_to_response('index.html')
 
+class Paginator:
+    page_size = 100
+    max_page_size=1000
+    page_query_param='page'
+    page_size_query_param='page_size'
+
+    def paginate_queryset(self, queryset, page=0, page_size=100):
+        count = len(queryset) #queryset.count()
+        start_index = page * page_size
+        end_index = min(start_index + page_size, count)
+        return queryset[start_index:end_index] if (start_index < end_index) else []
+
+    def paginate(self, request, queryset):
+        page = int(request.QUERY_PARAMS.get('page', 0))
+        page_size = int(request.QUERY_PARAMS.get('page_size', getattr(self, 'page_size')))
+        queryset = self.paginate_queryset(queryset, page, page_size)
+        return queryset
+
 class ReadOnlyDocumentViewSet(ViewSet):
     """Viewset for mongodb documents that provides an implementation for `list` and `retrieve`"""
+    pagination_class = Paginator
+
     def list(self, request):
         model_cls = getattr(self, 'model', None)
         serializer_cls = getattr(self, 'serializer_class', None)
         assert model_cls, '`model` argument not specified, cannot proceed.'
         assert serializer_cls, '`serializer_class` argument not specified, cannot proceed.'
-
-        queryset = model_cls.objects.all()
+        paginator = getattr(self, 'pagination_class')()
+        queryset = paginator.paginate(request, model_cls.objects.all())
         serializer = serializer_cls(queryset, many=True)
         return Response(serializer.data)
 
@@ -31,7 +51,8 @@ class ReadOnlyDocumentViewSet(ViewSet):
         assert model_cls, '`model` argument not specified, cannot proceed.'
         assert serializer_cls, '`serializer_class` argument not specified, cannot proceed'
 
-        queryset = model_cls.objects.all()
+        paginator = getattr(self, 'pagination_class')()
+        queryset = paginator.paginate(request, model_cls.objects.all())
         document = get_document_or_404(queryset, pk=pk)
         serializer = serializer_cls(document)
         return Response(serializer.data)
@@ -75,8 +96,9 @@ class BorrowedItemsView(FilteredListAPIView):
     filter_class = ItemFilter
     queryset = Item.objects.all()
     serializer_class = BorrowedItemSerializer
+    pagination_class = Paginator
 
-    def get_queryset(self):
+    def get_items_queryset(self):
         # Perform basic filtering
         filtered_qs = super(BorrowedItemsView, self).get_queryset()
 
@@ -97,16 +119,33 @@ class BorrowedItemsView(FilteredListAPIView):
 
         return filtered_items
 
+    def get_queryset(self):
+        # Get items
+        filtered_items = self.get_items_queryset()
+
+        # Do pagination
+        paginator = getattr(self, 'pagination_class')()
+        return paginator.paginate(self.request, filtered_items)
+
 class BorrowedItemsBorrowingsView(BorrowedItemsView):
     serializer_class = BorrowedItemsBorrowingsSerializer
-    def get_queryset(self):
-        filtered_items = super(BorrowedItemsBorrowingsView, self).get_queryset()
+    def get_borrowings_queryset(self):
+        filtered_items = super(BorrowedItemsBorrowingsView, self).get_items_queryset()
         filtered_borrowings = map(lambda item: item.cached_borrowings, filtered_items)
         flattened_borrowings = [el for sublist in filtered_borrowings for el in sublist]
+
         return flattened_borrowings
+
+    def get_queryset(self):
+        # Get borrowings
+        flattened_borrowings = self.get_borrowings_queryset()
+
+        # Do pagination
+        paginator = getattr(self, 'pagination_class')()
+        return paginator.paginate(self.request, flattened_borrowings)
     
 class BorrowedItemsBorrowingsCountView(BorrowedItemsBorrowingsView):
     def get(self, request, format=None):
         # TODO This can be done in a more performant efficient manner
-        borrowings = self.get_queryset()
+        borrowings = self.get_borrowings_queryset()
         return Response(len(borrowings))
