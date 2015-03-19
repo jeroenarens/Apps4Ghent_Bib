@@ -2,49 +2,51 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Gent Library @ Apps4Ghent</title>
+    <title>Gent stats</title>
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css" />
+    <style type="text/css">
+        ${demo.css}
+    </style>
     <script type="text/javascript">
-        $(function () {
+$(function () {
 
-            $.getJSON('../static/map/statsec.json', function (geojson) {
+    $.getJSON('../static/map/statsec_new.json', function (geojson) {
 
-                // Initiate the chart
-                $('#map').highcharts('Map', {
+        // Initiate the chart
+        $('#map').highcharts('Map', {
 
-                    title: {
-                        text: ''
-                    },
+            title : {
+                text : 'Gent stats'
+            },
 
-                    mapNavigation: {
-                        enabled: true,
-                        buttonOptions: {
-                            verticalAlign: 'top'
-                        }
-                    },
+            mapNavigation: {
+                enabled: true,
+            },
 
-                    colorAxis: {},
+            legend: {
+                enabled: true
+            },
 
-                    series: [{
+            series : [{
 
-                        mapData: geojson,
-                        data: [],
-                        name: 'Random data',
-                        states: {
-                            hover: {
-                                color: '#BADA55'
-                            }
-                        },
-                        dataLabels: {
-                            enabled: true,
-                            format: '{point.properties.postal}'
-                        }
-                    }]
-                });
-            });
+                mapData: geojson,
+                data: [],
+                name: 'Random data',
+                animation: {
+                    duration: 1000
+                },
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.properties.Description}'
+                },
+
+
+            }]
         });
+    });
+});
+
     </script>
 </head>
 <body>
@@ -52,14 +54,15 @@
 <script src="../static/js/highchart/modules/data.js"></script>
 <script src="http://code.highcharts.com/mapdata/custom/world.js"></script>
 
-<div id="wrapper">
-    <div id="map">
+<div id="wrapper" style="height: 100vh;">
+    <div id="map" style="height: 90vh;">
 
     </div>
-    <div id="time-slider">
+    <div id="time-slider"  style="height: 10vh;">
         <div class="content">time slider area</div>
     </div>
 </div>
+
 
 </body>
 </html>
