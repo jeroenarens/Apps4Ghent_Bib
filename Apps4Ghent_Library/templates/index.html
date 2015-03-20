@@ -4,61 +4,99 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Gent stats</title>
 
+
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="../static/js/highchart/highmaps.js"></script>
+    <script src="http://code.highcharts.com/mapdata/custom/europe.js"></script>
     <style type="text/css">
         ${demo.css}
     </style>
+
     <script type="text/javascript">
 $(function () {
+var borrowings;
 
-    $.getJSON('../static/map/statsec_new.json', function (geojson) {
+// Assign handlers immediately after making the request,
+// and remember the jqxhr object for this request
+$.getJSON( 'http://honegger.elis.ugent.be/api/v1/borrowed-items/borrowings')
+  .done(function(data) {
+    borrowings=data;
+    window.alert("test");
 
-        // Initiate the chart
-        $('#map').highcharts('Map', {
+  })
+  .fail(function() {
+    console.log( "error" );
+  });
+ $.getJSON('../static/map/statsec_new.json', function (geojson) {
+    // Instanciate the map
+    $('#map').highcharts('Map', {
+        chart : {
+            borderWidth : 1
+        },
 
-            title : {
-                text : 'Gent stats'
-            },
+        title : {
+            text : 'Gent stats'
+        },
+        subtitle : {
+            text : 'Demo of drawing all areas in the map, only highlighting partial data'
+        },
+        mapNavigation: {
+            enabled: true,
+        },
 
-            mapNavigation: {
+
+        series : [{
+            name: 'Country',
+            mapData: geojson,
+            data: [{
+                code: 'CRS84',
+                value: 1
+            }, {
+                code: 'D59',
+                value: 1
+            }, {
+                code: 'H310',
+                value: 1
+            }, {
+                code: 'H091',
+                value: 1
+            }, {
+                code: 'A873',
+                value: 1
+            }],
+            joinBy: ['Name', 'code'],
+            dataLabels: {
                 enabled: true,
+                color: 'white',
+                formatter: function () {
+                    if (this.point.value) {
+                        return this.point.Name;
+                    }
+                }
             },
+            tooltip: {
+                headerFormat: '',
+                pointFormat: '{point.properties.Description}'
+            }
 
-            legend: {
-                enabled: true
-            },
-
-            series : [{
-
-                mapData: geojson,
-                data: [],
-                name: 'Random data',
-                animation: {
-                    duration: 1000
-                },
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.properties.Description}'
-                },
-
-
-            }]
+        }]
         });
     });
 });
 
+
     </script>
 </head>
 <body>
-<script src="../static/js/highchart/highmaps.js"></script>
-<script src="../static/js/highchart/modules/data.js"></script>
-<script src="http://code.highcharts.com/mapdata/custom/world.js"></script>
 
 <div id="wrapper" style="height: 100vh;">
-    <div id="map" style="height: 90vh;">
+    <div id="searchfields" style="height: 10vh;">
+        <div class="content">Search fields area</div>
+    </div>
+    <div id="map" style="height: 75vh;">
 
     </div>
-    <div id="time-slider"  style="height: 10vh;">
+    <div id="time-slider" style="height: 10vh;">
         <div class="content">time slider area</div>
     </div>
 </div>
