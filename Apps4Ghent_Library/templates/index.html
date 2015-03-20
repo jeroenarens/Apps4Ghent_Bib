@@ -2,30 +2,38 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>LeafLeft example geojson</title>
+    {% load staticfiles %}
+    <title>Apps4Ghent - Leaflet</title>
 
     <!-- css files from leaflet and a map.css file to adjust the map itself -->
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
-    <link rel="stylesheet" href="../static/css/map.css"/>
+    <link rel="stylesheet" href="{% static "css/map.css" %}  "/>
 
     <!-- js files to use leaflet js files and jquery to load the geojson data from an external file -->
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src=".{% static "js/statsec.js" %}"></script>
 
-    <!-- link to the geojson file that we will be using -->
-    <link rel="polygon" type="application/json" href="../map/statsec.json">
 
+    <script>
+        $(document).ready(function () {
+            var map = L.map('map', {
+                center: [51.085, 3.716667],
+                zoom: 12
+            });
+            // add an OpenStreetMap tile layer
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            L.geoJson(ghentdata).addTo(map);
+        });
+
+    </script>
 </head>
 <body>
 <div id="map"></div>
-<script>
-    var map = L.map('map').setView([51.05, 3.716667], 14);
-    // add an OpenStreetMap tile layer
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
 
-</script>
 </body>
 </html>
