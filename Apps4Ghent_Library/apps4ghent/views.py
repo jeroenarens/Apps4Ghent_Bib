@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from .serializers import *
 
 def index(request):
+
    return render_to_response('index.html')
 
 class Paginator:
