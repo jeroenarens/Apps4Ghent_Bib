@@ -39,7 +39,11 @@
              }).addTo(map);
              */
 
-            L.geoJson(ghentdata).addTo(map);
+            L.geoJson(ghentdata, {
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(feature.properties.Description);
+                }
+            }).addTo(map);
         });
 
     </script>
