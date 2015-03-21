@@ -79,25 +79,66 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Brand</a>
+        <a class="navbar-brand" href="#">Books4Summer</a>
 
     </div>
     <!-- /.container -->
 </div>
 <!-- /.navbar -->
 
-<!-- HEADER 
-=================================-->
-
 <div class="jumbotron text-center">
-    <table id="excelDataTable" border="1">
-  </table>
-</div>
-<!-- /header container-->
 
-<!-- CONTENT
-=================================-->
+    <div class="row">
+        <div id="filter-panel" class="filter-panel">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form class="form-inline" role="form">
+                        <!-- form group [Category 1] -->
+                        <div class="form-group">
+                            <label class="filter-col" style="margin-right:0;" for="pref-perpage">Category 1:</label>
+                            <select id="categoryFilter1" class="form-control">
+                                <option value="fiction">Fiction</option>
+                                <option value="history">History</option>
+                                <option value="humor">Humor</option>
+                                <option value="travel">Travel</option>
+                            </select>
+                        </div>
+                        <!-- form group [Category 2] -->
+                        <div class="form-group" style="margin-left: 20px;">
+                            <label class="filter-col" style="margin-right:0;" for="pref-perpage">Category 2:</label>
+                            <select id="categoryFilter1" class="form-control">
+                                <option value="fiction">Fiction</option>
+                                <option value="history">History</option>
+                                <option value="humor">Humor</option>
+                                <option value="travel">Travel</option>
+                            </select>
+                        </div>
+                        <!-- form group [Category 3] -->
+                        <div class="form-group" style="margin-left: 20px;">
+                            <label class="filter-col" style="margin-right:0;" for="pref-perpage">Category 3:</label>
+                            <select id="categoryFilter1" class="form-control">
+                                <option value="fiction">Fiction</option>
+                                <option value="history">History</option>
+                                <option value="humor">Humor</option>
+                                <option value="travel">Travel</option>
+                            </select>
+                        </div>
+                        <!-- form group [Filter button] -->
+                        <div class="form-group" style="margin-left: 20px;">
+                            <button type="submit" class="btn btn-default filter-col">
+                                <span class="glyphicon glyphicon-filter"></span> Filter
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
+
+
     <div class="row">
         <div class="col-md-4">
             <div class="well"><p>4 cols</p></div>
@@ -111,6 +152,5 @@
     </div>
 </div>
 <hr>
-<!-- /CONTENT ============-->
 </body>
 </html>
