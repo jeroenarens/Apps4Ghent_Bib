@@ -14,6 +14,9 @@ def index(request):
 
    return render_to_response('index2.html')
 
+def overview(request):
+    return render_to_response('overview.html')
+
 class Paginator:
     page_size = 100
     max_page_size=1000

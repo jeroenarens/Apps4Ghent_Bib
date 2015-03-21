@@ -15,6 +15,7 @@ router.register(r'reservations', views.ReservationViewSet)
 urlpatterns = patterns('',
     # General urls
     url(r'^$', views.index, name='index'),
+    url(r'^overview/', views.overview, name='overview'),
     
     # Admin section
     url(r'^admin/', include(admin.site.urls)),
