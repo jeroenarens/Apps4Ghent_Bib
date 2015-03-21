@@ -1,0 +1,163 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% load staticfiles %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Gent stats</title>
+
+    <!-- import the necessary javascript files from highcharts/highmaps -->
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script src="http://github.highcharts.com/modules/map.src.js"></script>
+
+    <script src="http://code.highcharts.com/maps/modules/data.js"></script>
+    <script src="http://code.highcharts.com/maps/modules/drilldown.js"></script>
+    <script src="http://code.highcharts.com/maps/modules/exporting.js"></script>
+    <script src="http://code.highcharts.com/modules/funnel.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="http://code.highcharts.com/adapters/standalone-framework.js"></script>
+
+    <!--
+    Commented out because of Highcharts Error #16 Highcharts already defined in the page
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    -->
+    <script src="http://code.highcharts.com/stock/highcharts-more.js"></script>
+
+    <!-- UNUSED
+
+    <script src="http://code.highcharts.com/mapdata/custom/world.js"></script>
+    <script src="http://code.highcharts.com/mapdata/custom/europe.js"></script>
+    <script src="http://code.highcharts.com/mapdata/countries/us/us-all.js"></script>
+
+    -->
+
+    <!-- style sheet -->
+    <style type="text/css">
+        ${demo.css}
+    </style>
+
+    <!-- The actual javascript functionality to display the queries (top) , map (middle) and slider (bottom) -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var borrowings;
+
+            // Assign handlers immediately after making the request,
+            // and remember the jqxhr object for this request
+
+
+            //TODO: make query fields for the top part of the index page
+
+
+            //CAUTION! got an error with the header-origin-not-allowed, no solution yet found (suggest researching jsonp, adding header adjustments in django,...
+            $.getJSON("http://honegger.elis.ugent.be/api/v1/borrowed-items/borrowings")
+             .done(function (data) {
+             borrowings = data;
+             //window.alert("test");
+
+             })
+             .fail(function () {
+             console.log("error");
+             });
+
+            //Here, the visualisation for the map is shown (middle)
+            //This is still a demo, because of the lack of data, no decent projections have yet been made
+            $.getJSON('../static/map/statsec_new.json', function (geojson) {
+                // Instanciate the map
+                $('#map').highcharts('Map', {
+                    chart: {
+                        borderWidth: 1
+                    },
+
+                    title: {
+                        text: 'Gent stats'
+                    },
+                    subtitle: {
+                        text: 'Demo of drawing all areas in the map, only highlighting partial data'
+                    },
+                    mapNavigation: {
+                        enabled: true
+                    },
+
+
+                    series: [{
+                        name: 'Country',
+                        mapData: geojson,
+                        data: [{
+                            code: 'CRS84',
+                            value: 1
+                        }, {
+                            code: 'D59',
+                            value: 1
+                        }, {
+                            code: 'H310',
+                            value: 1
+                        }, {
+                            code: 'H091',
+                            value: 1
+                        }, {
+                            code: 'A873',
+                            value: 1
+                        }],
+                        joinBy: ['Name', 'code'],
+                        dataLabels: {
+                            enabled: true,
+                            color: 'white',
+                            formatter: function () {
+                                if (this.point.value) {
+                                    return this.point.Name;
+                                }
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '',
+                            pointFormat: '{point.properties.Description}'
+                        }
+
+                    }]
+                });
+            });
+
+            // Here, the java script for the slider on the index page is covered (bottom)
+            $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=range.json&callback=?', function (data) {
+
+                $('#time-slider').highcharts('StockChart', {
+
+                    chart: {
+                        type: 'areasplinerange'
+                    },
+
+                    rangeSelector: {
+                        enabled: false
+                    },
+
+                    title: {
+                        text: 'Amount of borrowed books each day'
+                    },
+
+                    series: [{
+                        name: 'Amount of borrowings',
+                        data: data
+                    }],
+
+                    exporting: {
+                        enabled: false
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div id="wrapper" style="height: 100vh;">
+    <div id="searchfields" style="height: 5vh;">
+        <div class="content">Search fields area</div>
+    </div>
+
+    <div id="map" style="height: 60vh;"></div>
+
+    <div id="time-slider" style="height: 35vh;"></div>
+</div>
+</body>
+</html>

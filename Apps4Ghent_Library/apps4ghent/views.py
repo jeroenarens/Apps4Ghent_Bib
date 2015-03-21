@@ -17,6 +17,12 @@ def index(request):
 def overview(request):
     return render_to_response('overview.html')
 
+def leaflet(request):
+    return render_to_response('leaflet.html')
+
+def highmap(request):
+    return render_to_response('highmaps.html')
+
 class Paginator:
     page_size = 100
     max_page_size=1000

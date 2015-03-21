@@ -16,6 +16,8 @@ urlpatterns = patterns('',
     # General urls
     url(r'^$', views.index, name='index'),
     url(r'^overview/', views.overview, name='overview'),
+    url(r'^leaflet/', views.leaflet, name='leaflet'),
+    url(r'^highmap/', views.highmap, name='highmap'),
     
     # Admin section
     url(r'^admin/', include(admin.site.urls)),
