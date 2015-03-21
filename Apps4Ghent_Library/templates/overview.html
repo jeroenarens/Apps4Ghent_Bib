@@ -11,6 +11,9 @@
 
     <title>Books4Summer</title>
 
+    <!--jquery -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
     <!-- Bootstrap -->
     <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
     <link href="{% static "css/bootstrap-theme.css" %}" rel="stylesheet">
@@ -21,49 +24,824 @@
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
     <script>
-        var myList = [{"name": "abc", "age": 50},
-            {"age": "25", "hobby": "swimming"},
-            {"name": "xyz", "hobby": "programming"}];
-
-        // Builds the HTML Table out of myList.
-        function buildHtmlTable() {
-            var columns = addAllColumnHeaders(myList);
-
-            for (var i = 0; i < myList.length; i++) {
-                var row$ = $('<tr/>');
-                for (var colIndex = 0; colIndex < columns.length; colIndex++) {
-                    var cellValue = myList[i][columns[colIndex]];
-
-                    if (cellValue == null) {
-                        cellValue = "";
-                    }
-
-                    row$.append($('<td/>').html(cellValue));
+        $(document).ready(function () {
+            $.makeTable = function (mydata) {
+                var table = $('<table border=1>');
+                var tblHeader = "<tr>";
+                for (var k in mydata[0]) tblHeader += "<th>" + k + "</th>";
+                tblHeader += "</tr>";
+                $(tblHeader).appendTo(table);
+                $.each(mydata, function (index, value) {
+                    var TableRow = "<tr>";
+                    $.each(value, function (key, val) {
+                        TableRow += "<td>" + val + "</td>";
+                    });
+                    TableRow += "</tr>";
+                    $(table).append(TableRow);
+                });
+                return ($(table));
+            };
+            var mydata = [
+                {
+                    "author": "Ballinger",
+                    "title": "Gods dwazen"
+                },
+                {
+                    "author": "H�ndel",
+                    "title": "Handel"
+                },
+                {
+                    "author": "",
+                    "title": "Het meesterstuk"
+                },
+                {
+                    "author": "Bergonzi",
+                    "title": "Saxology"
+                },
+                {
+                    "author": "Mulisch",
+                    "title": "De procedure"
+                },
+                {
+                    "author": "",
+                    "title": "100% swing"
+                },
+                {
+                    "author": "",
+                    "title": "100% smooth jazz"
+                },
+                {
+                    "author": "Schubert",
+                    "title": "Sonate op. 78"
+                },
+                {
+                    "author": "Reinhardt",
+                    "title": "Postwar recordings 1944-1953"
+                },
+                {
+                    "author": "Carter",
+                    "title": "Figments and fragments"
+                },
+                {
+                    "author": "Albinoni",
+                    "title": "Concerti con oboe"
+                },
+                {
+                    "author": "Matz",
+                    "title": "Bloedlink"
+                },
+                {
+                    "author": "Van Loon",
+                    "title": "Paniek in de Leeuwenkuil"
+                },
+                {
+                    "author": "Seffer",
+                    "title": "Neffesh music"
+                },
+                {
+                    "author": "Mingus",
+                    "title": "East coasting"
+                },
+                {
+                    "author": "Letterie",
+                    "title": "De wolf en de zeven geitjes"
+                },
+                {
+                    "author": "Matz",
+                    "title": "Met de dood in het hart"
+                },
+                {
+                    "author": "",
+                    "title": "The best of 70 years Blue Note"
+                },
+                {
+                    "author": "Koning",
+                    "title": "Erasmus op de markt"
+                },
+                {
+                    "author": "Van Hooste",
+                    "title": "Kinderen met Down"
+                },
+                {
+                    "author": "Schoenaker",
+                    "title": "Succes op school"
+                },
+                {
+                    "author": "Meeuse",
+                    "title": "Wind!"
+                },
+                {
+                    "author": "Brenters",
+                    "title": "Mannen in soorten en maten"
+                },
+                {
+                    "author": "Hermans",
+                    "title": "Vele levens"
+                },
+                {
+                    "author": "Bach",
+                    "title": "Cantatas"
+                },
+                {
+                    "author": "Hore",
+                    "title": "Zomers licht"
+                },
+                {
+                    "author": "Glass",
+                    "title": "In the upper room"
+                },
+                {
+                    "author": "",
+                    "title": "Kwartaalschrift economie"
+                },
+                {
+                    "author": "",
+                    "title": "Tijdschrift voor marketing"
+                },
+                {
+                    "author": "Haydn",
+                    "title": "The seven last words of Christ on the cross"
+                },
+                {
+                    "author": "",
+                    "title": "Marketing international"
+                },
+                {
+                    "author": "",
+                    "title": "Porselein"
+                },
+                {
+                    "author": " economie",
+                    "title": "Forward"
+                },
+                {
+                    "author": "",
+                    "title": "De nieuwe fiets"
+                },
+                {
+                    "author": "",
+                    "title": "The history of jazz"
+                },
+                {
+                    "author": "",
+                    "title": "Economisch en sociaal tijdschrift"
+                },
+                {
+                    "author": "Bach",
+                    "title": "Brandenburg concertos"
+                },
+                {
+                    "author": "van Veldhuizen",
+                    "title": "Polen"
+                },
+                {
+                    "author": "Ryelandt",
+                    "title": "Russische roulette"
+                },
+                {
+                    "author": "Darke",
+                    "title": "North Cyprus"
+                },
+                {
+                    "author": "Mosterd",
+                    "title": "Ik stond laatst voor een poppenkraam"
+                },
+                {
+                    "author": "Mosterd",
+                    "title": "Bindi"
+                },
+                {
+                    "author": "",
+                    "title": "KMOPME business magazine"
+                },
+                {
+                    "author": "",
+                    "title": "Een mens van goede wil"
+                },
+                {
+                    "author": "",
+                    "title": "DVO"
+                },
+                {
+                    "author": "Van Drie",
+                    "title": "Lang niet gek"
+                },
+                {
+                    "author": " economische politiek",
+                    "title": "SERV-bericht"
+                },
+                {
+                    "author": "",
+                    "title": "The boat that rocked"
+                },
+                {
+                    "author": "Terzis",
+                    "title": "Best Greek songs"
+                },
+                {
+                    "author": "Mendelssohn-Bartholdy",
+                    "title": "Les 6 sonates pour orgue"
+                },
+                {
+                    "author": "Mulisch",
+                    "title": "De verhalen 1947-1977"
+                },
+                {
+                    "author": "Capossela",
+                    "title": "Da solo"
+                },
+                {
+                    "author": "Hardy",
+                    "title": "The Vogue years"
+                },
+                {
+                    "author": "Rowthorn",
+                    "title": "Borneo"
+                },
+                {
+                    "author": "Bashung",
+                    "title": "Fantaisie militaire"
+                },
+                {
+                    "author": "Simone",
+                    "title": "Silk and soul"
+                },
+                {
+                    "author": "Mozart",
+                    "title": "Violin concertos"
+                },
+                {
+                    "author": "Simone",
+                    "title": "Nina Simone sings the blues"
+                },
+                {
+                    "author": "",
+                    "title": "Using a library"
+                },
+                {
+                    "author": "Corbeyran",
+                    "title": "Een kwestie van erfelijkheid"
+                },
+                {
+                    "author": "London Music Works",
+                    "title": "Cult cuts"
+                },
+                {
+                    "author": "Ingemarsson",
+                    "title": "De Russische vriend"
+                },
+                {
+                    "author": "Piazzolla",
+                    "title": "Essential tango"
+                },
+                {
+                    "author": "Hor�cek",
+                    "title": "Olifant"
+                },
+                {
+                    "author": "Fallon",
+                    "title": "Krijg je wel"
+                },
+                {
+                    "author": "Giacchino",
+                    "title": "Lost season 4"
+                },
+                {
+                    "author": "Chilcott",
+                    "title": "Susan Chilcott in Brussels"
+                },
+                {
+                    "author": "",
+                    "title": "Hits with strings and things"
+                },
+                {
+                    "author": "",
+                    "title": "Dagen zonder Abby"
+                },
+                {
+                    "author": "",
+                    "title": "De verre kolonie"
+                },
+                {
+                    "author": "Last",
+                    "title": "Top 100"
+                },
+                {
+                    "author": "",
+                    "title": "Song of songs"
+                },
+                {
+                    "author": "Iglesias",
+                    "title": "Tango"
+                },
+                {
+                    "author": "Pellegrino",
+                    "title": "Bella Italia"
+                },
+                {
+                    "author": "Scottoline",
+                    "title": "In het nauw"
+                },
+                {
+                    "author": "Summerscale",
+                    "title": "De vermoedens van Mr Whicher, of De moord in Road Hill House"
+                },
+                {
+                    "author": "MacPherson",
+                    "title": "Cultuur bewust! Turkije"
+                },
+                {
+                    "author": "",
+                    "title": "Alle levenden"
+                },
+                {
+                    "author": "Wildsmith",
+                    "title": "Fantastische fabels"
+                },
+                {
+                    "author": "",
+                    "title": "Sampol"
+                },
+                {
+                    "author": "John",
+                    "title": "The lion king"
+                },
+                {
+                    "author": "",
+                    "title": "De gids op maatschappelijk gebied"
+                },
+                {
+                    "author": "Bach",
+                    "title": "Goldberg variations"
+                },
+                {
+                    "author": "",
+                    "title": "This is my life "
+                },
+                {
+                    "author": "Sokal",
+                    "title": "De roes van het bloed"
+                },
+                {
+                    "author": "Van Rompaey",
+                    "title": "Retail Update newsletter"
+                },
+                {
+                    "author": "",
+                    "title": "De geschiedenis van de Duitse Wehrmacht"
+                },
+                {
+                    "author": "Warmels",
+                    "title": "Waterspiegel"
+                },
+                {
+                    "author": "March",
+                    "title": "Cultuur bewust! Noorwegen"
+                },
+                {
+                    "author": "",
+                    "title": "Romancendres"
+                },
+                {
+                    "author": "Rhodes",
+                    "title": "Texas"
+                },
+                {
+                    "author": "Schumann",
+                    "title": "Melancholie"
+                },
+                {
+                    "author": "Ten Bosch",
+                    "title": "In Florence"
+                },
+                {
+                    "author": "Liszt",
+                    "title": "Piano concertos no.1"
+                },
+                {
+                    "author": "Mann",
+                    "title": "De dood in Veneti� en andere verhalen"
+                },
+                {
+                    "author": "",
+                    "title": "De avonturen van Alice in Wonderland "
+                },
+                {
+                    "author": "H�ndel",
+                    "title": "Organ concertos, op. 4"
+                },
+                {
+                    "author": "Bront�",
+                    "title": "Woeste hoogten"
+                },
+                {
+                    "author": "Groenhart",
+                    "title": "Leer mij je liefhebben"
+                },
+                {
+                    "author": "Mozart",
+                    "title": "Symphonies"
+                },
+                {
+                    "author": "Van den Eynden",
+                    "title": "Deadline"
+                },
+                {
+                    "author": "Wong",
+                    "title": "In the mood for love"
+                },
+                {
+                    "author": "Doctorow",
+                    "title": "Little brother"
+                },
+                {
+                    "author": "",
+                    "title": "The proposition"
+                },
+                {
+                    "author": "",
+                    "title": "Les choristes"
+                },
+                {
+                    "author": "",
+                    "title": "Het gezelschap van leugenaars"
+                },
+                {
+                    "author": "",
+                    "title": "Il gattopardo"
+                },
+                {
+                    "author": "Coltrane",
+                    "title": "Blending times"
+                },
+                {
+                    "author": "Le Guin",
+                    "title": "De wilde gave"
+                },
+                {
+                    "author": "",
+                    "title": "Sounds of New Orleans"
+                },
+                {
+                    "author": "",
+                    "title": "Sounds of New Orleans"
+                },
+                {
+                    "author": "Harrell",
+                    "title": "Prana dance"
+                },
+                {
+                    "author": "Wheeler",
+                    "title": "The best of Lonely Planet"
+                },
+                {
+                    "author": "Johnson",
+                    "title": "Bass desires"
+                },
+                {
+                    "author": "Cole",
+                    "title": "100 x Noord-Itali�"
+                },
+                {
+                    "author": "Thielemans",
+                    "title": "The amazing sound of "
+                },
+                {
+                    "author": "Van Vliet",
+                    "title": "100 x Provence, C�te d"
+                },
+                {
+                    "author": "Washington",
+                    "title": "La reine 1943-1957"
+                },
+                {
+                    "author": "Scofield",
+                    "title": "The best of John Scofield"
+                },
+                {
+                    "author": "Scofield",
+                    "title": "Piety street"
+                },
+                {
+                    "author": "�stlundh",
+                    "title": "Terreur"
+                },
+                {
+                    "author": "Lacy",
+                    "title": "Five facings"
+                },
+                {
+                    "author": "Fitzgerald",
+                    "title": "Legendary radio broadcasts"
+                },
+                {
+                    "author": "",
+                    "title": "We hebben zijn ster in het oosten gezien"
+                },
+                {
+                    "author": "Van Aalst",
+                    "title": "Vrijdagmarkt "
+                },
+                {
+                    "author": "Takase",
+                    "title": "Iron wedding"
+                },
+                {
+                    "author": "Marsalis",
+                    "title": "He and she"
+                },
+                {
+                    "author": "Marsalis",
+                    "title": "Metamorphosen"
+                },
+                {
+                    "author": "Jarrett",
+                    "title": "At the Deer Head Inn"
+                },
+                {
+                    "author": "Corea",
+                    "title": "The anthology"
+                },
+                {
+                    "author": "Clarke",
+                    "title": "In love with Adolf Hitler"
+                },
+                {
+                    "author": "Silver",
+                    "title": "Further explorations by the Horace Silver Quintet"
+                },
+                {
+                    "author": "Vivaldi",
+                    "title": "Vespro per la Vergine"
+                },
+                {
+                    "author": "Schama",
+                    "title": "De Amerikaanse toekomst"
+                },
+                {
+                    "author": "Liebman",
+                    "title": "Liebman meets Intra"
+                },
+                {
+                    "author": "Jamal",
+                    "title": "In search of"
+                },
+                {
+                    "author": "Namchylak",
+                    "title": "Portrait of an idealist"
+                },
+                {
+                    "author": "Corea",
+                    "title": "Duet"
+                },
+                {
+                    "author": "Nin",
+                    "title": "Venusdelta"
+                },
+                {
+                    "author": "Sclavis",
+                    "title": "Lost on the way"
+                },
+                {
+                    "author": "Corea",
+                    "title": "Five Peace Band live"
+                },
+                {
+                    "author": "",
+                    "title": "Sounds of New Orleans"
+                },
+                {
+                    "author": "Turner",
+                    "title": "Sky "
+                },
+                {
+                    "author": "Schubert",
+                    "title": "Winterreise"
+                },
+                {
+                    "author": "Wright",
+                    "title": "Unity"
+                },
+                {
+                    "author": "",
+                    "title": "Man of Aran"
+                },
+                {
+                    "author": "Watson",
+                    "title": "Wooden arms"
+                },
+                {
+                    "author": "Brahms",
+                    "title": "Violin concerto"
+                },
+                {
+                    "author": "",
+                    "title": "The eternal"
+                },
+                {
+                    "author": "Krabb�",
+                    "title": "De paardentekenaar"
+                },
+                {
+                    "author": "Krabb�",
+                    "title": "Vertraging"
+                },
+                {
+                    "author": "",
+                    "title": "Transylvania"
+                },
+                {
+                    "author": "",
+                    "title": "So entstand das Alte Testament"
+                },
+                {
+                    "author": "Corbiau",
+                    "title": "Farinelli, il castrato"
+                },
+                {
+                    "author": "Harel",
+                    "title": "Le v�lo de Ghislain Lambert"
+                },
+                {
+                    "author": "Bezucha",
+                    "title": "The family Stone"
+                },
+                {
+                    "author": "Auster",
+                    "title": "De New York-trilogie"
+                },
+                {
+                    "author": "Almod�var",
+                    "title": "Live flesh"
+                },
+                {
+                    "author": "",
+                    "title": "So entstand das Neue Testament"
+                },
+                {
+                    "author": "",
+                    "title": "Jean de Florette"
+                },
+                {
+                    "author": "Almod�var",
+                    "title": "Atame!"
+                },
+                {
+                    "author": "Meyers",
+                    "title": "Something"
+                },
+                {
+                    "author": "Sheridan",
+                    "title": "My left foot"
+                },
+                {
+                    "author": "Tati",
+                    "title": "Mon oncle"
+                },
+                {
+                    "author": "",
+                    "title": "A room with a view"
+                },
+                {
+                    "author": "Allen",
+                    "title": "Hannah and her sisters"
+                },
+                {
+                    "author": "Allen",
+                    "title": "Radio days"
+                },
+                {
+                    "author": "Allen",
+                    "title": "Broadway Danny Rose"
+                },
+                {
+                    "author": "Krabb�",
+                    "title": "De ontdekking van de hemel"
+                },
+                {
+                    "author": "Kim",
+                    "title": "Spring, summer, fall, winter... and spring"
+                },
+                {
+                    "author": "Kurosawa",
+                    "title": "Rashomon"
+                },
+                {
+                    "author": "Reiner",
+                    "title": "When Harry met Sally"
+                },
+                {
+                    "author": "Petrie",
+                    "title": "Mystic pizza"
+                },
+                {
+                    "author": "Koreeda",
+                    "title": "Nobody knows"
+                },
+                {
+                    "author": "Ozu",
+                    "title": "Tokyo story"
+                },
+                {
+                    "author": "Kayzer",
+                    "title": "Een schitterend ongeluk"
+                },
+                {
+                    "author": "Steiner",
+                    "title": "Grondslagen voor een verruiming van de geneeskunde volgens geesteswetenschappelijke inzichten"
+                },
+                {
+                    "author": "Van Enk",
+                    "title": "Frankrijk en de hugenoten"
+                },
+                {
+                    "author": "Hawton",
+                    "title": "De jacht op Karadzic"
+                },
+                {
+                    "author": "Allegaert",
+                    "title": "De exotische mens"
+                },
+                {
+                    "author": "Leroy",
+                    "title": "Gemeentefinanci�n voor niet-specialisten"
+                },
+                {
+                    "author": "De Brabander",
+                    "title": "Als de NAVO de passie preekt"
+                },
+                {
+                    "author": "Collins",
+                    "title": "Sleutelbewaarders"
+                },
+                {
+                    "author": "",
+                    "title": "La vita � bella"
+                },
+                {
+                    "author": "Lambrecht",
+                    "title": "De heilige wereldoorlog"
+                },
+                {
+                    "author": "Cassavetes",
+                    "title": "The notebook"
+                },
+                {
+                    "author": "Duerinck",
+                    "title": "Vegetarisch koken in 30 minuten"
+                },
+                {
+                    "author": "Kynge",
+                    "title": "China zet de wereld op z"
+                },
+                {
+                    "author": "",
+                    "title": "Ae fond kiss"
+                },
+                {
+                    "author": "Bier",
+                    "title": "After the wedding"
+                },
+                {
+                    "author": "Bergman",
+                    "title": "Filosofie voor in bed, op het toilet of in bad"
+                },
+                {
+                    "author": "Artz",
+                    "title": "Fietsen en wandelen langs oude spoorwegen in Nederland"
+                },
+                {
+                    "author": "Verstegen",
+                    "title": "Een traditie van verandering"
+                },
+                {
+                    "author": "Shardlow",
+                    "title": "Blackadder 1"
+                },
+                {
+                    "author": "Fletcher",
+                    "title": "Blackadder 3"
+                },
+                {
+                    "author": "Simpson",
+                    "title": "Dan Graham"
+                },
+                {
+                    "author": "Browne",
+                    "title": "Over het ontstaan van soorten van Darwin"
+                },
+                {
+                    "author": "Kiris",
+                    "title": "T�rk�e-Hollandaca"
+                },
+                {
+                    "author": "Tiemersma",
+                    "title": "Non-dualiteit"
                 }
-                $("#excelDataTable").append(row$);
-            }
-        }
-
-        // Adds a header row to the table and returns the set of columns.
-        // Need to do union of keys from all records as some records may not contain
-        // all records
-        function addAllColumnHeaders(myList) {
-            var columnSet = [];
-            var headerTr$ = $('<tr/>');
-
-            for (var i = 0; i < myList.length; i++) {
-                var rowHash = myList[i];
-                for (var key in rowHash) {
-                    if ($.inArray(key, columnSet) == -1) {
-                        columnSet.push(key);
-                        headerTr$.append($('<th/>').html(key));
-                    }
-                }
-            }
-            $("#excelDataTable").append(headerTr$);
-
-            return columnSet;
-        }
+            ];
+            var table = $.makeTable(mydata);
+            $(table).appendTo("#TableCont");
+        });
     </script>
 
     <!--[if lt IE 9]>
@@ -149,6 +927,11 @@
         <div class="col-md-4">
             <div class="well"><p>4 cols</p></div>
         </div>
+
+    </div>
+
+    <div id="TableCont">
+
     </div>
 </div>
 <hr>
