@@ -49,8 +49,19 @@
 					<h2 class="subtitle">Find them all here!</h2>
 					<form class="form-inline signup" role="form" action="overview">
 					  <div class="form-group">
-					    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter your age">
-                        <input type="text" class="form-control" id="exampleInputGender" placeholder="Enter your gender">
+                        <select class="form-control" id="born">
+                            <option value="1940">Born in 1940's</option>
+                            <option value="1940">Born in 1950's</option>
+                            <option value="1960">Born in 1960's</option>
+                            <option value="1970">Born in 1970's</option>
+                            <option value="1980">Born in 1980's</option>
+                            <option value="1990">Born in 1990's</option>
+                            <option value="2000">Born in 2000's</option>
+                        </select>
+                        <select class="form-control" id="gender">
+                            <option value="M">Male</option>
+                            <option value="V">Female</option>
+                        </select>
 					  </div>
 					  <button type="submit" class="btn btn-theme">Find your books</button>
 					</form>					
