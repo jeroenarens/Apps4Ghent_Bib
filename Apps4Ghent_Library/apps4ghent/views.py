@@ -12,7 +12,7 @@ from .serializers import *
 
 def index(request):
 
-   return render_to_response('index.html')
+   return render_to_response('index2.html')
 
 class Paginator:
     page_size = 100
