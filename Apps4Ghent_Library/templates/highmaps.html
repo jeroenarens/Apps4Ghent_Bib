@@ -1,3 +1,19 @@
+Skip to content
+ This repository
+Explore
+Gist
+Blog
+Help
+@MetaDev MetaDev
+
+ Unwatch 5
+  Star 0
+  Fork 2
+jeroenarens/Apps4Ghent_Bib PRIVATE
+ branch: master  Apps4Ghent_Bib/Apps4Ghent_Library/templates/index.html
+dtarnacki 13 hours ago Fix Highmaps + Highstock on the same page
+2 contributors @MetaDev @CenEkaGent
+RawBlameHistory     164 lines (133 sloc)  5.817 kb
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -25,11 +41,9 @@
     <script src="http://code.highcharts.com/stock/highcharts-more.js"></script>
 
     <!-- UNUSED
-
     <script src="http://code.highcharts.com/mapdata/custom/world.js"></script>
     <script src="http://code.highcharts.com/mapdata/custom/europe.js"></script>
     <script src="http://code.highcharts.com/mapdata/countries/us/us-all.js"></script>
-
     -->
 
     <!-- style sheet -->
@@ -41,25 +55,18 @@
     <script type="text/javascript">
         $(document).ready(function () {
             var borrowings;
-
             // Assign handlers immediately after making the request,
             // and remember the jqxhr object for this request
-
-
             //TODO: make query fields for the top part of the index page
-
-
             //CAUTION! got an error with the header-origin-not-allowed, no solution yet found (suggest researching jsonp, adding header adjustments in django,...
             $.getJSON("http://honegger.elis.ugent.be/api/v1/borrowed-items/borrowings")
              .done(function (data) {
              borrowings = data;
              //window.alert("test");
-
              })
              .fail(function () {
              console.log("error");
              });
-
             //Here, the visualisation for the map is shown (middle)
             //This is still a demo, because of the lack of data, no decent projections have yet been made
             $.getJSON('../static/map/statsec_new.json', function (geojson) {
@@ -68,7 +75,6 @@
                     chart: {
                         borderWidth: 1
                     },
-
                     title: {
                         text: 'Gent stats'
                     },
@@ -78,8 +84,6 @@
                     mapNavigation: {
                         enabled: true
                     },
-
-
                     series: [{
                         name: 'Country',
                         mapData: geojson,
@@ -113,33 +117,25 @@
                             headerFormat: '',
                             pointFormat: '{point.properties.Description}'
                         }
-
                     }]
                 });
             });
-
             // Here, the java script for the slider on the index page is covered (bottom)
             $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=range.json&callback=?', function (data) {
-
                 $('#time-slider').highcharts('StockChart', {
-
                     chart: {
                         type: 'areasplinerange'
                     },
-
                     rangeSelector: {
                         enabled: false
                     },
-
                     title: {
                         text: 'Amount of borrowed books each day'
                     },
-
                     series: [{
                         name: 'Amount of borrowings',
                         data: data
                     }],
-
                     exporting: {
                         enabled: false
                     }
@@ -161,3 +157,5 @@
 </div>
 </body>
 </html>
+Status API Training Shop Blog About
+© 2015 GitHub, Inc. Terms Privacy Security Contact
