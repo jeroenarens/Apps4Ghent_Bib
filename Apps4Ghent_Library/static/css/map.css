@@ -2,13 +2,14 @@
     height: 100vh;
 }
 
-body {
-    margin: 0;
-}
-
 .popup{
   background:white;
   width:250px;
   height:200px;
   border-radius:5px;
+}
+
+.navbar img{
+    top: -14px;
+    position: relative;
 }

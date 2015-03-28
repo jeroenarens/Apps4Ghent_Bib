@@ -129,10 +129,15 @@
                 fill: new ol.style.Fill({
                     color: 'rgba(255,0,0,0.2)'
                 })
-            });
 
+            });
+            var comicLayer = new ol.layer.Tile({
+                source: new ol.source.XYZ({
+                    url: 'http://api.tiles.mapbox.com/v4/mapbox.comic/{z}/{x}/{y}.png?access_token=sk.eyJ1IjoiamVyb2VuYXJlbnMiLCJhIjoiSU9zb1BIYyJ9.L1o6zaWk3EDaCi9bJf8Nug'
+                })
+            });
             var map = new ol.Map({
-                /*interactions: ol.interaction.defaults().extend([
+                interactions: ol.interaction.defaults().extend([
                     new ol.interaction.Select({
                         style: new ol.style.Style({
                             stroke: new ol.style.Stroke({
@@ -144,35 +149,29 @@
                             })
                         })
                     })
-                ]),*/
-                layers: [
-                    new ol.layer.Tile({
-                        source: new ol.source.XYZ({
-                            url: 'http://api.tiles.mapbox.com/v4/mapbox.comic/{z}/{x}/{y}.png?access_token=sk.eyJ1IjoiamVyb2VuYXJlbnMiLCJhIjoiSU9zb1BIYyJ9.L1o6zaWk3EDaCi9bJf8Nug'
-                        })
-                    })
-                ],
+                ]),
+                layers: [comicLayer],
                 target: "map",
                 view: new ol.View({
                     center: ol.proj.transform([3.716667, 51.055], 'EPSG:4326', 'EPSG:3857'),
-                    zoom: 14
+                    zoom: 13
                 })
             });
 
-            map.addInteraction(new ol.interaction.Select({
-                condition: function (e) {
-                    return e.originalEvent.type == 'mousemove';
-                },
-                style: new ol.style.Style({
-                    stroke: new ol.style.Stroke({
-                        color: 'red',
-                        width: 2
-                    }),
-                    fill: new ol.style.Fill({
-                        color: 'rgba(255,0,0,1)'
-                    })
-                })
-            }));
+            /*map.addInteraction(new ol.interaction.Select({
+             condition: function (e) {
+             return e.originalEvent.type == 'mousemove';
+             },
+             style: new ol.style.Style({
+             stroke: new ol.style.Stroke({
+             color: 'red',
+             width: 2
+             }),
+             fill: new ol.style.Fill({
+             color: 'rgba(255,0,0,1)'
+             })
+             })
+             }));*/
             var vectorSource = new ol.source.GeoJSON(
                     ({
                         projection: 'EPSG:3857',
@@ -189,6 +188,7 @@
             });
 
             map.addLayer(geoLayer);
+
             /*
              map.on('singleclick', function (evt) {
              var coord = evt.coordinate;
@@ -207,8 +207,37 @@
              overlay.setPosition(coord);
              }*/
 
+            var layerOSM = new ol.layer.Tile({
+                source: new ol.source.OSM()
+            });
+
+            var layerMQ = new ol.layer.Tile({
+                source: new ol.source.MapQuest({
+                    layer: 'osm'
+                })
+            });
+
+            $(document).ready(function () {
+                $('#OSM').on('click', function () {
+                    map.removeLayer(geoLayer);
+                    map.addLayer(comicLayer);
+                    map.addLayer(geoLayer);
+                });
+                $('#OpenStreet').on('click', function () {
+                    map.removeLayer(geoLayer);
+                    map.addLayer(layerOSM);
+                    map.addLayer(geoLayer);
+                });
+                $('#MapQuest').on('click', function () {
+                    map.removeLayer(geoLayer);
+                    map.addLayer(layerMQ);
+                    map.addLayer(geoLayer);
+                });
+            });
             applyInitialUIState();
             applyMargins();
+
+
         })
         ;
 
@@ -228,7 +257,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Map Viewer (3-column layout)</a>
+                <a class="navbar-brand" href="#">
+                    <img src="{% static "img/gent.png" %}" height="50" width="130" alt="">
+                </a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -294,14 +325,14 @@
                 </div>
                 <div id="layers" class="panel-collapse collapse in">
                     <div class="panel-body list-group">
-                        <a href="#" class="list-group-item">
+                        <a href="#" class="list-group-item" id="OpenStreet">
                             <i class="fa fa-globe"></i> Open Street Map
                         </a>
-                        <a href="#" class="list-group-item">
-                            <i class="fa fa-globe"></i> Bing
+                        <a href="#" class="list-group-item" id="MapQuest">
+                            <i class="fa fa-globe"></i> MapQuest
                         </a>
-                        <a href="#" class="list-group-item">
-                            <i class="fa fa-globe"></i> WMS
+                        <a href="#" class="list-group-item" id="OSM">
+                            <i class="fa fa-globe"></i> Comic OSM
                         </a>
                     </div>
                 </div>
