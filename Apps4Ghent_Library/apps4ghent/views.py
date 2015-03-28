@@ -20,6 +20,9 @@ def overview(request):
 def leaflet(request):
     return render_to_response('leaflet.html')
 
+def openlayers(request):
+    return render_to_response('openlayers.html')
+
 def highmap(request):
     return render_to_response('highmaps.html')
 
