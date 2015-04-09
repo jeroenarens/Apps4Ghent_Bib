@@ -120,201 +120,132 @@
             });
 
             $(window).on("resize", applyMargins);
-            applyInitialUIState();
-            applyMargins();
 
-
-        });
-
-
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            //The layer for where the different statistical sectors are drawn upon
-            var normalStyle = ol.style.Style({
-                stroke: new ol.style.Stroke({
-                    color: [255, 0, 0.5],
-                    width: 1
-                }),
-                fill: new ol.style.Fill({
-                    color: [255, 0, 0, 0.4]
-                }),
-                zIndex: 2
-            });
-
-            var sectionsLayer = new ol.layer.Vector({
-                source: new ol.source.GeoJSON({
-                    projection: 'EPSG:3857',
-                    url: '{% static "map/statsec.json" %}'
-                }),
-                projection: 'EPSG:4326',
-                style: normalStyle
-            });
-
-
-            //This is the layer beneath, which shows you a version of the map
             var comicLayer = new ol.layer.Tile({
                 source: new ol.source.XYZ({
                     url: 'http://api.tiles.mapbox.com/v4/mapbox.comic/{z}/{x}/{y}.png?access_token=sk.eyJ1IjoiamVyb2VuYXJlbnMiLCJhIjoiSU9zb1BIYyJ9.L1o6zaWk3EDaCi9bJf8Nug'
                 })
             });
+            var map = new ol.Map({
+                interactions: ol.interaction.defaults().extend([
+                    new ol.interaction.Select({
+                        style: new ol.style.Style({
+                            stroke: new ol.style.Stroke({
+                                color: 'red',
+                                width: 2
+                            }),
+                            fill: new ol.style.Fill({
+                                color: 'rgba(255,0,0,1)'
+                            })
+                        })
+                    })
+                ]),
+                layers: [comicLayer],
+                target: "map",
+                view: new ol.View({
+                    center: ol.proj.transform([3.716667, 51.055], 'EPSG:4326', 'EPSG:3857'),
+                    zoom: 13
+                })
+            });
 
-            //Other option for layer beneath from another source (open street maps)
+            /*map.addInteraction(new ol.interaction.Select({
+             condition: function (e) {
+             return e.originalEvent.type == 'mousemove';
+             },
+             style: new ol.style.Style({
+             stroke: new ol.style.Stroke({
+             color: 'red',
+             width: 2
+             }),
+             fill: new ol.style.Fill({
+             color: 'rgba(255,0,0,1)'
+             })
+             })
+             }));*/
+            var styles = new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: 'red',
+                    width: 2
+                }),
+                fill: new ol.style.Fill({
+                    color: 'rgba(255,0,0,0.2)'
+                }),
+                text: new ol.style.Text({
+                    text: 'testtekst'
+                })
+
+            });
+
+            var vectorSource = new ol.source.GeoJSON(
+                    ({
+                        projection: 'EPSG:3857',
+                        preFeatureInsert: function (feature) {
+                            feature.geometry.transform('EPSG:4326', 'EPSG:3857');
+                        },
+                        url: '{% static "map/statsec.json" %}'
+                    })
+            );
+
+            var geoLayer = new ol.layer.Vector({
+                source: vectorSource,
+                style: styles
+            });
+
+            map.addLayer(geoLayer);
+
+            /*
+             map.on('singleclick', function (evt) {
+             var coord = evt.coordinate;
+             spawnPopup(coord);
+             console.log(evt.coordinate);
+             });
+
+             function spawnPopup(coord) {
+             var popup = $("<div class='popup'></div>");
+
+             var overlay = new ol.Overlay({
+             element: popup
+             });
+
+             map.addOverlay(overlay);
+             overlay.setPosition(coord);
+             }*/
+
             var layerOSM = new ol.layer.Tile({
                 source: new ol.source.OSM()
             });
 
-            //Other option for layer beneath from another source (MapQuest)
             var layerMQ = new ol.layer.Tile({
                 source: new ol.source.MapQuest({
                     layer: 'osm'
                 })
             });
 
-            //Used to project the center of the map on the center of Ghent
-            var center = ol.proj.transform([3.716667, 51.055], 'EPSG:4326', 'EPSG:3857');
-
-            //Here, the center is used to set up the view of the map, together with a zoom variable which is arbitrarily chosen
-            var view = new ol.View({
-                center: center,
-                zoom: 13
-            });
-            //Now, the map is initialized. The target points to a div with id "map" in the html body.
-            //The layers of the different statistical sectors are added
-            var map = new ol.Map({
-                target: "map",
-                layers: [layerMQ, sectionsLayer],
-                view: view
-            });
-
-            // A text style for the labels of the statistical sectors is defined now
-            var normalTextStyle = {
-                font: '12px Calibri,sans-serif',
-                textAlign: 'center',
-                offsetY: -15,
-                fill: new ol.style.Fill({
-                    color: [0, 0, 0, 1]
-                }),
-                stroke: new ol.style.Stroke({
-                    color: [255, 255, 255, 0.5],
-                    width: 4
-                })
-            };
-
-            // When the mouse would hover over a statistical sector, the style defined beneath will be used
-            var highlightStyle = new ol.style.Style({
-                stroke: new ol.style.Stroke({
-                    color: [255, 0, 0, 0.6],
-                    width: 2
-                }),
-                fill: new ol.style.Fill({
-                    color: [255, 0, 0, 0.2]
-                }),
-                zIndex: 1
-            });
-
-            //This is the style function, a function is used to make it more dynamic/flexible
-            function styleFunction(feature, resolution) {
-                var style;
-                var geom = feature.getGeometry();
-                if (geom.getType() == 'Point') {
-                    var text = feature.get('text');
-                    normalTextStyle.text = text;
-                    style = new ol.style.Style({
-                        text: new ol.style.Text(normalTextStyle),
-                        zIndex: 2
-                    });
-                }
-                else {
-                    style = highlightStyle;
-                }
-                return [style];
-            }
-
-            //Now the overlayfeature that is defined (will be used when a mouse moves over a statistical sector
-            var featureOverlay = new ol.FeatureOverlay({
-                map: map,
-                style: styleFunction
-            });
-
-            //Here follows the interactive part, so a movement of the mouse over a statistical sector will be noticed
-            map.on('pointermove', function (browserEvent) {
-                featureOverlay.getFeatures().clear();
-                var coordinate = browserEvent.coordinate;
-                var pixel = browserEvent.pixel;
-
-
-                map.forEachFeatureAtPixel(pixel, function (feature, layer) {
-                    if (!layer) {
-                        return;
-                    }
-                    var geometry = feature.getGeometry();
-                    var point;
-                    switch (geometry.getType()) {
-                        case 'MultiPolygon':
-                            var poly = geometry.getPolygons().reduce(function (left, right) {
-                                return left.getArea() > right.getArea() ? left : right;
-                            });
-                            point = poly.getInteriorPoint().getCoordinates();
-                            break;
-                        case 'Polygon':
-                            point = geometry.getInteriorPoint().getCoordinates();
-                            break;
-                        default :
-                            point = geometry.getClosestPoint(coordinate);
-                    }
-                    textFeature = new ol.Feature({
-                        geometry: new ol.geom.Point(point),
-                        // the styling function the the overlay feature, will use the name 'text' now for the text instead of 'Description'
-                        text: feature.get('Description')
-                    });
-                    featureOverlay.addFeature(textFeature);
-                    featureOverlay.addFeature(feature);
-
+            $(document).ready(function () {
+                $('#OSM').on('click', function () {
+                    map.removeLayer(geoLayer);
+                    map.addLayer(comicLayer);
+                    map.addLayer(geoLayer);
                 });
-
-            });
-
-            //functionality to let a click cursor appear when hovering over the sectionslayer
-            map.on('pointermove', function (evt) {
-                if (evt.dragging) {
-                    return;
-                }
-                var pixelOriginal = map.getEventPixel(evt.originalEvent);
-                var hit = map.forEachLayerAtPixel(pixelOriginal, function (layer) {
-                    if(layer == sectionsLayer)
-                    {
-                        return true;
-                    }
+                $('#OpenStreet').on('click', function () {
+                    map.removeLayer(geoLayer);
+                    map.addLayer(layerOSM);
+                    map.addLayer(geoLayer);
                 });
-                map.getTargetElement().style.cursor = hit ? 'pointer' : '';
-            })
+                $('#MapQuest').on('click', function () {
+                    map.removeLayer(geoLayer);
+                    map.addLayer(layerMQ);
+                    map.addLayer(geoLayer);
+                });
+            });
+            applyInitialUIState();
+            applyMargins();
 
-            //functionality when a statistical sector is clicked upon
-            map.on('singleclick', function (clickevent) {
-                var coordinate = clickevent.coordinate;
-                var pixel = clickevent.pixel;
-                $('#sectordetails').empty();
-            });
 
-            //functionality to change between layer
-            $('#OSM').on('click', function () {
-                map.removeLayer(sectionsLayer);
-                map.addLayer(comicLayer);
-                map.addLayer(sectionsLayer);
-            });
-            $('#OpenStreet').on('click', function () {
-                map.removeLayer(sectionsLayer);
-                map.addLayer(layerOSM);
-                map.addLayer(sectionsLayer);
-            });
-            $('#MapQuest').on('click', function () {
-                map.removeLayer(sectionsLayer);
-                map.addLayer(layerMQ);
-                map.addLayer(sectionsLayer);
-            });
-        });
+        })
+        ;
+
+
     </script>
 </head>
 <body>
