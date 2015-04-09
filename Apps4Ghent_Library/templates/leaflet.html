@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    {% load staticfiles %}
+    <title>Apps4Ghent - Leaflet</title>
+
+    <!-- css files from leaflet and a map.css file to adjust the map itself -->
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+    <link rel="stylesheet" href="{% static "css/map.css" %}  "/>
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.6/mapbox.css' rel='stylesheet'/>
+
+    <!-- js files to use leaflet js files and jquery to load the geojson data from an external file -->
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="{% static "js/statsec.js" %}"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.6/mapbox.js'></script>
+
+
+    <script>
+        $(document).ready(function () {
+            L.mapbox.accessToken = 'sk.eyJ1IjoiamVyb2VuYXJlbnMiLCJhIjoiSU9zb1BIYyJ9.L1o6zaWk3EDaCi9bJf8Nug';
+
+
+            var map = L.map('map', {
+                center: [51.085, 3.716667],
+                zoom: 12
+            });
+            // add an OpenStreetMap tile layer
+
+            L.tileLayer('https://{s}.tiles.mapbox.com/v4/mapbox.comic/{z}/{x}/{y}.png?access_token=' + L.mapbox.accessToken, {
+                attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
+            }).addTo(map);
+
+            /*
+             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+             }).addTo(map);
+             */
+
+            L.geoJson(ghentdata, {
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(feature.properties.Description);
+                }
+            }).addTo(map);
+        });
+
+        function getColor(d) {
+            return d > 1000 ? '#800026' :
+                    d > 500 ? '#BD0026' :
+                            d > 200 ? '#E31A1C' :
+                                    d > 100 ? '#FC4E2A' :
+                                            d > 50 ? '#FD8D3C' :
+                                                    d > 20 ? '#FEB24C' :
+                                                            d > 10 ? '#FED976' :
+                                                                    '#FFEDA0';
+        }
+
+        function style(feature) {
+            return {
+                fillColor: getColor(feature.properties.density),
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.7
+            };
+        }
+    </script>
+</head>
+<body>
+<div id="map"></div>
+
+</body>
+</html>

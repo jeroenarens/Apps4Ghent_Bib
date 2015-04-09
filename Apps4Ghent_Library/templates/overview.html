@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="{% static "img/favicon.png" %}">
+
+    <title>Books4Summer</title>
+
+    <!--jquery -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <link href="{% static "css/bootstrap-theme.css" %}" rel="stylesheet">
+
+    <!-- siimple style -->
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="container">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Books4Summer</a>
+
+    </div>
+    <!-- /.container -->
+</div>
+<!-- /.navbar -->
+
+<div class="jumbotron text-center">
+
+    <div class="row">
+        <div id="filter-panel" class="filter-panel">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form class="form-inline" role="form">
+                        <!-- form group [Category 1] -->
+                        <div class="form-group">
+                            <label class="filter-col" style="margin-right:0;" for="pref-perpage">Category 1:</label>
+                            <select id="categoryFilter1" class="form-control">
+                                <option>---</option>
+                                <option value="fiction">Fiction</option>
+                                <option value="history">History</option>
+                                <option value="humor">Humor</option>
+                                <option value="travel">Travel</option>
+                            </select>
+                        </div>
+                        <!-- form group [Category 2] -->
+                        <div class="form-group" style="margin-left: 20px;">
+                            <label class="filter-col" style="margin-right:0;" for="pref-perpage">Category 2:</label>
+                            <select id="categoryFilter1" class="form-control">
+                                <option>---</option>
+                                <option value="fiction">Fiction</option>
+                                <option value="history">History</option>
+                                <option value="humor">Humor</option>
+                                <option value="travel">Travel</option>
+                            </select>
+                        </div>
+                        <!-- form group [Category 3] -->
+                        <div class="form-group" style="margin-left: 20px;">
+                            <label class="filter-col" style="margin-right:0;" for="pref-perpage">Category 3:</label>
+                            <select id="categoryFilter1" class="form-control">
+                                <option>---</option>
+                                <option value="fiction">Fiction</option>
+                                <option value="history">History</option>
+                                <option value="humor">Humor</option>
+                                <option value="travel">Travel</option>
+                            </select>
+                        </div>
+                        <!-- form group [Filter button] -->
+                        <div class="form-group" style="margin-left: 20px;">
+                            <button type="submit" class="btn btn-default filter-col">
+                                <span class="glyphicon glyphicon-filter"></span> Filter
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="well">
+
+                <div class="row">
+                    <div class="col-sm-6 col-md-4">
+                        <img src="{% static "img/Gods_dwazen.jpg" %}" alt="" class="img-rounded img-responsive"/>
+                    </div>
+                    <div class="col-sm-6 col-md-8">
+                        <h4>Gods dwazen</h4>
+                        <p>Ballinger W.A.</p>
+
+                        <p>
+                            Fiction<br>
+                            History
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="well">
+
+                <div class="row">
+                    <div class="col-sm-6 col-md-4">
+                        <img src="{% static "img/220px-CheaperByTheDozen.jpg" %}" alt="" class="img-rounded img-responsive"/>
+                    </div>
+                    <div class="col-sm-6 col-md-8">
+                        <h4>Cheaper by the Dozen</h4>
+                        <p>Frank B. Gilbreth</p>
+
+                        <p>
+                            Art<br>
+                            Music
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="well">
+
+                <div class="row">
+                    <div class="col-sm-6 col-md-4">
+                        <img src="{% static "img/9781433204074_p0_v1_s260x420.jpg" %}" alt="" class="img-rounded img-responsive"/>
+                    </div>
+                    <div class="col-sm-6 col-md-8">
+                        <h4>The Good Earth</h4>
+                        <p>Pearl S. Buck</p>
+
+                        <p>
+                            Sport<br>
+                            Travel
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="well">
+
+                <div class="row">
+                    <div class="col-sm-6 col-md-4">
+                        <img src="{% static "img/Benjamin Franklin An American Life.jpg" %}" alt="" class="img-rounded img-responsive"/>
+                    </div>
+                    <div class="col-sm-6 col-md-8">
+                        <h4>Benjamin Franklin: An American Life</h4>
+                        <p>Walter Isaacson</p>
+
+                        <p>
+                            Religion<br>
+                            Politics<br>
+                            Drama
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<hr>
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load staticfiles %}
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <title>Leaflet Template</title>
+
+    <!-- css files -->
+    <link rel="stylesheet" href="{% static "css/ol.css" %}"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="{% static "css/leaflet.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/map.css" %}"/>
+
+    <!-- javascript files -->
+    <script src="http://openlayers.org/en/v3.4.0/build/ol.js" type="text/javascript"></script>
+    <script src="{% static "js/statsec.js" %}"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.6/mapbox.js'></script>
+
+
+    <script type="text/javascript">
+
+        function applyMargins() {
+            var leftToggler = $(".mini-submenu-left");
+            var rightToggler = $(".mini-submenu-right");
+            if (leftToggler.is(":visible")) {
+                $("#map .ol-zoom")
+                        .css("margin-left", 0)
+                        .removeClass("zoom-top-opened-sidebar")
+                        .addClass("zoom-top-collapsed");
+            } else {
+                $("#map .ol-zoom")
+                        .css("margin-left", $(".sidebar-left").width())
+                        .removeClass("zoom-top-opened-sidebar")
+                        .removeClass("zoom-top-collapsed");
+            }
+            if (rightToggler.is(":visible")) {
+                $("#map .ol-rotate")
+                        .css("margin-right", 0)
+                        .removeClass("zoom-top-opened-sidebar")
+                        .addClass("zoom-top-collapsed");
+            } else {
+                $("#map .ol-rotate")
+                        .css("margin-right", $(".sidebar-right").width())
+                        .removeClass("zoom-top-opened-sidebar")
+                        .removeClass("zoom-top-collapsed");
+            }
+        }
+
+        function isConstrained() {
+            return $("div.mid").width() == $(window).width();
+        }
+
+        function applyInitialUIState() {
+            if (isConstrained()) {
+                $(".sidebar-left .sidebar-body").fadeOut('slide');
+                $(".sidebar-right .sidebar-body").fadeOut('slide');
+                $('.mini-submenu-left').fadeIn();
+                $('.mini-submenu-right').fadeIn();
+            }
+        }
+
+        function getColor(d) {
+            return d > 1000 ? '#800026' :
+                    d > 500 ? '#BD0026' :
+                            d > 200 ? '#E31A1C' :
+                                    d > 100 ? '#FC4E2A' :
+                                            d > 50 ? '#FD8D3C' :
+                                                    d > 20 ? '#FEB24C' :
+                                                            d > 10 ? '#FED976' :
+                                                                    '#FFEDA0';
+        }
+
+        function style(feature) {
+            return {
+                fillColor: getColor(feature.properties.density),
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.7
+            };
+        }
+
+        $(function () {
+            $('.sidebar-left .slide-submenu').on('click', function () {
+                var thisEl = $(this);
+                thisEl.closest('.sidebar-body').fadeOut('slide', function () {
+                    $('.mini-submenu-left').fadeIn();
+                    applyMargins();
+                });
+            });
+
+            $('.mini-submenu-left').on('click', function () {
+                var thisEl = $(this);
+                $('.sidebar-left .sidebar-body').toggle('slide');
+                thisEl.hide();
+                applyMargins();
+            });
+
+            $('.sidebar-right .slide-submenu').on('click', function () {
+                var thisEl = $(this);
+                thisEl.closest('.sidebar-body').fadeOut('slide', function () {
+                    $('.mini-submenu-right').fadeIn();
+                    applyMargins();
+                });
+            });
+
+            $('.mini-submenu-right').on('click', function () {
+                var thisEl = $(this);
+                $('.sidebar-right .sidebar-body').toggle('slide');
+                thisEl.hide();
+                applyMargins();
+            });
+
+            $(window).on("resize", applyMargins);
+
+            var comicLayer = new ol.layer.Tile({
+                source: new ol.source.XYZ({
+                    url: 'http://api.tiles.mapbox.com/v4/mapbox.comic/{z}/{x}/{y}.png?access_token=sk.eyJ1IjoiamVyb2VuYXJlbnMiLCJhIjoiSU9zb1BIYyJ9.L1o6zaWk3EDaCi9bJf8Nug'
+                })
+            });
+            var map = new ol.Map({
+                interactions: ol.interaction.defaults().extend([
+                    new ol.interaction.Select({
+                        style: new ol.style.Style({
+                            stroke: new ol.style.Stroke({
+                                color: 'red',
+                                width: 2
+                            }),
+                            fill: new ol.style.Fill({
+                                color: 'rgba(255,0,0,1)'
+                            })
+                        })
+                    })
+                ]),
+                layers: [comicLayer],
+                target: "map",
+                view: new ol.View({
+                    center: ol.proj.transform([3.716667, 51.055], 'EPSG:4326', 'EPSG:3857'),
+                    zoom: 13
+                })
+            });
+
+            /*map.addInteraction(new ol.interaction.Select({
+             condition: function (e) {
+             return e.originalEvent.type == 'mousemove';
+             },
+             style: new ol.style.Style({
+             stroke: new ol.style.Stroke({
+             color: 'red',
+             width: 2
+             }),
+             fill: new ol.style.Fill({
+             color: 'rgba(255,0,0,1)'
+             })
+             })
+             }));*/
+            var styles = new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: 'red',
+                    width: 2
+                }),
+                fill: new ol.style.Fill({
+                    color: 'rgba(255,0,0,0.2)'
+                }),
+                text: new ol.style.Text({
+                    text: 'testtekst'
+                })
+
+            });
+
+            var vectorSource = new ol.source.GeoJSON(
+                    ({
+                        projection: 'EPSG:3857',
+                        preFeatureInsert: function (feature) {
+                            feature.geometry.transform('EPSG:4326', 'EPSG:3857');
+                        },
+                        url: '{% static "map/statsec.json" %}'
+                    })
+            );
+
+            var geoLayer = new ol.layer.Vector({
+                source: vectorSource,
+                style: styles
+            });
+
+            map.addLayer(geoLayer);
+
+            /*
+             map.on('singleclick', function (evt) {
+             var coord = evt.coordinate;
+             spawnPopup(coord);
+             console.log(evt.coordinate);
+             });
+
+             function spawnPopup(coord) {
+             var popup = $("<div class='popup'></div>");
+
+             var overlay = new ol.Overlay({
+             element: popup
+             });
+
+             map.addOverlay(overlay);
+             overlay.setPosition(coord);
+             }*/
+
+            var layerOSM = new ol.layer.Tile({
+                source: new ol.source.OSM()
+            });
+
+            var layerMQ = new ol.layer.Tile({
+                source: new ol.source.MapQuest({
+                    layer: 'osm'
+                })
+            });
+
+            $(document).ready(function () {
+                $('#OSM').on('click', function () {
+                    map.removeLayer(geoLayer);
+                    map.addLayer(comicLayer);
+                    map.addLayer(geoLayer);
+                });
+                $('#OpenStreet').on('click', function () {
+                    map.removeLayer(geoLayer);
+                    map.addLayer(layerOSM);
+                    map.addLayer(geoLayer);
+                });
+                $('#MapQuest').on('click', function () {
+                    map.removeLayer(geoLayer);
+                    map.addLayer(layerMQ);
+                    map.addLayer(geoLayer);
+                });
+            });
+            applyInitialUIState();
+            applyMargins();
+
+
+        })
+        ;
+
+
+    </script>
+</head>
+<body>
+<div class="container">
+    <nav class="navbar navbar-fixed-top navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img src="{% static "img/gent.png" %}" height="50" width="130" alt="">
+                </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+</div>
+</nav>
+<div class="navbar-offset"></div>
+<div id="map">
+</div>
+<div class="row main-row">
+    <div class="col-sm-4 col-md-3 sidebar sidebar-left pull-left">
+        <div class="panel-group sidebar-body" id="accordion-left">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#layers">
+                            <i class="fa fa-list-alt"></i>
+                            Layers
+                        </a>
+                  <span class="pull-right slide-submenu">
+                    <i class="fa fa-chevron-left"></i>
+                  </span>
+                    </h4>
+                </div>
+                <div id="layers" class="panel-collapse collapse in">
+                    <div class="panel-body list-group">
+                        <a href="#" class="list-group-item" id="OpenStreet">
+                            <i class="fa fa-globe"></i> Open Street Map
+                        </a>
+                        <a href="#" class="list-group-item" id="MapQuest">
+                            <i class="fa fa-globe"></i> MapQuest
+                        </a>
+                        <a href="#" class="list-group-item" id="OSM">
+                            <i class="fa fa-globe"></i> Comic OSM
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#properties">
+                            <i class="fa fa-list-alt"></i>
+                            Properties
+                        </a>
+                    </h4>
+                </div>
+                <div id="properties" class="panel-collapse collapse in">
+                    <div id="sectordetails" class="panel-body">
+                        <p>
+                            Lorem ipsum dolor sit amet, vel an wisi propriae. Sea ut graece gloriatur. Per ei quando
+                            dicant vivendum. An insolens appellantur eos, doctus convenire vis et, at solet aeterno
+                            intellegebat qui.
+                        </p>
+
+                        <p>
+                            Elitr minimum inciderint qui no. Ne mea quaerendum scriptorem consequuntur. Mel ea nobis
+                            discere dignissim, aperiam patrioque ei ius. Stet laboramus eos te, his recteque mnesarchum
+                            an, quo id adipisci salutatus. Quas solet inimicus eu per. Sonet conclusionemque id vis.
+                        </p>
+
+                        <p>
+                            Eam vivendo repudiandae in, ei pri sint probatus. Pri et lorem praesent periculis, dicam
+                            singulis ut sed. Omnis patrioque sit ei, vis illud impetus molestiae id. Ex viderer
+                            assentior mel, inani liber officiis pro et. Qui ut perfecto repudiandae, per no hinc tation
+                            labores.
+                        </p>
+
+                        <p>
+                            Pro cu scaevola antiopam, cum id inermis salutatus. No duo liber gloriatur. Duo id vitae
+                            decore, justo consequat vix et. Sea id tale quot vitae.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4 col-md-6 mid"></div>
+    <div class="col-sm-4 col-md-3 sidebar sidebar-right pull-right">
+        <div class="panel-group sidebar-body" id="accordion-right">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#taskpane">
+                            <i class="fa fa-tasks"></i>
+                            Task Pane
+                        </a>
+                  <span class="pull-right slide-submenu">
+                    <i class="fa fa-chevron-right"></i>
+                  </span>
+                    </h4>
+                </div>
+                <div id="taskpane" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <p>
+                            Lorem ipsum dolor sit amet, vel an wisi propriae. Sea ut graece gloriatur. Per ei quando
+                            dicant vivendum. An insolens appellantur eos, doctus convenire vis et, at solet aeterno
+                            intellegebat qui.
+                        </p>
+
+                        <p>
+                            Elitr minimum inciderint qui no. Ne mea quaerendum scriptorem consequuntur. Mel ea nobis
+                            discere dignissim, aperiam patrioque ei ius. Stet laboramus eos te, his recteque mnesarchum
+                            an, quo id adipisci salutatus. Quas solet inimicus eu per. Sonet conclusionemque id vis.
+                        </p>
+
+                        <p>
+                            Eam vivendo repudiandae in, ei pri sint probatus. Pri et lorem praesent periculis, dicam
+                            singulis ut sed. Omnis patrioque sit ei, vis illud impetus molestiae id. Ex viderer
+                            assentior mel, inani liber officiis pro et. Qui ut perfecto repudiandae, per no hinc tation
+                            labores.
+                        </p>
+
+                        <p>
+                            Pro cu scaevola antiopam, cum id inermis salutatus. No duo liber gloriatur. Duo id vitae
+                            decore, justo consequat vix et. Sea id tale quot vitae.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mini-submenu mini-submenu-left pull-left">
+    <i class="fa fa-list-alt"></i>
+</div>
+<div class="mini-submenu mini-submenu-right pull-right">
+    <i class="fa fa-tasks"></i>
+</div>
+</div>
+</body>
+</html>

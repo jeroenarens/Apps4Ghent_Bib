@@ -15,6 +15,10 @@ router.register(r'reservations', views.ReservationViewSet)
 urlpatterns = patterns('',
     # General urls
     url(r'^$', views.index, name='index'),
+    url(r'^overview/', views.overview, name='overview'),
+    url(r'^leaflet/', views.leaflet, name='leaflet'),
+    url(r'^highmap/', views.highmap, name='highmap'),
+    url(r'^openlayers/', views.openlayers, name='openlayers'),
     
     # Admin section
     url(r'^admin/', include(admin.site.urls)),
