@@ -5,7 +5,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-    <title>Leaflet Template</title>
+    <title>Openlayers Template</title>
 
     <!-- css files -->
     <link rel="stylesheet" href="{% static "css/ol.css" %}"/>
@@ -146,7 +146,7 @@
             var sectionsLayer = new ol.layer.Vector({
                 source: new ol.source.GeoJSON({
                     projection: 'EPSG:3857',
-                    url: '{% static "map/statsec.json" %}'
+                    url: '{% static "map/wijkenGent.geojson" %}'
                 }),
                 projection: 'EPSG:4326',
                 style: normalStyle
@@ -267,7 +267,7 @@
                     textFeature = new ol.Feature({
                         geometry: new ol.geom.Point(point),
                         // the styling function the the overlay feature, will use the name 'text' now for the text instead of 'Description'
-                        text: feature.get('Description')
+                        text: feature.get('name')
                     });
                     featureOverlay.addFeature(textFeature);
                     featureOverlay.addFeature(feature);
