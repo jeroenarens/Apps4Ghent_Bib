@@ -8,3 +8,7 @@ class ItemSerializer(serializers.ModelSerializer):
 class ItemCopySerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemCopy
+
+class SectorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sector
