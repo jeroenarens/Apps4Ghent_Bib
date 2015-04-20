@@ -30,3 +30,7 @@ class ItemCopyViewSet(viewsets.ModelViewSet):
 class SectorViewSet(viewsets.ModelViewSet):
     queryset = Sector.objects.all()
     serializer_class = SectorSerializer
+
+class BorrowerViewSet(viewsets.ModelViewSet):
+    queryset = Borrower.objects.all()
+    serializer_class = BorrowerSerializer
