@@ -44,12 +44,12 @@ class Item(Model):
 class ItemCopy(Model):
     """Represent a physical copy of an item."""
     id = AutoField(primary_key=True)
-    copy_id = TextField()
-    barcode = TextField()
+    copy_id = CharField(max_length=32)
+    barcode = CharField(max_length=64)
     nature = IntegerField()
     bb_number = IntegerField()
-    copy_pk = TextField()
-    in_date = TextField()
+    copy_pk = CharField(max_length=128)
+    in_date = CharField(max_length=10)
 
     class Meta:
         db_table = 'items_copy'
