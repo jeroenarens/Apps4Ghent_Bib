@@ -52,3 +52,13 @@ class ItemCopy(Model):
 
     class Meta:
         db_table = 'items_copy'
+        
+class Sector(Model):
+    """Represents a sector of Ghent"""
+    id = AutoField(primary_key=True)
+    name = TextField()
+    number = IntegerField()
+    cartodb_id = IntegerField()
+
+    class Meta:
+        db_table = 'sectors'
