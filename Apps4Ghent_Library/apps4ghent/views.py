@@ -1,4 +1,5 @@
 from django.shortcuts import render_to_response
+from rest_framework import viewsets
 
 from .serializers import *
 
@@ -18,3 +19,6 @@ def openlayers(request):
 def highmap(request):
     return render_to_response('highmaps.html')
 
+class ItemViewSet(viewsets.ModelViewSet):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
