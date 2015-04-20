@@ -38,8 +38,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'rest_framework_mongoengine',
-    'django_filters_mongoengine',
     'apps4ghent',
 )
 
@@ -71,25 +69,22 @@ WSGI_APPLICATION = 'Apps4Ghent_Library.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-# The default database will be used for django internal stuff like users, sessions, ...
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-# Setup MongoDB
-# http://docs.mongoengine.org/django.html
-import mongoengine
-
 # Load database credentials from a separate file 'database_credentials.py'
 config_module = __import__('Apps4Ghent_Library.database_credentials', globals(), locals(), 'database_credentials')
 for setting in dir(config_module):
     if setting == setting.upper():
         locals()[setting] = getattr(config_module, setting)
 
-mongoengine.connect(_MONGODB_NAME, host=_MONGODB_DATABASE_HOST)
+# Configure the default database
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': _POSTGRES_NAME,
+        'USER': _POSTGRES_USER,
+        'PASSWORD': _POSTGRES_PASSWD,
+        'HOST': _POSTGRES_HOST
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
