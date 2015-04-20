@@ -9,6 +9,7 @@ router = routers.SimpleRouter()
 router.register(r'items', views.ItemViewSet)
 router.register(r'item-copies', views.ItemCopyViewSet)
 router.register(r'sectors', views.SectorViewSet)
+router.register(r'borrowers', views.BorrowerViewSet)
 
 urlpatterns = patterns('',
     # General urls
