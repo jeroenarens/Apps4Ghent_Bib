@@ -84,9 +84,9 @@ class Borrowing(Model):
     """Represents an instance of a borrowing of an item, containing information like dates and the profile of the person that borrowed the item."""
     id = AutoField(primary_key=True)
     borrowing_id = IntegerField()
-    from_date = TextField()
-    lid_number = TextField()
-    barcode = TextField()
+    from_date = CharField(max_length=10)
+    lid_number = CharField(max_length=64)
+    barcode = CharField(max_length=64)
     loan_period = IntegerField()
 
     class Meta:
