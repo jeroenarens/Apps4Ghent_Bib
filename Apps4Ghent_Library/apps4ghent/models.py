@@ -3,6 +3,7 @@ class Item(Model):
     """Represents an item present in the library (e.g. a book),
         storing mostly its description"""
     id = AutoField(primary_key=True)
+    bbnr = IntegerField()
     category_music = TextField()
     type = TextField()
     title = TextField()
