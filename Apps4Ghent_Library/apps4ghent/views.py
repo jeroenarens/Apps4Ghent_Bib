@@ -22,3 +22,7 @@ def highmap(request):
 class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+
+class ItemCopyViewSet(viewsets.ModelViewSet):
+    queryset = ItemCopy.objects.all()
+    serializer_class = ItemCopySerializer
