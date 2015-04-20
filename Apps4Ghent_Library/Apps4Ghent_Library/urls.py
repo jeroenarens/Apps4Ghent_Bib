@@ -7,6 +7,7 @@ from apps4ghent import views
 # Register resources
 router = routers.SimpleRouter()
 router.register(r'items', views.ItemViewSet)
+router.register(r'item-copies', views.ItemCopyViewSet)
 
 urlpatterns = patterns('',
     # General urls
