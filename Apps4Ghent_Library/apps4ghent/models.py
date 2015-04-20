@@ -57,7 +57,7 @@ class ItemCopy(Model):
 class Sector(Model):
     """Represents a sector of Ghent"""
     id = AutoField(primary_key=True)
-    name = TextField()
+    name = CharField(max_length=64)
     number = IntegerField()
     cartodb_id = IntegerField()
 
