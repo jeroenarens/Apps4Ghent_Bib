@@ -62,3 +62,19 @@ class Sector(Model):
 
     class Meta:
         db_table = 'sectors'
+
+class Borrower(Model):
+    """Represents a person who borrows something from the library."""
+    id = AutoField(primary_key=True)
+    lid_number = TextField()
+    decade = IntegerField()
+    sex = CharField(max_length=1)
+    sector = TextField()
+    postcode_start = TextField()
+    subscription_year = IntegerField()
+    subscription_location = TextField()
+    category = TextField()
+    sector_number = IntegerField()
+
+    class Meta:
+        db_table = 'borrowers'
