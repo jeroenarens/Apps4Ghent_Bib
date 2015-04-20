@@ -34,3 +34,7 @@ class SectorViewSet(viewsets.ModelViewSet):
 class BorrowerViewSet(viewsets.ModelViewSet):
     queryset = Borrower.objects.all()
     serializer_class = BorrowerSerializer
+
+class BorrowingViewSet(viewsets.ModelViewSet):
+    queryset = Borrowing.objects.all()
+    serializer_class = BorrowingSerializer
