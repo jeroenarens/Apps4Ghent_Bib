@@ -67,14 +67,14 @@ class Sector(Model):
 class Borrower(Model):
     """Represents a person who borrows something from the library."""
     id = AutoField(primary_key=True)
-    lid_number = TextField()
+    lid_number = CharField(max_length=64)
     decade = IntegerField()
     sex = CharField(max_length=1)
-    sector = TextField()
-    postcode_start = TextField()
+    sector = CharField(max_length=64)
+    postcode_start = CharField(max_length=1)
     subscription_year = IntegerField()
-    subscription_location = TextField()
-    category = TextField()
+    subscription_location = CharField(max_length=8)
+    category = CharField(max_length=8)
     sector_number = IntegerField()
 
     class Meta:
