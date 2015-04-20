@@ -8,6 +8,7 @@ from apps4ghent import views
 router = routers.SimpleRouter()
 router.register(r'items', views.ItemViewSet)
 router.register(r'item-copies', views.ItemCopyViewSet)
+router.register(r'sectors', views.SectorViewSet)
 
 urlpatterns = patterns('',
     # General urls
