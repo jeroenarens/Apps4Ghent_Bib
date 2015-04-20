@@ -16,3 +16,7 @@ class SectorSerializer(serializers.ModelSerializer):
 class BorrowerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Borrower
+
+class BorrowingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Borrowing
