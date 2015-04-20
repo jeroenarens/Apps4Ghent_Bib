@@ -26,3 +26,7 @@ class ItemViewSet(viewsets.ModelViewSet):
 class ItemCopyViewSet(viewsets.ModelViewSet):
     queryset = ItemCopy.objects.all()
     serializer_class = ItemCopySerializer
+
+class SectorViewSet(viewsets.ModelViewSet):
+    queryset = Sector.objects.all()
+    serializer_class = SectorSerializer
