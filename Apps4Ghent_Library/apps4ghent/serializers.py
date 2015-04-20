@@ -12,3 +12,7 @@ class ItemCopySerializer(serializers.ModelSerializer):
 class SectorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sector
+
+class BorrowerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Borrower
