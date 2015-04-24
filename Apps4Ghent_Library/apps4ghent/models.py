@@ -48,7 +48,7 @@ class ItemCopy(Model):
     barcode = CharField(max_length=64)
     nature = IntegerField()
     #bb_number = IntegerField()
-    item = ForeignKey(Item, db_column='item_id')
+    item = ForeignKey(Item, db_column='item_id', related_name='item_copy_set')
     copy_pk = CharField(max_length=128)
     in_date = CharField(max_length=10)
 
@@ -72,7 +72,7 @@ class Borrower(Model):
     decade = IntegerField()
     sex = CharField(max_length=1)
     #sector = CharField(max_length=64)
-    sector = ForeignKey(Sector, db_column='sector_id')
+    sector = ForeignKey(Sector, db_column='sector_id', related_name='borrower_set')
     postcode_start = CharField(max_length=1)
     subscription_year = IntegerField()
     subscription_location = CharField(max_length=8)
@@ -88,9 +88,9 @@ class Borrowing(Model):
     borrowing_id = IntegerField()
     from_date = CharField(max_length=10)
     #lid_number = CharField(max_length=64)
-    borrower = ForeignKey(Borrower, db_column='borrower_id')
+    borrower = ForeignKey(Borrower, db_column='borrower_id', related_name='borrowing_set')
     #barcode = CharField(max_length=64)
-    item_copy = ForeignKey(ItemCopy, db_column='item_copy_id')
+    item_copy = ForeignKey(ItemCopy, db_column='item_copy_id', related_name='borrowing_set')
     loan_period = IntegerField()
 
     class Meta:
