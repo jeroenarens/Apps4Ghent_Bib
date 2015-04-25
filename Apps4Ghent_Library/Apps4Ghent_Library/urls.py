@@ -25,5 +25,6 @@ urlpatterns = patterns('',
     
     # Api section
     url(r'^api/v1/', include(router.urls)),
+    url(r'^api/v1/borrowed-items', views.ListBorrowedItemsView.as_view()),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )
