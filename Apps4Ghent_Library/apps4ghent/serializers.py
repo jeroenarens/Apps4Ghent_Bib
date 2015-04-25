@@ -20,3 +20,8 @@ class BorrowerSerializer(serializers.ModelSerializer):
 class BorrowingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Borrowing
+
+class BorrowedItemSerializer(serializers.Serializer):
+    from_library = serializers.IntegerField()
+    to_sector = serializers.IntegerField()
+    borrowing_count = serializers.IntegerField()
