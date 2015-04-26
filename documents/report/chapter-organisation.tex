@@ -39,10 +39,13 @@
 \begin{itemize}
 	\item Django with django REST framework for the web application and API.
 	\item Apache2 webserver with Web Server Gateway Interface (WSGI) for serving Python applications.
-  \item PostgreSQL database.
+  \item PostgreSQL* database.
   \item HighCharts and HighMaps for visualisation on the client side.
   \item R is used to perform a cleanup of the data.
 \end{itemize}
 
 Open source licences and fast development for all above components outweigh the usage of other technologies.
+
+*It should be noted that we were originally planning on using MongoDB for our database. Because of bad compatibility between Django and MongoDB and the fact that the data would have to be shaped into a very specific form to be used effectively, we chose to switch to PostgreSQL.
+This will improve stability of the application, readability of the code and we can keep the data as close to its original form as possible, so it can be used in more contexts than this one specific application.
 
