@@ -97,3 +97,42 @@
 	\item Continous integration yet to be setup to ease the deployment process.
 	\item Everyone of the team should be familiar with the whole project, especially frontend.
 \end{itemize}
+
+\section{Meeting with Prof. Mannens 26/03}
+{\bf present}: Prof Mannens, assistent, everyone of the team\\
+{\bf purpose}: Discuss previous meetings and decide on what needs to be done next, get some feedback about the current progress and our current approach\\
+\begin{itemize}
+	\item We presented the application prepared for Apps4Ghent hackathon.
+	\item We informed professors about problems with the data from the library. It was released just before the hackathon and contained incorrect rows.
+	\item We informed professors about changing the database enginge to PostgreSQL.
+	\item We informed professors about contacting a group of professionals from hackathon that managed to clean up the data with R programming language. They promised to provide hints how it was done.
+\end{itemize}
+
+\section{Short meeting about linked data 26/03}
+{\bf present}: Pieter Colpaert, everyone of the team\\
+{\bf purpose}: Inform us about a project Pieter's team will be working on for AppsForGent.
+\begin{itemize}
+	\item We decided not to provide API with usage of JSON-LD due to the fact that common schema was not set up for the hackathon.
+\end{itemize}
+
+\section{Meeting with Team 26/03}
+{\bf present}: Everyone of the team\\
+{\bf purpose}: Discuss feedback, planning further work\\
+\begin{itemize}
+	\item We will change database enginge from MongoDB to PostgreSQL because of the problems with building API in Django.
+	\item We drop continous integration setup, the deployments are rare and can be done manually.
+	\item After we get hints for cleaning up the data, Harald will process it and deliver .csv files to import.
+	\item We will deliver top 100 borrowed books for journalist students.
+	\item Damian will set up PostgreSQL on the server with appropiate schema.
+\end{itemize}
+
+\section{Meeting with Team 22/04}
+{\bf present}: Everyone of the team\\
+{\bf purpose}: Discuss the progress and final steps for the application\\
+\begin{itemize}
+	\item The data was yet to be corrected by the library (no matching relations) which delayed the work.
+	\item Top 100 borrowed books list was sent to the journalists.
+	\item Damian will import CSV files to the database and provide a copy.
+	\item Enver will adjust API to use new database engine.
+	\item Jeroen will set up the frontend page with OpenLayers and use API from Enver.
+\end{itemize}
