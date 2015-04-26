@@ -103,7 +103,7 @@
 {\bf purpose}: Discuss previous meetings and decide on what needs to be done next, get some feedback about the current progress and our current approach\\
 \begin{itemize}
 	\item We presented the application prepared for Apps4Ghent hackathon.
-	\item We informed professors about problems with the data from the library. It was released just before the hackathon and contained buggy rows.
+	\item We informed professors about problems with the data from the library. It was released just before the hackathon and contained incorrect rows.
 	\item We informed professors about changing the database enginge to PostgreSQL.
 	\item We informed professors about contacting a group of professionals from hackathon that managed to clean up the data with R programming language. They promised to provide hints how it was done.
 \end{itemize}
@@ -112,14 +112,14 @@
 {\bf present}: Pieter Colpaert, everyone of the team\\
 {\bf purpose}: Inform us about a project Pieter's team will be working on for AppsForGent.
 \begin{itemize}
-	\item We decided not to provide API with usage of JSON-LD.
+	\item We decided not to provide API with usage of JSON-LD due to the fact that common schema was not set up for the hackathon.
 \end{itemize}
 
 \section{Meeting with Team 26/03}
 {\bf present}: Everyone of the team\\
 {\bf purpose}: Discuss feedback, planning further work\\
 \begin{itemize}
-	\item We will change database enginge from MongoDB to PostgreSQL due to problems with building API in Django.
+	\item We will change database enginge from MongoDB to PostgreSQL because of the problems with building API in Django.
 	\item We drop continous integration setup, the deployments are rare and can be done manually.
 	\item After we get hints for cleaning up the data, Harald will process it and deliver .csv files to import.
 	\item We will deliver top 100 borrowed books for journalist students.
