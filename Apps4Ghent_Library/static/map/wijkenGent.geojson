@@ -9,7 +9,8 @@
         "cartodb_id": 4,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:50:24Z",
-        "wijknr": 13
+        "wijknr": 13,
+        "borrowers": 1260
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -173,7 +174,8 @@
         "cartodb_id": 6,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:51:07Z",
-        "wijknr": 9
+        "wijknr": 9,
+        "borrowers": 466
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -341,11 +343,12 @@
       "type": "Feature",
       "properties": {
         "name": "Rabot  - Blaisantvest",
-        "descriptio": "null",
+        "description": "null",
         "cartodb_id": 8,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:51:26Z",
-        "wijknr": 7
+        "wijknr": 7,
+        "borrowers": 498
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -493,7 +496,8 @@
         "cartodb_id": 13,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:53:51Z",
-        "wijknr": 15
+        "wijknr": 15,
+        "borrowers": 893
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -693,7 +697,8 @@
         "cartodb_id": 5,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:50:59Z",
-        "wijknr": 8
+        "wijknr": 8,
+        "borrowers": 580
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1053,7 +1058,8 @@
         "cartodb_id": 7,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:51:17Z",
-        "wijknr": 4
+        "wijknr": 4,
+        "borrowers": 1779
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1349,7 +1355,8 @@
         "cartodb_id": 9,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:51:47Z",
-        "wijknr": 24
+        "wijknr": 24,
+        "borrowers": 1968
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1693,7 +1700,8 @@
         "cartodb_id": 14,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:54:01Z",
-        "wijknr": 20
+        "wijknr": 20,
+        "borrowers": 522
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1969,7 +1977,8 @@
         "cartodb_id": 10,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:52:53Z",
-        "wijknr": 6
+        "wijknr": 6,
+        "borrowers": 844
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2101,7 +2110,8 @@
         "cartodb_id": 11,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:53:26Z",
-        "wijknr": 3
+        "wijknr": 3,
+        "borrowers": 192
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2217,7 +2227,8 @@
         "cartodb_id": 19,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:55:01Z",
-        "wijknr": 10
+        "wijknr": 10,
+        "borrowers": 76
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2401,7 +2412,8 @@
         "cartodb_id": 12,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:53:39Z",
-        "wijknr": 16
+        "wijknr": 16,
+        "borrowers": 575
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2681,7 +2693,8 @@
         "cartodb_id": 21,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:55:23Z",
-        "wijknr": 1
+        "wijknr": 1,
+        "borrowers": 1479
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2945,7 +2958,8 @@
         "cartodb_id": 25,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:56:09Z",
-        "wijknr": 5
+        "wijknr": 5,
+        "borrowers": 1188
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3273,7 +3287,8 @@
         "cartodb_id": 20,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:55:11Z",
-        "wijknr": 2
+        "wijknr": 2,
+        "borrowers": 683
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3449,7 +3464,8 @@
         "cartodb_id": 17,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:54:39Z",
-        "wijknr": 21
+        "wijknr": 21,
+        "borrowers": 379
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3637,7 +3653,8 @@
         "cartodb_id": 24,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:55:59Z",
-        "wijknr": 22
+        "wijknr": 22,
+        "borrowers": 754
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3849,7 +3866,8 @@
         "cartodb_id": 22,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:55:38Z",
-        "wijknr": 17
+        "wijknr": 17,
+        "borrowers": 447
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4053,7 +4071,8 @@
         "cartodb_id": 23,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:55:47Z",
-        "wijknr": 18
+        "wijknr": 18,
+        "borrowers": 731
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4249,7 +4268,8 @@
         "cartodb_id": 1,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:49:53Z",
-        "wijknr": 11
+        "wijknr": 11,
+        "borrowers": 50
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -5513,7 +5533,8 @@
         "cartodb_id": 2,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:50:03Z",
-        "wijknr": 12
+        "wijknr": 12,
+        "borrowers": 793
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6125,7 +6146,8 @@
         "cartodb_id": 3,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:50:17Z",
-        "wijknr": 14
+        "wijknr": 14,
+        "borrowers": 2547
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6497,7 +6519,8 @@
         "cartodb_id": 15,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:54:10Z",
-        "wijknr": 19
+        "wijknr": 19,
+        "borrowers": 579
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6977,7 +7000,8 @@
         "cartodb_id": 16,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:54:19Z",
-        "wijknr": 23
+        "wijknr": 23,
+        "borrowers": 361
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -7457,7 +7481,8 @@
         "cartodb_id": 18,
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:54:48Z",
-        "wijknr": 25
+        "wijknr": 25,
+        "borrowers": 2606
       },
       "geometry": {
         "type": "MultiPolygon",
