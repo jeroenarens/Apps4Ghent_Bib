@@ -1,19 +1,33 @@
 \chapter{Application}
 \section{Architecture}
-\includegraphics[width=16cm]{fig/Architecture}
 
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=16cm]{fig/Architecture}
+ 	 \caption{The final architecture of our web application}
+\end{figure}
 \subsection{Frontend}
-At the frontend side of our web application, we will have two main components, a rendering component and a visualization component. At the rendering block, the data requested via the API from the backend will be transformed into e.g. figures, dots, that can be displayed on the browser. When the transformation is finished, the visualization block will show the transformed data on the website itself.
+At the frontend side of our web application, we will have two main components, a rendering component and a visualization component. At the rendering block, the data requested via the API from the backend will be transformed into e.g. figures, dots, that can be displayed on the browser. When the transformation is finished, the visualization block will show the transformed data on the website itself.\\
 
 \subsection{Backend}
 We make use of three main components in the backend.
-First there is part responsible for importing the data consisting of a script in R that performs a cleanup of the CSV data provided by the Open Datatank and a script that imports this CSV into the database. The second component is the database, for which we will use PostgreSQL, a commonly used relational database. As last main component, we have the django web framework. The blocks in this framework consist of an online and offline section. In the online section we have the REST-API which will be used to open up our data to our website and also towards other applications because of the open data concept. Besides this REST-API there is also a logical unit where the caching of requests, data,... will happen. At the offline section of the Django Web Framework, we will provide an import unit to put the data provided as CSV into our database. This is an offline block since the data is provided as a data dump and only needs to imported once. Since it will make use of the mapping that Django provides between the database and Python objects, it is included in the Django block.
+First there is part responsible for importing the data consisting of a script in R that performs a cleanup of the CSV data provided by the Open Datatank and a script that imports this CSV into the database. The second component is the database, for which we will use PostgreSQL, a commonly used relational database. As last main component, we have the django web framework. The blocks in this framework consist of an online and offline section. In the online section we have the REST-API which will be used to open up our data to our website and also towards other applications because of the open data concept. Besides this REST-API there is also a logical unit where the caching of requests, data,... will happen. At the offline section of the Django Web Framework, we will provide an import unit to put the data provided as CSV into our database. This is an offline block since the data is provided as a data dump and only needs to imported once. Since it will make use of the mapping that Django provides between the database and Python objects, it is included in the Django block.\\
+
+
+\begin{figure}[h!]
+  \centering
+      \includegraphics[width=16cm]{fig/frontend}
+ 	 \caption{Preview of the frontend, when you click on a certain neighbourhood on the interactive map}
+\end{figure}
+
+
+
 
 \section{Functional requirements}
 
 \subsection{User interface}
 
-When the website will be loaded for the first time, at first an empty map of Ghent will be shown, together with one big number counting the sum of all books that were ever loaned at the library of Ghent. The map is divided in statistical sectors. The shape of these sectors is dynamic (online available) and will be retrieved every time the webpage is loaded. Beneath the map, there will be a slider showing the time span in relation to the published data. Every sector can be selected, and if no selection is made, the data will be represented as it was for the whole area of Ghent.  The numbers shown are the amount of books that fit the query. The query is defined by the optional arguments: sector, time span and properties of the books. An example: sector="A2", book: genre="horror". This query will give the amount of horror books loaned in sector A2 over the whole timeline of which we can get some data (1996-2014, this is because there is no time span specified). The book properties of the query are given in an input section above the map. Also shown on the map are distribution locations (libraries). A second layer of visualised data shows where books are loaned from. This relation between statistical sector and the library site can be visualised by a line. The user can zoom in and out on this map and its visualised data by scrolling.
+When the website will be loaded for the first time, at first an empty map of Ghent will be shown, together with one big number counting the sum of all books that were ever loaned at the library of Ghent. The map is divided in neighbourhoods. The shape of these sectors is static and will be shown on the map. Beneath the map, there will be a slider showing the time span in relation to the published data. Every sector can be selected, and if no selection is made, the data will be represented as it was for the whole area of Ghent.  On the website, you can select a neighourhood to query the neighbourhood for more specific information (amount of borrowers, amount of borrowings per person,...). Also different visualisations are possible so you can get a visualisation of certain properties like the amount of borrowings per person per neighbourhood.
 
 \subsection{Linked Data}
 
@@ -60,4 +74,6 @@ Because the main visualisation can get away with only the number of loans for al
 
 \section{Use case}
 
-The library personel can use the web application in two ways, reactively and pro-actively. Respectively by searching on a specific book (title) or on a certain group of books (genre, target-age,...) and otherwise looking for differences between the current distribution (visualised per library) and the preffered distribution (visualised per sector). If the demand of a certain book is skewed for a sector, the copies can be moved closer (towards the library with the least distance) to this sector. If the demand of a group correlates with a sector the personel can decide to anticipate onto the demand of similar books in this group and move these books closer to the specified group.
+The library personel can use the web application in two ways, reactively and pro-actively. Respectively by searching on a specific book (title) or on a certain group of books (genre, target-age,...) and otherwise looking for differences between the current distribution (visualised per library) and the preffered distribution (visualised per sector). If the demand of a certain book is skewed for a sector, the copies can be moved closer (towards the library with the least distance) to this sector. If the demand of a group correlates with a sector the personel can decide to anticipate onto the demand of similar books in this group and move these books closer to the specified group.\\
+
+The data that is however provided by the library does not give us the possibility to continue with the whole use case. We will however be able to show a with some interesting properties per sector, for which the data is fetched from our API. The querying for books,... is not possible anymore since no location data is given from the library spots.

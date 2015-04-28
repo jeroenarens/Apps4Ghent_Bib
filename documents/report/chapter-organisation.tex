@@ -22,25 +22,30 @@
 
 \section{Risks}
 
-\begin{center}
-  \begin{tabular}{ l | c | r  }
-    \hline
-    Risk & Level & Impact \\ \hline
-   & & No interesting website for the library\\
-      Frontend is not interactive & H & . Also no story can be extracted\\
-    & &  for the journalist students \\
-    Data is not specific enough & M & Features can be less accurate \\
-    Data is not released on time & M & Less features can be constructed\\
-  \end{tabular}
-\end{center}
-
+  \subsection{Front end}
+	{\bf Risk}: The main risk on the front end of the website is the visualisation is not finished in time so the application for the library is not responsive or fancy enough for the library. It also eliminates the possibility for the journalism students to extract an interesting story.\\
+	{\bf Impact}: Medium. The impact on our project is of medium level, because some of the important needs of our clients is not fulfilled.\\
+	{\bf Status} The frontend website is already finished and ready to incorporate the data provided from the API. It is responsive on pc's, but has some small flaws on mobile devices. 
+  \subsection{Library data missing or not useful}
+	{\bf Risk}: if the data of the library is missing or contains too many flaws, than it is for us not possible to get some useful characteristics of the data.\\
+	{\bf Impact}: Very high, if the data is not present or too uncomplete, a big part of our project can be influenced very hard in a bad way.\\
+	{\bf Status}: We received the data of the library a couple of weeks ago. The data contains however some flaws and a lot of data is not shown. It is not possible for us to show all the visualisations we would like to show because of this delay and lack of certain properties.
+  \subsection{Data cleaning}
+	{\bf Risk}: The data cleaning is not done on time, which would mean that we would have to trust on the uncleaned data of the library.\\
+	{\bf Impact}: Medium: The lack of cleaning can cause a further diminishment of functionality of our tool or API.\\
+	{\bf Status}: The data cleaning is almost done and is thereby almost included in the database of our website. We also had some help from a participant of the Apps4Ghent hackathon which helped us to win some time.
+  \subsection{API not working}
+	{\bf Risk}: The API is not finished on time.\\
+	{\bf Impact}: Very high: the main purpose of this project is also about open data. If we can not provide an API that can be used by others, this open data requirement can not be fulfilled.\\
+	{\bf Status}: A first version is made. For now we need to wait for the finalisation of the database with the cleaned data. Afterwards, the database can be included
+\newpage
 \section{Technologies used}
 
 \begin{itemize}
 	\item Django with django REST framework for the web application and API.
 	\item Apache2 webserver with Web Server Gateway Interface (WSGI) for serving Python applications.
   \item PostgreSQL* database.
-  \item HighCharts and HighMaps for visualisation on the client side.
+  \item Openlayers is used for the visualisation on the client side. \cite{openlayers}
   \item R is used to perform a cleanup of the data.
 \end{itemize}
 
