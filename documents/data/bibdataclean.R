@@ -100,6 +100,7 @@ notinbibbeschrijving$Boek.BBnr <- as.factor(notinbibbeschrijving$Boek.BBnr)
 boeken=rbind(beschrijving.bib,notinbibbeschrijving)
 #check if all in beschrijving
 nrow(exemplaren)
+exemplaren=exemplaren[(exemplaren$Boek.BBnr %in%  boeken$Boek.BBnr),]
 nrow(exemplaren[(exemplaren$Boek.BBnr %in%  boeken$Boek.BBnr),])
 
 #sort on id 
@@ -107,6 +108,30 @@ boeken=boeken[order(boeken$Boek.BBnr),]
 #for some reason, there are duplicate rows originating from notinopenbeschrijving
 boeken = boeken[!duplicated(boeken), ]
 nrow(boeken[duplicated(boeken), ])
+boeken<-boeken[which(boeken$Boek.BBnr!=""),]
+
+
+#clean borrowers, remove borrowers without a singel borrowing
+nrow(leners)
+leners <- leners[leners$Lid.lidnummer %in% ontleningen.geldig$Lid.lidnummer,]
+nrow(leners)
+
+#add integer foreign keys tables
+
+#add int key for leners, already present
+#add int key for exemplaren
+exemplaren$Exemplaar.id <- as.numeric(exemplaren$Exemplaar.id)
+#add int key for boeken
+#first remove any non-valid (empty) bb-nrs
+boeken$Boek.id <- as.numeric(boeken$Boek.BBnr)
+#add matching new int foreign keys (Lener.id and Exemplaar.id) to ontleningen
+ontleningen.geldig$Exemplaar.id <- exemplaren$Exemplaar.id[match(ontleningen.geldig$Exemplaar.barcode,exemplaren$Exemplaar.barcode)]
+ontleningen.geldig$Lid.id <- leners$Lid.id[match(ontleningen.geldig$Lid.lidnummer,leners$Lid.lidnummer)]
+
+#add matching new int foreign keys of bbnrs to exenplaren
+exemplaren$Boek.id <- boeken$Boek.id[match(exemplaren$Boek.BBnr,boeken$Boek.BBnr)]
+
+
 #save new data to csv
 dir.create("cleaned_data", showWarnings = FALSE)
 #leners met na een lege string
