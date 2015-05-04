@@ -44,12 +44,20 @@ if(!exists("wijken")) {
 #toon wijken van leden die geen id op de map hebben
 setdiff(leners$Lid.wijknaam,wijken$Wijk.wijknaam)
 setdiff(wijken$Wijk.wijknaam,leners$Lid.wijknaam)
+#add area and population
+wijken.area_population <- read.csv('original_data/sectors_area_population.txt', header = TRUE, sep=';',stringsAsFactors=FALSE)
+#map new info, renove name column as this is duplicate
+wijken <- merge(wijken,wijken.area_population,by.x="Wijk.cartodb_id",by.y="id")[,-(4)]
+
+
 #voeg UNKNON en NA toe aan wijken
-wijken=rbind(wijken, c(NA,-1,-1))
-wijken=rbind(wijken, c("UNKNOWN",0,0))
+wijken=rbind(wijken, c(NA,-1,-1,0,0))
+wijken=rbind(wijken, c("UNKNOWN",0,0,0,0))
+
 
 
 #ontlening opkuisen, verwijder dangling foreign keys
+
 #ontleningen met geldig barcode
 nrow(ontleningen[(ontleningen$Exemplaar.barcode) %in% exemplaren$Exemplaar.barcode,])
 ontleningen.geldigexamplaar= ontleningen[(ontleningen$Exemplaar.barcode) %in% exemplaren$Exemplaar.barcode,]
@@ -77,9 +85,9 @@ leners=leners[,-which(names(leners) %in% c("X"))]
 
 
 #load data which maps bbnr to isbn, titel, artist
-beschrijving.bib <- read.csv('original_data/beschrijvingPIPE.csv', header = TRUE, sep='|')
+beschrijving.bib <- read.csv('original_data/beschrijvingPIPE-utf8.csv', header = TRUE, sep='|')
 #remove X column
-beschrijving.bib=beschrijving.bib[,-which(names(beschrijving.bib) %in% c("X"))]
+beschrijving.bib<-beschrijving.bib[,-which(names(beschrijving.bib) %in% c("emptyfield"))]
 names(beschrijving.bib) <- c("Boek.BBnr", "Boek.category_music", "Boek.type",
                              "Boek.title", "Boek.author_type", "Boek.ISBN_wrong", "Boek.category_youth", 
                              "Boek.ISSN", "Boek.language", "Boek.EAN", "Boek.age", "Boek.series_edition", "Boek.keywords_youth", 
@@ -88,48 +96,105 @@ names(beschrijving.bib) <- c("Boek.BBnr", "Boek.category_music", "Boek.type",
                              "Boek.ISSN_wrong", "Boek.SISO_libraries", "Boek.AVI", "Boek.openvlaccid", "Boek.keyword_adults", "Boek.ZIZO", "Boek.series_title", "Boek.keyword_youth")
 #ontleningen
 
+
+#skip this??? 
 #not all BBnr are present in bib beschrijving
-vectorNIBB=exemplaren[!(exemplaren$Boek.BBnr %in%  beschrijving.bib$Boek.BBnr),"Boek.BBnr"]
+#vectorNIBB=exemplaren[!(exemplaren$Boek.BBnr %in%  beschrijving.bib$Boek.BBnr),"Boek.BBnr"]
 #add missing BB nrs to a data frame
-notinbibbeschrijving <- data.frame(vectorNIBB)
-notinbibbeschrijving[,c(2:length(colnames(beschrijving.bib)))]=""
-colnames(notinbibbeschrijving)=colnames(beschrijving.bib)
+#notinbibbeschrijving <- data.frame(vectorNIBB)
+#notinbibbeschrijving[,c(2:length(colnames(beschrijving.bib)))]=""
+#colnames(notinbibbeschrijving)=colnames(beschrijving.bib)
 #add those dangling foreign keys as empty rows in openbeschrijving
 #but first convert the data frame containing the new bbnr's to a factor and not int
-notinbibbeschrijving$Boek.BBnr <- as.factor(notinbibbeschrijving$Boek.BBnr)
-boeken=rbind(beschrijving.bib,notinbibbeschrijving)
+#notinbibbeschrijving$Boek.BBnr <- as.factor(notinbibbeschrijving$Boek.BBnr)
+#boeken=rbind(beschrijving.bib,notinbibbeschrijving)
 #check if all in beschrijving
-nrow(exemplaren)
-exemplaren=exemplaren[(exemplaren$Boek.BBnr %in%  boeken$Boek.BBnr),]
-nrow(exemplaren[(exemplaren$Boek.BBnr %in%  boeken$Boek.BBnr),])
+#nrow(exemplaren)
+#exemplaren=exemplaren[(exemplaren$Boek.BBnr %in%  boeken$Boek.BBnr),]
+#nrow(exemplaren[(exemplaren$Boek.BBnr %in%  boeken$Boek.BBnr),])
+boeken<-beschrijving.bib
 
+
+#all data has been loaded, start foreign key clean up
+
+#boeken, will be imported as is in DB, clean-up is only for correspondence in other tables
+
+#boeken$Boek.BBnr<-as.numeric(as.character(boeken$Boek.BBnr))
 #sort on id 
-boeken=boeken[order(boeken$Boek.BBnr),]
-#for some reason, there are duplicate rows originating from notinopenbeschrijving
-boeken = boeken[!duplicated(boeken), ]
-nrow(boeken[duplicated(boeken), ])
+boeken<-boeken[order(boeken$Boek.BBnr),]
+#remove duplicate rows
+boeken <- boeken[!duplicated(boeken$Boek.BBnr), ]
+nrow(boeken[duplicated(boeken$Boek.BBnr), ])
 boeken<-boeken[which(boeken$Boek.BBnr!=""),]
 
 
+#exemplaren
+
+length(setdiff(exemplaren$Boek.BBnr,boeken$Boek.BBnr))
+#remove those without bbnr
+exemplaren<-(subset(exemplaren,!is.na(exemplaren$Boek.BBnr)))
+#remove those with bbnr not in boeken
+exemplaren<-exemplaren[(exemplaren$Boek.BBnr %in%  boeken$Boek.BBnr),]
+#remove duplicates
+exemplaren<-exemplaren[!duplicated(exemplaren$Exemplaar.barcode),]
+#check
+nrow(subset(exemplaren,is.na(exemplaren$Exemplaar.id)))
+nrow(exemplaren[duplicated(exemplaren$Exemplaar.id),])
+nrow(exemplaren[duplicated(exemplaren$Exemplaar.barcode),])
+#add int key for exemplaren
+exemplaren$Exemplaar.id <- as.numeric(exemplaren$Exemplaar.barcode)
+
+#leners
+
+#in leners an int primary key is present
 #clean borrowers, remove borrowers without a singel borrowing
 nrow(leners)
+leners <-leners[!duplicated(leners$Lid.lidnummer),]
 leners <- leners[leners$Lid.lidnummer %in% ontleningen.geldig$Lid.lidnummer,]
 nrow(leners)
 
-#add integer foreign keys tables
 
-#add int key for leners, already present
-#add int key for exemplaren
-exemplaren$Exemplaar.id <- as.numeric(exemplaren$Exemplaar.id)
-#add int key for boeken
-#first remove any non-valid (empty) bb-nrs
-boeken$Boek.id <- as.numeric(boeken$Boek.BBnr)
 #add matching new int foreign keys (Lener.id and Exemplaar.id) to ontleningen
 ontleningen.geldig$Exemplaar.id <- exemplaren$Exemplaar.id[match(ontleningen.geldig$Exemplaar.barcode,exemplaren$Exemplaar.barcode)]
 ontleningen.geldig$Lid.id <- leners$Lid.id[match(ontleningen.geldig$Lid.lidnummer,leners$Lid.lidnummer)]
+#remove rows zith dangling foreing keys
+ontleningen.geldig <-ontleningen.geldig[ontleningen.geldig$Exemplaar.id %in% exemplaren$Exemplaar.id,]
 
-#add matching new int foreign keys of bbnrs to exenplaren
-exemplaren$Boek.id <- boeken$Boek.id[match(exemplaren$Boek.BBnr,boeken$Boek.BBnr)]
+#add correct primary key
+ontleningen.geldig.id <- rownames(ontleningen.geldig)
+ontleningen.geldig <- cbind(Ontlening.id=ontleningen.geldig.id, ontleningen.geldig)
+#remove old primary key
+ontleningen.geldig <- ontleningen.geldig [,-which(names(ontleningen.geldig ) %in% c("Ontlening.bid"))]
+
+#check
+nrow(subset(ontleningen.geldig,(is.na(ontleningen.geldig$Exemplaar.id))|| (is.na(ontleningen.geldig$Lid.id))))
+
+#check everything again
+#check every primary key for uniqueness
+nrow(boeken[duplicated(boeken$Boek.BBnr), ])
+nrow(exemplaren[duplicated(exemplaren$Exemplaar.id), ])
+nrow(leners[duplicated(leners$Lid.id), ])
+nrow(ontleningen.geldig[duplicated(ontleningen.geldig$Ontlening.id), ])
+
+#check every foreign key for existence
+nrow(ontleningen.geldig[!(ontleningen.geldig$Lid.lidnummer %in% leners$Lid.lidnummer),])
+nrow(ontleningen.geldig[!(ontleningen.geldig$Exemplaar.id %in% exemplaren$Exemplaar.id),])
+nrow(exemplaren[!(exemplaren$Boek.BBnr %in% boeken$Boek.BBnr),])
+
+
+nrow(subset(ontleningen.geldig,(is.na(ontleningen.geldig$Exemplaar.id))|| (is.na(ontleningen.geldig))))
+
+#todo
+#convert id columns to correct format without scientific notiation for exemplaren 
+ontleningen.geldig$Exemplaar.id<- format(ontleningen.geldig$Exemplaar.id, scientific = FALSE)
+exemplaren$Exemplaar.id<- format(exemplaren$Exemplaar.id, scientific = FALSE)
+# returns string w/o leading whitespace
+trim.leading <- function (x)  sub("^\\s+", "", x)
+ontleningen.geldig$Exemplaar.id<- trim.leading(ontleningen.geldig$Exemplaar.id)
+exemplaren$Exemplaar.id<- trim.leading(exemplaren$Exemplaar.id)
+
+
+
 
 
 #save new data to csv
