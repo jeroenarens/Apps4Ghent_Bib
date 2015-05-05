@@ -51,10 +51,12 @@ wijken <- merge(wijken,wijken.area_population,by.x="Wijk.cartodb_id",by.y="id")[
 
 
 #voeg UNKNON en NA toe aan wijken
-wijken=rbind(wijken, c(NA,-1,-1,0,0))
-wijken=rbind(wijken, c("UNKNOWN",0,0,0,0))
+#26;;-1;0;0
+wijken=rbind(wijken, c(26,NA,-1,0,0))
+#27;UNKNOWN;0;0;0
+wijken=rbind(wijken, c(27,"UNKNOWN",0,0,0))
 
-
+#add wijk 
 
 #ontlening opkuisen, verwijder dangling foreign keys
 
@@ -70,7 +72,7 @@ ontleningen.geldiglid = ontleningen[ontleningen$Lid.lidnummer %in% leners$Lid.li
 nrow(ontleningen.geldiglid)
 nrow(ontleningen.geldiglid[ontleningen.geldiglid$Lid.lidnummer %in% leners$Lid.lidnummer ,])
 
-#ontlengingen met enkel geldige vreemde sleutels
+#ontlengingen met enkel geldige vreemde sleutels, written lapply because of memory shortage otherwise
 dfList <- list(ontleningen.geldigexamplaar, ontleningen.geldiglid)
 idx <- Reduce(intersect, lapply(dfList, rownames))
 ontleningen.geldig=ontleningen.geldigexamplaar[idx, ]
@@ -78,8 +80,10 @@ nrow(ontleningen.geldig[ontleningen.geldig$Lid.lidnummer %in% leners$Lid.lidnumm
 nrow(ontleningen.geldig[(ontleningen.geldig$Exemplaar.barcode) %in% exemplaren$Exemplaar.barcode,])
 
 #leners
-#add wijk naam with wijk nr
+#add wijk naam with wijk nr and add Wijk.cartodb_id to leners
 leners$Lid.wijknr <- wijken$Wijk.wijknr[match(leners$Lid.wijknaam,wijken$Wijk.wijknaam)]
+leners$Wijk.cartodb_id <- wijken$Wijk.cartodb_id[match(leners$Lid.wijknaam,wijken$Wijk.wijknaam)]
+
 #remove X column
 leners=leners[,-which(names(leners) %in% c("X"))]
 
@@ -184,7 +188,6 @@ nrow(exemplaren[!(exemplaren$Boek.BBnr %in% boeken$Boek.BBnr),])
 
 nrow(subset(ontleningen.geldig,(is.na(ontleningen.geldig$Exemplaar.id))|| (is.na(ontleningen.geldig))))
 
-#todo
 #convert id columns to correct format without scientific notiation for exemplaren 
 ontleningen.geldig$Exemplaar.id<- format(ontleningen.geldig$Exemplaar.id, scientific = FALSE)
 exemplaren$Exemplaar.id<- format(exemplaren$Exemplaar.id, scientific = FALSE)
@@ -192,8 +195,6 @@ exemplaren$Exemplaar.id<- format(exemplaren$Exemplaar.id, scientific = FALSE)
 trim.leading <- function (x)  sub("^\\s+", "", x)
 ontleningen.geldig$Exemplaar.id<- trim.leading(ontleningen.geldig$Exemplaar.id)
 exemplaren$Exemplaar.id<- trim.leading(exemplaren$Exemplaar.id)
-
-
 
 
 
