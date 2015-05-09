@@ -11,6 +11,8 @@ router.register(r'item-copies', views.ItemCopyViewSet)
 router.register(r'sectors', views.SectorViewSet)
 router.register(r'borrowers', views.BorrowerViewSet)
 router.register(r'borrowings', views.BorrowingViewSet)
+router.register(r'borrowingswithborrower', views.BorrowingWithBorrowerViewSet)
+
 
 urlpatterns = patterns('',
     # General urls

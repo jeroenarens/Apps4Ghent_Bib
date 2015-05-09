@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response
 from django.db import connection
 from rest_framework import viewsets, views
 from rest_framework.response import Response
-
+from django_filters import *
 from .serializers import *
 from .utils import dictfetchall
 
@@ -41,6 +41,10 @@ class BorrowerViewSet(viewsets.ModelViewSet):
 class BorrowingViewSet(viewsets.ModelViewSet):
     queryset = Borrowing.objects.all()
     serializer_class = BorrowingSerializer
+
+class BorrowingWithBorrowerViewSet(viewsets.ModelViewSet):
+    queryset = Borrowing.objects.all()
+    serializer_class = BorrowingWithBorrowerSerializer
 
 class ListBorrowedItemsView(views.APIView):
 
