@@ -61,3 +61,7 @@ class ListBorrowedItemsView(views.APIView):
         data = self.fetch_data_from_db()
         serializer = BorrowedItemSerializer(data, many=True)
         return Response(serializer.data)
+
+class BooksPerLibraryViewSet(viewsets.ModelViewSet):
+    queryset = ItemCopy.objects.filter(copy_pk__icontains='HB')
+    serializer_class = ItemCopySerializer

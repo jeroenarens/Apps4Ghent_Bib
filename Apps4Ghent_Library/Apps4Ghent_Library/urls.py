@@ -12,6 +12,7 @@ router.register(r'sectors', views.SectorViewSet)
 router.register(r'borrowers', views.BorrowerViewSet)
 router.register(r'borrowings', views.BorrowingViewSet)
 router.register(r'borrowingswithborrower', views.BorrowingWithBorrowerViewSet)
+router.register(r'booksPerLibrary', views.BooksPerLibraryViewSet)
 
 
 urlpatterns = patterns('',
