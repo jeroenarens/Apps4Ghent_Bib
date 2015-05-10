@@ -3,40 +3,41 @@ class Item(Model):
     """Represents an item present in the library (e.g. a book),
         storing mostly its description"""
     id = AutoField(primary_key=True)
-    bbnr = IntegerField()
-    category_music = CharField(max_length=50)
-    type = CharField(max_length=30)
-    title = TextField()
-    author_type = CharField(max_length=30)
-    isbn_wrong = CharField(max_length=50)
-    category_youth = CharField(max_length=50)
-    issn = CharField(max_length=30)
-    language = CharField(max_length=50)
-    ean = CharField(max_length=30)
-    age = CharField(max_length=30)
-    series_edition = CharField(max_length=255)
-    keywords_youth = CharField(max_length=128)
-    author_lastname = CharField(max_length=128)
-    publisher = CharField(max_length=255)
-    author_firstname = CharField(max_length=128)
-    keywords_libraries = CharField(max_length=128)
-    year_published = CharField(max_length=128)
-    keywords_local = CharField(max_length=128)
-    pages = CharField(max_length=255)
-    category_adults = CharField(max_length=64)
-    siso = CharField(max_length=64)
-    literarytype = CharField(max_length=64)
-    ean_wrong = CharField(max_length=64)
-    isbn = CharField(max_length=64)
-    issn_wrong = CharField(max_length=64)
-    siso_libraries = CharField(max_length=64)
-    avi = CharField(max_length=16)
-    openvlaccid = CharField(max_length=16)
-    keyword_adults = CharField(max_length=128)
-    zizo = CharField(max_length=16)
-    series_title = CharField(max_length=255)
-    keyword_youth = CharField(max_length=64)
-    na = TextField()
+    category_music = CharField(max_length=50,null=True)
+    type = CharField(max_length=30,null=True)
+    title = TextField(null=True)
+    author_type = CharField(max_length=30,null=True)
+    isbn_wrong = CharField(max_length=50,null=True)
+    category_youth = CharField(max_length=50,null=True)
+    issn = CharField(max_length=30,null=True)
+    language = CharField(max_length=50,null=True)
+    ean = CharField(max_length=30,null=True)
+    age = CharField(max_length=30,null=True)
+    series_edition = CharField(max_length=255,null=True)
+    keywords_youth = CharField(max_length=128,null=True)
+    author_lastname = CharField(max_length=128,null=True)
+    publisher = CharField(max_length=255,null=True)
+    author_firstname = CharField(max_length=128,null=True)
+    keywords_libraries = CharField(max_length=128,null=True)
+    year_published = CharField(max_length=128,null=True)
+    keywords_local = CharField(max_length=128,null=True)
+    pages = CharField(max_length=255,null=True)
+    category_adults = CharField(max_length=64,null=True)
+    siso = CharField(max_length=64,null=True)
+    literarytype = CharField(max_length=64,null=True)
+    ean_wrong = CharField(max_length=64,null=True)
+    isbn = CharField(max_length=64,null=True)
+    issn_wrong = CharField(max_length=64, null=True)
+    siso_libraries = CharField(max_length=64, null=True)
+    avi = CharField(max_length=16, null=True)
+    openvlaccid = CharField(max_length=16, null=True)
+    keyword_adults = CharField(max_length=128, null=True)
+    zizo = CharField(max_length=16, null=True)
+    series_title = CharField(max_length=255, null=True)
+    keyword_youth = CharField(max_length=64, null=True)
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         db_table = 'items'
@@ -44,13 +45,15 @@ class Item(Model):
 class ItemCopy(Model):
     """Represent a physical copy of an item."""
     id = AutoField(primary_key=True)
-    copy_id = CharField(max_length=32)
-    barcode = CharField(max_length=64)
-    nature = IntegerField()
+    barcode = CharField(max_length=64, null=True)
+    nature = IntegerField(null=True)
     #bb_number = IntegerField()
-    item = ForeignKey(Item, db_column='item_id', related_name='item_copy_set')
-    copy_pk = CharField(max_length=128)
-    in_date = CharField(max_length=10)
+    item_id = ForeignKey(Item, db_column='item_id', related_name='item_copy_set', null=True)
+    copy_pk = CharField(max_length=128, null=True)
+    in_date = CharField(max_length=10, null=True)
+
+    def __str__(self):
+        return str(self.id) + ": " + str(self.item_id)
 
     class Meta:
         db_table = 'items_copy'
@@ -58,9 +61,12 @@ class ItemCopy(Model):
 class Sector(Model):
     """Represents a sector of Ghent"""
     id = AutoField(primary_key=True)
-    name = CharField(max_length=64)
-    number = IntegerField()
-    cartodb_id = IntegerField()
+    name = CharField(max_length=64,null=True)
+    number = IntegerField(null=True)
+    area = FloatField(null=True)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         db_table = 'sectors'
@@ -68,16 +74,19 @@ class Sector(Model):
 class Borrower(Model):
     """Represents a person who borrows something from the library."""
     id = AutoField(primary_key=True)
-    lid_number = CharField(max_length=64)
-    decade = IntegerField()
-    sex = CharField(max_length=1)
-    #sector = CharField(max_length=64)
-    sector = ForeignKey(Sector, db_column='sector_id', related_name='borrower_set')
-    postcode_start = CharField(max_length=1)
-    subscription_year = IntegerField()
-    subscription_location = CharField(max_length=8)
-    category = CharField(max_length=8)
-    #sector_number = IntegerField()
+    lid_number = CharField(max_length=64,null=True)
+    decade = IntegerField(null=True)
+    sex = CharField(max_length=1,null=True)
+    sector = CharField(max_length=64,null=True)
+    postcode_start = CharField(max_length=1,null=True)
+    subscription_year = IntegerField(null=True)
+    subscription_location = CharField(max_length=8,null=True)
+    category = CharField(max_length=8,null=True)
+    sector_number = IntegerField(null=True)
+    sector_id = ForeignKey(Sector, db_column='sector_id', related_name='borrower_set', null=True)
+
+    def __str__(self):
+        return self.lid_number
 
     class Meta:
         db_table = 'borrowers'
@@ -85,13 +94,16 @@ class Borrower(Model):
 class Borrowing(Model):
     """Represents an instance of a borrowing of an item, containing information like dates and the profile of the person that borrowed the item."""
     id = AutoField(primary_key=True)
-    borrowing_id = IntegerField()
-    from_date = CharField(max_length=10)
-    #lid_number = CharField(max_length=64)
-    borrower = ForeignKey(Borrower, db_column='borrower_id', related_name='borrowing_set')
-    #barcode = CharField(max_length=64)
-    item_copy = ForeignKey(ItemCopy, db_column='item_copy_id', related_name='borrowing_set')
-    loan_period = IntegerField()
+    from_date = CharField(max_length=10,null=True)
+    lid_number = CharField(max_length=64,null=True)
+    barcode = CharField(max_length=64, null=True)
+    loan_period = IntegerField(null=True)
+    item_copy_id = ForeignKey(ItemCopy, db_column='item_copy_id', related_name='borrowing_set', null=True)
+    borrower_id = ForeignKey(Borrower, db_column='borrower_id', related_name='borrowing_set', null=True)
+    def __str__(self):
+        return self.id
 
     class Meta:
         db_table = 'borrowings'
+
+
