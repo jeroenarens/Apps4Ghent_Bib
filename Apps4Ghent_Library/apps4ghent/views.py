@@ -1,4 +1,5 @@
 from django.shortcuts import render_to_response
+from django.template.context import RequestContext
 from django.db import connection
 from rest_framework import viewsets, views, generics
 from rest_framework.response import Response
@@ -8,11 +9,16 @@ from .filters import *
 from .utils import dictfetchall
 
 def index(request):
-
    return render_to_response('index2.html')
 
 def overview(request):
-    return render_to_response('overview.html')
+    context = dict()
+    borrower = Borrower.objects.filter(decade=1940, sex='M')
+    borrowings = Borrowing.objects.filter(borrower=borrower)
+    #borrowingssummer = borrowings.filter(from_date='19/12/2012')
+    borrowings2 = borrowings.count().distinct('item_copy')
+    context['items'] = borrowings2[:10]
+    return render_to_response('overview.html', context)
 
 def leaflet(request):
     return render_to_response('leaflet.html')

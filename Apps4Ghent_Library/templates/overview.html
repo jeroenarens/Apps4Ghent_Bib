@@ -48,49 +48,6 @@
     <div class="row">
         <div id="filter-panel" class="filter-panel">
             <div class="panel panel-default">
-                <div class="panel-body">
-                    <form class="form-inline" role="form">
-                        <!-- form group [Category 1] -->
-                        <div class="form-group">
-                            <label class="filter-col" style="margin-right:0;" for="pref-perpage">Category 1:</label>
-                            <select id="categoryFilter1" class="form-control">
-                                <option>---</option>
-                                <option value="fiction">Fiction</option>
-                                <option value="history">History</option>
-                                <option value="humor">Humor</option>
-                                <option value="travel">Travel</option>
-                            </select>
-                        </div>
-                        <!-- form group [Category 2] -->
-                        <div class="form-group" style="margin-left: 20px;">
-                            <label class="filter-col" style="margin-right:0;" for="pref-perpage">Category 2:</label>
-                            <select id="categoryFilter1" class="form-control">
-                                <option>---</option>
-                                <option value="fiction">Fiction</option>
-                                <option value="history">History</option>
-                                <option value="humor">Humor</option>
-                                <option value="travel">Travel</option>
-                            </select>
-                        </div>
-                        <!-- form group [Category 3] -->
-                        <div class="form-group" style="margin-left: 20px;">
-                            <label class="filter-col" style="margin-right:0;" for="pref-perpage">Category 3:</label>
-                            <select id="categoryFilter1" class="form-control">
-                                <option>---</option>
-                                <option value="fiction">Fiction</option>
-                                <option value="history">History</option>
-                                <option value="humor">Humor</option>
-                                <option value="travel">Travel</option>
-                            </select>
-                        </div>
-                        <!-- form group [Filter button] -->
-                        <div class="form-group" style="margin-left: 20px;">
-                            <button type="submit" class="btn btn-default filter-col">
-                                <span class="glyphicon glyphicon-filter"></span> Filter
-                            </button>
-                        </div>
-                    </form>
-                </div>
             </div>
         </div>
     </div>
@@ -98,91 +55,23 @@
 
 <div class="container">
 
-
-    <div class="row">
+    {% for item in items %}
         <div class="col-md-6">
             <div class="well">
 
                 <div class="row">
                     <div class="col-sm-6 col-md-4">
-                        <img src="{% static "img/Gods_dwazen.jpg" %}" alt="" class="img-rounded img-responsive"/>
+                        <img src="{% static "img/Unknown-Book.jpg" %}" alt="" class="img-rounded img-responsive"/>
                     </div>
                     <div class="col-sm-6 col-md-8">
-                        <h4>Gods dwazen</h4>
-                        <p>Ballinger W.A.</p>
-
-                        <p>
-                            Fiction<br>
-                            History
-                        </p>
+                        <h4>{{ item.item_copy.item.title }}</h4>
+                        <p>{{ item.item_copy.item.author_firstname }}{{ item.item_copy.item.author_lastname }}</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="well">
+    {% endfor %}
 
-                <div class="row">
-                    <div class="col-sm-6 col-md-4">
-                        <img src="{% static "img/220px-CheaperByTheDozen.jpg" %}" alt="" class="img-rounded img-responsive"/>
-                    </div>
-                    <div class="col-sm-6 col-md-8">
-                        <h4>Cheaper by the Dozen</h4>
-                        <p>Frank B. Gilbreth</p>
-
-                        <p>
-                            Art<br>
-                            Music
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="well">
-
-                <div class="row">
-                    <div class="col-sm-6 col-md-4">
-                        <img src="{% static "img/9781433204074_p0_v1_s260x420.jpg" %}" alt="" class="img-rounded img-responsive"/>
-                    </div>
-                    <div class="col-sm-6 col-md-8">
-                        <h4>The Good Earth</h4>
-                        <p>Pearl S. Buck</p>
-
-                        <p>
-                            Sport<br>
-                            Travel
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="well">
-
-                <div class="row">
-                    <div class="col-sm-6 col-md-4">
-                        <img src="{% static "img/Benjamin Franklin An American Life.jpg" %}" alt="" class="img-rounded img-responsive"/>
-                    </div>
-                    <div class="col-sm-6 col-md-8">
-                        <h4>Benjamin Franklin: An American Life</h4>
-                        <p>Walter Isaacson</p>
-
-                        <p>
-                            Religion<br>
-                            Politics<br>
-                            Drama
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
 </div>
 <hr>
 </body>

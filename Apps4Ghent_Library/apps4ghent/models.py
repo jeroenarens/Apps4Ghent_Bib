@@ -115,8 +115,8 @@ class Borrowing(Model):
     lid_number = CharField(max_length=64,null=True)
     barcode = CharField(max_length=64, null=True)
     loan_period = IntegerField(null=True)
-    item_copy = ForeignKey(ItemCopy, db_column='item_copy_id', related_name='borrowing_set', null=True)
-    borrower = ForeignKey(Borrower, db_column='borrower_id', related_name='borrowing_set', null=True)
+    item_copy = ForeignKey(ItemCopy, db_column='item_copy_id', related_name='borrowing_set_item', null=True)
+    borrower = ForeignKey(Borrower, db_column='borrower_id', related_name='borrowing_set_borrower', null=True)
     
     def __str__(self):
         return str(self.id)
