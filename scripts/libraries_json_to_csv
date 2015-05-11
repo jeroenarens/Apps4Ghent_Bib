@@ -1,0 +1,83 @@
+#!/usr/bin/env ruby
+
+require 'json'
+require 'csv'
+require 'optparse'
+
+def parse_options
+  options = {}
+  parser = OptionParser.new do |opts|
+    opts.banner = "Converts a json file containing library locations (as fetched from data.gent.be) to a cleaned up csv file"
+
+    opts.on('-f JSON_FILE', '--file JSON_FILE') do |json_file|
+      options[:json_file] = json_file
+    end
+  end
+
+  begin 
+    parser.parse!(ARGV)
+    raise "Please specify an input json file!" unless options[:json_file]
+  rescue StandardError => e
+    STDERR.puts "Error: #{e.message}"
+    STDERR.puts
+    STDERR.puts parser.help
+
+    exit(1)
+  end
+  options
+end
+
+ATTRIBUTE_MAP = {
+  "LOCATIE" => :location,
+  "AFDELING"=> :name,
+  "CODE_FILIA" => :branch_code
+}
+
+def get_attribute_name(attribute)
+  attribute["@attributes"]["name"]
+end
+
+def get_attribute_value(attribute)
+  attribute["@text"]
+end
+
+def read_library(data)
+  library = {}
+
+  # Extract attributes from schemadata
+  data["ExtendedData"]["SchemaData"]["SimpleData"].each do |attribute|
+    attr_name = get_attribute_name(attribute)
+    library_attr = ATTRIBUTE_MAP[attr_name]
+    library[library_attr] = get_attribute_value(attribute) if library_attr
+  end
+  
+  # Extract coordinates (non-schema data)
+  coordinates = data["Point"]["coordinates"]["@text"]
+  library[:longitude], library[:latitude], _ = *coordinates.split(/,/)
+  library
+end
+
+# Parse options
+options = parse_options
+
+# Open file and read libraries
+json_content = File.read(options[:json_file])
+data_hash = JSON.parse(json_content)
+libraries_data = data_hash["Document"]["Folder"]["Placemark"]
+libraries = []
+
+libraries_data.each do |library_data|
+   libraries << read_library(library_data)
+end
+
+# Write libraries to stdout
+csv_string = CSV.generate do |csv|
+  # Write header
+  csv << libraries.first.keys
+
+  libraries.each do |library|
+    csv << library.values
+  end
+end
+
+puts csv_string
