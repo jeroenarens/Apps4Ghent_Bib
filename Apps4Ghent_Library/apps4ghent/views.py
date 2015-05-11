@@ -24,19 +24,19 @@ def openlayers(request):
 def highmap(request):
     return render_to_response('highmaps.html')
 
-class ItemViewSet(viewsets.ModelViewSet):
+class ItemViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
 
-class ItemCopyViewSet(viewsets.ModelViewSet):
+class ItemCopyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ItemCopy.objects.all()
     serializer_class = ItemCopySerializer
 
-class SectorViewSet(viewsets.ModelViewSet):
+class SectorViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Sector.objects.all()
     serializer_class = SectorSerializer
 
-class BorrowerViewSet(viewsets.ModelViewSet):
+class BorrowerViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Borrower.objects.all()
     serializer_class = BorrowerSerializer
 
@@ -45,15 +45,15 @@ class BorrowerViewSet(viewsets.ModelViewSet):
         queryset = self.get_queryset().values('sector').annotate(bcount=Count('pk'))
         return get_paginated_response_from_queryset(self, queryset, BorrowerCountSerializer)
 
-class BorrowingViewSet(viewsets.ModelViewSet):
+class BorrowingViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Borrowing.objects.all()
     serializer_class = BorrowingSerializer
 
-class LibraryViewSet(viewsets.ModelViewSet):
+class LibraryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Library.objects.all()
     serializer_class = LibrarySerializer
 
-class BorrowingWithBorrowerViewSet(viewsets.ModelViewSet):
+class BorrowingWithBorrowerViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Borrowing.objects.all()
     serializer_class = BorrowingWithBorrowerSerializer
 
@@ -62,6 +62,6 @@ class ListBorrowedItemsView(generics.ListAPIView):
     serializer_class = BorrowedItemSerializer
     filter_class = BorrowedItemFilter
 
-class BooksPerLibraryViewSet(viewsets.ModelViewSet):
+class BooksPerLibraryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ItemCopy.objects.filter(copy_pk__icontains='HB')
     serializer_class = ItemCopySerializer
