@@ -5,6 +5,11 @@ class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
 
+class ItemBorrowingCountSerializer(serializers.Serializer):
+    id = serializers.IntegerField(source='item_copy__item__id')
+    title = serializers.CharField(source='item_copy__item__title')
+    borrowing_count = serializers.IntegerField(source='count')
+
 class ItemCopySerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemCopy
@@ -16,6 +21,10 @@ class SectorSerializer(serializers.ModelSerializer):
 class BorrowerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Borrower
+
+class BorrowerCountSerializer(serializers.Serializer):
+    sector = serializers.IntegerField()
+    borrower_count = serializers.IntegerField(source='bcount')
 
 class BorrowingSerializer(serializers.ModelSerializer):
     class Meta:
