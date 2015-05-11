@@ -80,6 +80,7 @@ CORS_ALLOW_METHODS = ('GET', 'OPTIONS')
 
 # Django Rest Framework configuration
 REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 100
 }

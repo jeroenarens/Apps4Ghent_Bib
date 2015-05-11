@@ -4,6 +4,7 @@ from rest_framework import viewsets, views, generics
 from rest_framework.response import Response
 from django_filters import *
 from .serializers import *
+from .filters import *
 from .utils import dictfetchall
 
 def index(request):
@@ -53,6 +54,7 @@ class BorrowingWithBorrowerViewSet(viewsets.ModelViewSet):
 class ListBorrowedItemsView(generics.ListAPIView):
     queryset = Borrowing.objects.values('item_copy__location', 'borrower__sector_id').annotate(bcount=Count('pk'))
     serializer_class = BorrowedItemSerializer
+    filter_class = BorrowedItemFilter
 
 class BooksPerLibraryViewSet(viewsets.ModelViewSet):
     queryset = ItemCopy.objects.filter(copy_pk__icontains='HB')
