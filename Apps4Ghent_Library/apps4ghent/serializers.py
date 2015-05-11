@@ -26,6 +26,10 @@ class BorrowingWithBorrowerSerializer(serializers.ModelSerializer):
         model = Borrowing
         depth = 2
 
+class LibrarySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Library
+
 class BorrowedItemSerializer(serializers.Serializer):
     from_library = serializers.IntegerField()
     to_sector = serializers.IntegerField()
