@@ -15,7 +15,7 @@ class BorrowerModel(admin.ModelAdmin):
     list_display = ('id', 'lid_number', 'decade', 'sex', 'postcode_start')
 
 class BorrowingModel(admin.ModelAdmin):
-    list_display = ('id', 'item_copy_id', 'borrower_id')
+    list_display = ('id', 'item_copy', 'borrower')
 
 admin.site.register(Item, ItemAdmin)
 admin.site.register(ItemCopy, ItemCopyModel)
