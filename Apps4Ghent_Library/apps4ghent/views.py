@@ -3,6 +3,7 @@ from django.db import connection
 from rest_framework import viewsets, views, generics
 from rest_framework.response import Response
 from rest_framework.decorators import list_route
+from rest_framework.filters import OrderingFilter
 from django_filters import *
 from .serializers import *
 from .filters import *
@@ -31,6 +32,9 @@ class ItemViewSet(viewsets.ReadOnlyModelViewSet):
 class ItemBorrowingCountView(generics.ListAPIView):
     queryset = Borrowing.objects.values(*prefix_list('item_copy__item__', ['id', 'title'])).annotate(count=Count('item_copy__item__id'))
     serializer_class = ItemBorrowingCountSerializer
+    filter_backends = (OrderingFilter,)
+    ordering_fields = ('count',)
+    ordering = ('-count',)
 
 class ItemCopyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ItemCopy.objects.all()
