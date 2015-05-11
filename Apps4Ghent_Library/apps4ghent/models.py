@@ -107,4 +107,17 @@ class Borrowing(Model):
     class Meta:
         db_table = 'borrowings'
 
+class Library(Model):
+    """Contains data about the different library branches"""
+    # Primary key
+    branch_code = CharField(max_length=5, primary_key=True)
+    name = CharField(max_length=255)
+    location = CharField(max_length=255)
+    longitude = DecimalField(max_digits=17, decimal_places=14)
+    latitude = DecimalField(max_digits=17, decimal_places=14)
 
+    def __str__(self):
+        return self.branch_code
+
+    class Meta:
+        db_table = 'libraries'
