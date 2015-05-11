@@ -1,4 +1,20 @@
 from django.db.models import *
+
+class Library(Model):
+    """Contains data about the different library branches"""
+    # Primary key
+    branch_code = CharField(max_length=5, primary_key=True)
+    name = CharField(max_length=255)
+    location = CharField(max_length=255)
+    longitude = DecimalField(max_digits=17, decimal_places=14)
+    latitude = DecimalField(max_digits=17, decimal_places=14)
+
+    def __str__(self):
+        return self.branch_code
+
+    class Meta:
+        db_table = 'libraries'
+
 class Item(Model):
     """Represents an item present in the library (e.g. a book),
         storing mostly its description"""
@@ -51,6 +67,7 @@ class ItemCopy(Model):
     item = ForeignKey(Item, db_column='item_id', related_name='item_copy_set', null=True)
     copy_pk = CharField(max_length=128, null=True)
     in_date = CharField(max_length=10, null=True)
+    location = ForeignKey(Library, db_column='location', related_name='item_copy_set', null=True)
 
     def __str__(self):
         return str(self.id) + ": " + str(self.item_id)
@@ -107,17 +124,3 @@ class Borrowing(Model):
     class Meta:
         db_table = 'borrowings'
 
-class Library(Model):
-    """Contains data about the different library branches"""
-    # Primary key
-    branch_code = CharField(max_length=5, primary_key=True)
-    name = CharField(max_length=255)
-    location = CharField(max_length=255)
-    longitude = DecimalField(max_digits=17, decimal_places=14)
-    latitude = DecimalField(max_digits=17, decimal_places=14)
-
-    def __str__(self):
-        return self.branch_code
-
-    class Meta:
-        db_table = 'libraries'
