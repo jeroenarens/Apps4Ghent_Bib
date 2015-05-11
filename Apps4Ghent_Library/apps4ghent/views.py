@@ -28,6 +28,7 @@ def highmap(request):
 class ItemViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+    filter_class = ItemFilter
 
 class ItemBorrowingCountView(generics.ListAPIView):
     queryset = Borrowing.objects.values(*prefix_list('item_copy__item__', ['id', 'title'])).annotate(count=Count('item_copy__item__id'))

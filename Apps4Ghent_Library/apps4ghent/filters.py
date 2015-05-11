@@ -15,3 +15,9 @@ class BorrowedItemFilter(django_filters.FilterSet):
         model = Borrowing
         fields = ['from_library', 'to_sector', 'type', 'decade', 'sex', 'from_date', 'until_date']
 
+class ItemFilter(django_filters.FilterSet):
+    title = django_filters.CharFilter(name='title', lookup_type='icontains')
+
+    class Meta:
+        model = Item
+        fields = ['title']
