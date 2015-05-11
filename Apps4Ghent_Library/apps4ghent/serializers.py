@@ -31,6 +31,6 @@ class LibrarySerializer(serializers.ModelSerializer):
         model = Library
 
 class BorrowedItemSerializer(serializers.Serializer):
-    from_library = serializers.IntegerField()
-    to_sector = serializers.IntegerField()
-    borrowing_count = serializers.IntegerField()
+    from_library = serializers.CharField(source='item_copy__location')
+    to_sector = serializers.IntegerField(source='borrower__sector_id')
+    borrowing_count = serializers.IntegerField(source='bcount')
