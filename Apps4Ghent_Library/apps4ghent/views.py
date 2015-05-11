@@ -28,6 +28,15 @@ class ItemViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
 
+    @list_route()
+    def borrowing_count(self, request):
+        # List of item attributes that should be fetched
+        item_attributes = ['id', 'title']
+
+        values = list(map(lambda x: 'item_copy__item__' + x, item_attributes))
+        queryset = Borrowing.objects.values(*values).annotate(count=Count('item_copy__item__id'))
+        return get_paginated_response_from_queryset(self, queryset, ItemBorrowingCountSerializer)
+
 class ItemCopyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ItemCopy.objects.all()
     serializer_class = ItemCopySerializer
