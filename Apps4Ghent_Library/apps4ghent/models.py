@@ -1,134 +1,109 @@
-import datetime
-
-from mongoengine import *
-
-# TODO: put blank constraints on the fields of models as soon as we get some example data 
-class Item(Document):
+from django.db.models import *
+class Item(Model):
     """Represents an item present in the library (e.g. a book),
-    storing mostly its description"""
+        storing mostly its description"""
+    id = AutoField(primary_key=True)
+    category_music = CharField(max_length=50,null=True)
+    type = CharField(max_length=30,null=True)
+    title = TextField(null=True)
+    author_type = CharField(max_length=30,null=True)
+    isbn_wrong = CharField(max_length=50,null=True)
+    category_youth = CharField(max_length=50,null=True)
+    issn = CharField(max_length=30,null=True)
+    language = CharField(max_length=50,null=True)
+    ean = CharField(max_length=30,null=True)
+    age = CharField(max_length=30,null=True)
+    series_edition = CharField(max_length=255,null=True)
+    keywords_youth = CharField(max_length=128,null=True)
+    author_lastname = CharField(max_length=128,null=True)
+    publisher = CharField(max_length=255,null=True)
+    author_firstname = CharField(max_length=128,null=True)
+    keywords_libraries = CharField(max_length=128,null=True)
+    year_published = CharField(max_length=128,null=True)
+    keywords_local = CharField(max_length=128,null=True)
+    pages = CharField(max_length=255,null=True)
+    category_adults = CharField(max_length=64,null=True)
+    siso = CharField(max_length=64,null=True)
+    literarytype = CharField(max_length=64,null=True)
+    ean_wrong = CharField(max_length=64,null=True)
+    isbn = CharField(max_length=64,null=True)
+    issn_wrong = CharField(max_length=64, null=True)
+    siso_libraries = CharField(max_length=64, null=True)
+    avi = CharField(max_length=16, null=True)
+    openvlaccid = CharField(max_length=16, null=True)
+    keyword_adults = CharField(max_length=128, null=True)
+    zizo = CharField(max_length=16, null=True)
+    series_title = CharField(max_length=255, null=True)
+    keyword_youth = CharField(max_length=64, null=True)
 
-    # General information (can be used "outside library context")
-    BB_number = StringField(max_length=45, primary_key=True)
-    year_published = StringField(max_length=45)
-    ISBN = StringField(max_length=45)
-    title = StringField(max_length=45)
-    item_type = StringField(max_length=45) # material, kind
-    ISSN = StringField(max_length=45)
+    def __str__(self):
+        return self.title
 
-    # Information that can only be used "inside library context"
-    series_title = StringField(max_length=45)
-    literarytype = StringField(max_length=45)
-    language = StringField(max_length=45)
-    age = StringField(max_length=45)
+    class Meta:
+        db_table = 'items'
 
-    SISO = StringField(max_length=45)
-    SISO_libraries = StringField(max_length=45)
-    ZIZO = StringField(max_length=45)
-    AVI = StringField(max_length=45)
-    EAN = StringField(max_length=45)
-
-    category_youth = StringField(max_length=45)
-    category_music = StringField(max_length=45)
-    category_adults = StringField(max_length=45)
-
-    keywords_local = StringField(max_length=45)
-    keywords_youth = StringField(max_length=45)
-    keywords_libraries = StringField(max_length=45)
-    keyword_youth = StringField(max_length=45)
-    keyword_adults = StringField(max_length=45)
-
-    author_type = StringField(max_length=45)
-    author_lastname = StringField(max_length=45)
-    author_firstname = StringField(max_length=45)
-    publisher = StringField(max_length=45)
-    pages = StringField(max_length=45)
-    series_edition = StringField(max_length=45)
-
-    # Reverse relations
-    item_copies = ListField(ReferenceField("ItemCopy"))
-
-    def get_borrowings(self, from_date=None, until_date=None, to_sector=None):
-        """Returns a list of borrowings of the physical copies of this item."""
-
-        # Return the cached borrowings if they exist
-        filtered_borrowings = getattr(self, 'cached_borrowings', None)
-        if filtered_borrowings:
-            return filtered_borrowings
-
-        # No cached borrowings, do regular execution
-        filtered_borrowings = []
-        for item_copy in self.item_copies:
-            borrowings = item_copy.borrowings
-            
-            # Filter borrowings
-            borrowings = filter(lambda b: b.from_date.date() >= from_date, borrowings) if from_date else borrowings
-            borrowings = filter(lambda b: b.until_date().date() <= until_date, borrowings) if until_date else borrowings
-            borrowings = filter(lambda b: b.to_sector() == to_sector, borrowings) if to_sector else borrowings
-
-            # Add results
-            filtered_borrowings.extend(borrowings)
-        return filtered_borrowings
-
-    def has_borrowings(self, from_date=None, until_date=None):
-        return not not self.get_borrowings(from_date=from_date, until_date=until_date)
-
-class ItemCopy(Document):
+class ItemCopy(Model):
     """Represent a physical copy of an item."""
+    id = AutoField(primary_key=True)
+    barcode = CharField(max_length=64, null=True)
+    nature = IntegerField(null=True)
+    #bb_number = IntegerField()
+    item_id = ForeignKey(Item, db_column='item_id', related_name='item_copy_set', null=True)
+    copy_pk = CharField(max_length=128, null=True)
+    in_date = CharField(max_length=10, null=True)
 
-    barcode = StringField(max_length=45, primary_key=True)
-    location = StringField(max_length=45)
-    in_date = DateTimeField()
-    out_date = DateTimeField()
-    last_intake_date = DateTimeField()
-    last_borrowing_date = DateTimeField()
-    kind = StringField(max_length=45)
-    item = ReferenceField(Item)
+    def __str__(self):
+        return str(self.id) + ": " + str(self.item_id)
 
-    # Reverse relation
-    borrowings = ListField(ReferenceField("Borrowing"))
+    class Meta:
+        db_table = 'items_copy'
+        
+class Sector(Model):
+    """Represents a sector of Ghent"""
+    id = AutoField(primary_key=True)
+    name = CharField(max_length=64,null=True)
+    number = IntegerField(null=True)
+    area = FloatField(null=True)
 
-class Borrower(Document):
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'sectors'
+
+class Borrower(Model):
     """Represents a person who borrows something from the library."""
-    borrower_id = StringField(primary_key=True)
-    borrower = StringField(max_length=45)
-    sex = StringField(max_length=45)
-    sector = StringField(max_length=45)
-    postcode = IntField()
-    subscription_year = StringField()
-    subscription_location = StringField(max_length=45)
-    category = StringField(max_length=45)
+    id = AutoField(primary_key=True)
+    lid_number = CharField(max_length=64,null=True)
+    decade = IntegerField(null=True)
+    sex = CharField(max_length=1,null=True)
+    sector = CharField(max_length=64,null=True)
+    postcode_start = CharField(max_length=1,null=True)
+    subscription_year = IntegerField(null=True)
+    subscription_location = CharField(max_length=8,null=True)
+    category = CharField(max_length=8,null=True)
+    sector_number = IntegerField(null=True)
+    sector_id = ForeignKey(Sector, db_column='sector_id', related_name='borrower_set', null=True)
 
-class Borrowing(Document):
-    """Represents an instance of a borrowing of an item, containing information like dates and the profile of the person that borrwed the item."""
+    def __str__(self):
+        return self.lid_number
 
-    bid = StringField(primary_key=True)
-    from_date = DateTimeField()
-    loan_period = IntField() # in days
-    borrower = ReferenceField(Borrower)
-    item_copy = ReferenceField(ItemCopy) # Barcode
+    class Meta:
+        db_table = 'borrowers'
 
-    def from_library(self):
-        return getattr(self, 'from_library_cached', None)
+class Borrowing(Model):
+    """Represents an instance of a borrowing of an item, containing information like dates and the profile of the person that borrowed the item."""
+    id = AutoField(primary_key=True)
+    from_date = CharField(max_length=10,null=True)
+    lid_number = CharField(max_length=64,null=True)
+    barcode = CharField(max_length=64, null=True)
+    loan_period = IntegerField(null=True)
+    item_copy_id = ForeignKey(ItemCopy, db_column='item_copy_id', related_name='borrowing_set', null=True)
+    borrower_id = ForeignKey(Borrower, db_column='borrower_id', related_name='borrowing_set', null=True)
+    def __str__(self):
+        return self.id
 
-    def to_sector(self):
-        return getattr(self, 'to_sector_cached', self.borrower and self.borrower.sector)
+    class Meta:
+        db_table = 'borrowings'
 
-    def borrowing_count(self):
-        return getattr(self, 'borrowing_count_cached', 1)
 
-    def until_date(self):
-        """Returns a `DateTime` that specifies how long this borrowing is valid"""
-        return self.from_date + datetime.timedelta(days=self.loan_period)
-
-class Reservation(Document):
-    """Represents an instance of a reservation, containg information like dates and the profile of the person that reserved the item."""
-    pickup_location = StringField(max_length=45)
-    dropoff_location = StringField(max_length=45)
-    request_date = DateTimeField()
-    delivery_date = DateTimeField()
-    pickup_date = DateTimeField()
-    
-    item_copy = ReferenceField(ItemCopy)
-    item = ReferenceField(Item)
-
-    borrower = ReferenceField(Borrower)
