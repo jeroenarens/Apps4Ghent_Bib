@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'corsheaders',
     'rest_framework',
     'apps4ghent',
 )
@@ -54,6 +55,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -65,6 +67,16 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'Apps4Ghent_Library.urls'
 
 WSGI_APPLICATION = 'Apps4Ghent_Library.wsgi.application'
+
+# Configure Cross-Origin Resource Sharing (CORS)
+# https://github.com/ottoyiu/django-cors-headers/
+
+# Allow all hosts to do CORS
+CORS_ORIGIN_ALLOW_ALL = True
+
+
+# Only allow fetching info
+CORS_ALLOW_METHODS = ('GET', 'OPTIONS')
 
 # Django Rest Framework configuration
 REST_FRAMEWORK = {
