@@ -17,6 +17,10 @@ class BorrowerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Borrower
 
+class BorrowerCountSerializer(serializers.Serializer):
+    sector = serializers.IntegerField()
+    borrower_count = serializers.IntegerField(source='bcount')
+
 class BorrowingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Borrowing

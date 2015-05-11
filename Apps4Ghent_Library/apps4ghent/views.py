@@ -2,10 +2,11 @@ from django.shortcuts import render_to_response
 from django.db import connection
 from rest_framework import viewsets, views, generics
 from rest_framework.response import Response
+from rest_framework.decorators import list_route
 from django_filters import *
 from .serializers import *
 from .filters import *
-from .utils import dictfetchall
+from .utils import dictfetchall, get_paginated_response_from_queryset
 
 def index(request):
 
@@ -38,6 +39,11 @@ class SectorViewSet(viewsets.ModelViewSet):
 class BorrowerViewSet(viewsets.ModelViewSet):
     queryset = Borrower.objects.all()
     serializer_class = BorrowerSerializer
+
+    @list_route()
+    def count(self, request):
+        queryset = self.get_queryset().values('sector').annotate(bcount=Count('pk'))
+        return get_paginated_response_from_queryset(self, queryset, BorrowerCountSerializer)
 
 class BorrowingViewSet(viewsets.ModelViewSet):
     queryset = Borrowing.objects.all()

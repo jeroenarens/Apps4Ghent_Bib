@@ -6,3 +6,10 @@ def dictfetchall(cursor):
         for row in cursor.fetchall()
     ]
 
+def get_paginated_response_from_queryset(self, queryset, serializer_cls=None):
+    page = self.paginate_queryset(queryset)
+    if serializer_cls == None:
+        serializer = self.get_serializer(page, many=True)
+    else:
+        serializer = serializer_cls(page, many=True)
+    return self.get_paginated_response(serializer.data)
