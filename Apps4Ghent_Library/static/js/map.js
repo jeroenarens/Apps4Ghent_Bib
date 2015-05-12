@@ -50,7 +50,7 @@ Map.prototype._generateLayers = function(sectionsUrl) {
       style: MapStyle.styleFunctionWijk
   });
 
-  //the layer that is used to show the different wijknr's in color
+  //the layer that is used to show the different loaners in color
   this.layers.lenersLayer = new ol.layer.Vector({
       source: new ol.source.GeoJSON({
           projection: 'EPSG:3857',

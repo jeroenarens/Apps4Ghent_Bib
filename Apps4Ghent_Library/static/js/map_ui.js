@@ -101,6 +101,7 @@ MapUI.prototype.registerSidebarHandlers = function() {
 // Registers event handlers that have functionality to change between layer
 MapUI.prototype.registerLayerChangeHandlers = function(Map) {
   $('#OSM').on('click', function () {
+      #
       Map.map.removeLayer(Map.layers.sectionsLayer);
       Map.map.removeLayer(Map.layers.wijkLayer);
       Map.map.removeLayer(Map.layers.lenersLayer);

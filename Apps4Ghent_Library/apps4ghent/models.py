@@ -1,5 +1,6 @@
 from django.db.models import *
 
+#Database models for library, Item, ItemCopy, Borrower, Borrowing and Sector
 class Library(Model):
     """Contains data about the different library branches"""
     # Primary key
@@ -94,7 +95,6 @@ class Borrower(Model):
     lid_number = CharField(max_length=64,null=True)
     decade = IntegerField(null=True)
     sex = CharField(max_length=1,null=True)
-    sector = CharField(max_length=64,null=True)
     postcode_start = CharField(max_length=1,null=True)
     subscription_year = IntegerField(null=True)
     subscription_location = CharField(max_length=8,null=True)

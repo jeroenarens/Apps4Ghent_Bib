@@ -5,6 +5,7 @@ from rest_framework import routers
 from apps4ghent import views
 
 # Register resources
+#API endpoint urls (/api/v1/...)
 router = routers.SimpleRouter()
 router.register(r'items', views.ItemViewSet)
 router.register(r'item-copies', views.ItemCopyViewSet)

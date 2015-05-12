@@ -12,6 +12,7 @@ from .utils import dictfetchall, get_paginated_response_from_queryset, prefix_li
 from datetime import *
 from .forms import *
 
+#This view is used for the REC, to render the top 10 of summer books rented from the library of Ghent during the period of 2009-2014
 def index(request):
     context = RequestContext(request)
     form = booksform()
@@ -25,7 +26,7 @@ def index(request):
             borrower = Borrower.objects.filter(decade=decade, sex=sex)
             borrowings = Borrowing.objects.filter(borrower=borrower,item_copy__item__type='Boek')
 
-            #Now, get the books from the last 5 years:
+            #Now, get the books from the last 5 years during the summer months
             borrowings = borrowings.filter(Q(from_date__month=6)|
                                            Q(from_date__month=7)|
                                            Q(from_date__month=8)|
@@ -37,30 +38,34 @@ def index(request):
                                            Q(from_date__year=2013)|
                                            Q(from_date__year=2014))
             #get the item_copies of the most rent items
-            #borrowings = borrowings.annotate(bcount=Count('barcode')).order_by('-bcount')[:10]
             borrowings = borrowings.values(*prefix_list('item_copy__item__', ['id', 'title', 'author_firstname','author_lastname', 'isbn'])).annotate(count=Count('item_copy__item__id')).order_by('-count')[2:12]
-            #itemcopies = ItemCopy.objects.annotate(bcount=Count('borrowing_set_item')).order_by('-bcount')[:10]
             #return the top 10
+
             context['items'] = borrowings
-            #context['itemcopies'] = itemcopies
             return render_to_response('overview.html', context)
 
     return render_to_response('index2.html',{'form': form})
 
+#can be ignored
 def leaflet(request):
     return render_to_response('leaflet.html')
 
+#can be ignored
 def openlayers(request):
     return render_to_response('openlayers.html')
 
+#can be ignored
 def highmap(request):
     return render_to_response('highmaps.html')
 
+#From here on the views for the API are defined
+#API view for the items
 class ItemViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     filter_class = ItemFilter
 
+#API view for the items together with the total amount the item is borrowed
 class ItemBorrowingCountView(generics.ListAPIView):
     queryset = Borrowing.objects.values(*prefix_list('item_copy__item__', ['id', 'title'])).annotate(count=Count('item_copy__item__id'))
     serializer_class = ItemBorrowingCountSerializer
@@ -69,40 +74,55 @@ class ItemBorrowingCountView(generics.ListAPIView):
     ordering_fields = ('count',)
     ordering = ('-count',)
 
+#API view for the item_copies (exemplaar)
 class ItemCopyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ItemCopy.objects.all()
     serializer_class = ItemCopySerializer
+    filter_class = ItemCopyFilter
 
+#API view for the sectors in Ghent (wijken)
 class SectorViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Sector.objects.all()
     serializer_class = SectorSerializer
+    filter_class = SectorFilter
 
+#API view for the borrowers, together with a count function to get the amount of borrowers in each sector
 class BorrowerViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Borrower.objects.all()
     serializer_class = BorrowerSerializer
+    filter_class = BorrowerFilter
 
     @list_route()
     def count(self, request):
         queryset = self.get_queryset().values('sector').annotate(bcount=Count('pk'))
         return get_paginated_response_from_queryset(self, queryset, BorrowerCountSerializer)
 
+#API view for the borrowings
 class BorrowingViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Borrowing.objects.all()
     serializer_class = BorrowingSerializer
+    filter_class = BorrowingFilter
 
+#API view for the libraries
 class LibraryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Library.objects.all()
     serializer_class = LibrarySerializer
+    filter_class = LibraryFilter
 
+
+
+#Can be ignored
 class BorrowingWithBorrowerViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Borrowing.objects.all()
     serializer_class = BorrowingWithBorrowerSerializer
 
+#API view for the Borrowed items with respect to the location and the borrower and the count how much it is rent to each sector
 class ListBorrowedItemsView(generics.ListAPIView):
     queryset = Borrowing.objects.values('item_copy__location', 'borrower__sector_id').annotate(bcount=Count('pk'))
     serializer_class = BorrowedItemSerializer
     filter_class = BorrowedItemFilter
 
+#API view for the items
 class BooksPerLibraryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ItemCopy.objects.filter(copy_pk__icontains='HB')
     serializer_class = ItemCopySerializer

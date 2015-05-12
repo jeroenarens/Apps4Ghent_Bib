@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import *
 # Register your models here.
-
+#When going to the BASE_url/admin, you can see the classes that are coded in here
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'author_firstname', 'author_lastname', 'publisher', 'isbn')
 
