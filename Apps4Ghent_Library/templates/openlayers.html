@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="{% static "css/leaflet.css" %}"/>
     <link rel="stylesheet" href="{% static "css/map.css" %}"/>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+
 
     <!-- javascript files -->
     <script src="http://openlayers.org/en/v3.4.0/build/ol.js" type="text/javascript"></script>
@@ -146,11 +149,11 @@
             //The layer for where the different statistical sectors are drawn upon
             var normalStyle = ol.style.Style({
                 stroke: new ol.style.Stroke({
-                    color: [255, 0, 0.8],
-                    width: 1
+                    color: '#800026',
+                    width: 5
                 }),
                 fill: new ol.style.Fill({
-                    color: [0, 255, 255, 0.9]
+                    color: '#BD0026'
                 }),
                 zIndex: 2
             });
@@ -166,14 +169,14 @@
 
             //the colors used for the wijknr
             function getColorWijk(d) {
-                return d > 30 ? '#800026' :
-                        d > 25 ? '#BD0026' :
-                                d > 20 ? '#E31A1C' :
-                                        d > 15 ? '#FC4E2A' :
-                                                d > 10 ? '#FD8D3C' :
-                                                        d > 5 ? '#FEB24C' :
-                                                                d > 0 ? '#FED976' :
-                                                                        '#FFEDA0';
+                return d > 30 ? 'rgba(128, 0, 38, 0.6)' :
+                        d > 25 ? 'rgba(189, 0, 38, 0.6)' :
+                                d > 20 ? 'rgba(227, 26, 28, 0.6)' :
+                                        d > 15 ? 'rgba(252, 78, 42, 0.6)' :
+                                                d > 10 ? 'rgba(253, 141, 60, 0.6)' :
+                                                        d > 5 ? 'rgba(254, 178, 76, 0.6)' :
+                                                                d > 0 ? 'rgba(254, 217, 118, 0.6)' :
+                                                                        'rgba(255, 237, 160, 0.6)';
             }
 
             //The styling with the used wijknr
@@ -181,7 +184,7 @@
                 var style = new ol.style.Style({
                     fill: new ol.style.Fill({
                         color: getColorWijk(feature.get('wijknr')),
-                        opacity: 0.6
+                        opacity: 0.1
                     })
                 });
                 return [style]
@@ -199,14 +202,14 @@
 
             //the colors used for the borrowers
             function getColorLeners(d) {
-                return d > 1750 ? '#800026' :
-                        d > 1500 ? '#BD0026' :
-                                d > 1250 ? '#E31A1C' :
-                                        d > 1000 ? '#FC4E2A' :
-                                                d > 750 ? '#FD8D3C' :
-                                                        d > 500 ? '#FEB24C' :
-                                                                d > 250 ? '#FED976' :
-                                                                        '#FFEDA0';
+                return d > 1750 ? 'rgba(128, 0, 38, 0.6)' :
+                        d > 1500 ? 'rgba(189, 0, 38, 0.6)' :
+                                d > 1250 ? 'rgba(227, 26, 28, 0.6)' :
+                                        d > 1000 ? 'rgba(252, 78, 42, 0.6)' :
+                                                d > 750 ? 'rgba(253, 141, 60, 0.6)' :
+                                                        d > 500 ? 'rgba(254, 178, 76, 0.6)' :
+                                                                d > 250 ? 'rgba(254, 217, 118, 0.6)' :
+                                                                        'rgba(255, 237, 160, 0.6)';
             }
 
             //The styling with the used wijknr
@@ -274,7 +277,7 @@
                     color: [0, 0, 0, 1]
                 }),
                 stroke: new ol.style.Stroke({
-                    color: [255, 255, 255, 0.5],
+                    color: [255, 255, 255, 1],
                     width: 4
                 })
             };
@@ -391,30 +394,86 @@
 
             });
 
-            //functionality to change between layer
-            $('#OSM').on('click', function () {
-                map.removeLayer(sectionsLayer);
-                map.removeLayer(wijkLayer);
-                map.removeLayer(lenersLayer);
-                map.addLayer(wijkLayer);
-                map.addLayer(sectionsLayer);
 
-            });
-            $('#OpenStreet').on('click', function () {
-                map.removeLayer(sectionsLayer);
-                map.removeLayer(wijkLayer);
-                map.removeLayer(wijkLayer);
-                map.addLayer(lenersLayer);
-                map.addLayer(sectionsLayer);
+            $.get('http://localhost:8000/api/v1/libraries', function (data) {
+                var highlightStyle2 = new ol.style.Style({
+                    fill: new ol.style.Fill({
+                        color: [255, 0, 0, 1]
+                    }),
+                    zIndex: 50
+                });
 
+                function styleFunctionlibs(feature, resolution) {
+                    var style;
+                    var geom = feature.getGeometry();
+                    style = highlightStyle2;
+                    return [style];
+                }
+
+                // Fetch the libraries
+                var libraries = data.results;
+
+                // Gather the lat,long points from the library
+                // TODO: I turned the lat and long around on the server
+                var library_coordinates = libraries.map(function (library) {
+                    return [
+                        parseFloat(library.longitude),
+                        parseFloat(library.latitude)
+                    ];
+                });
+
+                // Turn coordinates into a list of features
+                var features = library_coordinates.map(function (coord) {
+                    var trans_coord = ol.proj.transform(coord, 'EPSG:4326', 'EPSG:3857');
+                    var point = new ol.geom.Point(trans_coord);
+                    var feature = new ol.Feature(point)
+                    return feature;
+                });
+
+                console.log(features[0].getStyle())
+                // Draw them on the map
+                var vectorSource = new ol.source.Vector({
+                    features: features
+                });
+
+                var vectorLayer = new ol.layer.Vector({
+                    source: vectorSource
+                });
+                console.log(vectorLayer.getStyle())
+                map.addLayer(vectorLayer);
+
+                //functionality to change between layer
+                $('#OSM').on('click', function () {
+                    map.removeLayer(sectionsLayer);
+                    map.removeLayer(wijkLayer);
+                    map.removeLayer(lenersLayer);
+                    map.removeLayer(vectorLayer);
+                    map.addLayer(wijkLayer);
+                    map.addLayer(sectionsLayer);
+                    map.addLayer(vectorLayer);
+
+                });
+                $('#OpenStreet').on('click', function () {
+                    map.removeLayer(sectionsLayer);
+                    map.removeLayer(wijkLayer);
+                    map.removeLayer(lenersLayer);
+                    map.removeLayer(vectorLayer);
+                    map.addLayer(lenersLayer);
+                    map.addLayer(sectionsLayer);
+                    map.addLayer(vectorLayer);
+                });
+                $('#MapQuest').on('click', function () {
+                    map.removeLayer(sectionsLayer);
+                    map.removeLayer(wijkLayer);
+                    map.removeLayer(lenersLayer);
+                    map.removeLayer(vectorLayer);
+                    map.addLayer(wijkLayer);
+                    map.addLayer(sectionsLayer);
+                    map.addLayer(vectorLayer);
+                });
             });
-            $('#MapQuest').on('click', function () {
-                map.removeLayer(sectionsLayer);
-                map.removeLayer(wijkLayer);
-                map.removeLayer(lenersLayer);
-                map.addLayer(wijkLayer);
-                map.addLayer(sectionsLayer);
-            });
+
+
         });
     </script>
 </head>

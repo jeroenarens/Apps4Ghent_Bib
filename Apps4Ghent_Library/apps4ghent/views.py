@@ -26,9 +26,6 @@ def index(request):
             borrowings = Borrowing.objects.filter(borrower=borrower,item_copy__item__type='Boek')
 
             #Now, get the books from the last 5 years:
-            summer_start = date(2009,6,21)
-            summer_end = date(2014,9,21)
-            summermonths=[6,7,8,9]
             borrowings = borrowings.filter(Q(from_date__month=6)|
                                            Q(from_date__month=7)|
                                            Q(from_date__month=8)|
@@ -49,27 +46,6 @@ def index(request):
             return render_to_response('overview.html', context)
 
     return render_to_response('index2.html',{'form': form})
-
-def overview(request, form):
-    context = dict()
-
-    #Get all the borrowings of persons of a certain category
-    borrower = Borrower.objects.filter(decade=1970, sex='M')
-    borrowings = Borrowing.objects.filter(borrower=borrower,item_copy__item__type='Boek')
-
-    #Now, get the books from the last 5 years:
-    summer_start = date(2009,6,21)
-    summer_end = date(2014,9,21)
-    borrowings = borrowings.filter(from_date__gte=summer_start, from_date__lte=summer_end)
-
-    #get the item_copies of the most rent items
-    #borrowings = borrowings.annotate(bcount=Count('barcode')).order_by('-bcount')[:10]
-    borrowings = borrowings.values(*prefix_list('item_copy__item__', ['id', 'title', 'author_firstname','author_lastname', 'isbn'])).annotate(count=Count('item_copy__item__id')).order_by('-count')[:10]
-    #itemcopies = ItemCopy.objects.annotate(bcount=Count('borrowing_set_item')).order_by('-bcount')[:10]
-    #return the top 10
-    context['items'] = borrowings
-    #context['itemcopies'] = itemcopies
-    return render_to_response('overview.html', context)
 
 def leaflet(request):
     return render_to_response('leaflet.html')
