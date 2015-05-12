@@ -8,19 +8,19 @@ ApiHandler.prototype.getUrl = function(url) {
 };
 
 ApiHandler.prototype.getLibraries = function(callback) {
-  $.get(this.getUrl('libraries'), function (data) {
+  $.get(this.getUrl('libraries'), {format: 'json'}, function (data) {
     callback(data.results);
   });
 };
 
 ApiHandler.prototype.getBorrowersCount = function(callback) {
-  $.get(this.getUrl('borrowers/count'), function(data) {
+  $.get(this.getUrl('borrowers/count'), {format: 'json'}, function(data) {
     callback(data.results);
   });
 };
 
 ApiHandler.prototype.getSectors = function(callback) {
-  $.get(this.getUrl('sectors'), function(data) {
+  $.get(this.getUrl('sectors'), {format: 'json'}, function(data) {
     callback(data.results);
   });
 };

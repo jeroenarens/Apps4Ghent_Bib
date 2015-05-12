@@ -102,3 +102,13 @@ Because the main visualisation can get away with only the number of loans for al
 The library personel can use the web application in two ways, reactively and pro-actively. Respectively by searching on a specific book (title) or on a certain group of books (genre, target-age,...) and otherwise looking for differences between the current distribution (visualised per library) and the preffered distribution (visualised per sector). If the demand of a certain book is skewed for a sector, the copies can be moved closer (towards the library with the least distance) to this sector. If the demand of a group correlates with a sector the personel can decide to anticipate onto the demand of similar books in this group and move these books closer to the specified group.\\
 
 The data that is however provided by the library does not give us the possibility to continue with the whole use case. We will however be able to show a with some interesting properties per sector, for which the data is fetched from our API. The querying for books,... is not possible anymore since no location data is given from the library spots.
+
+\section{Important design decisions}
+
+%necessary? these are decisions made a few meetings back
+As mentioned earlier we decided not to use MongoDB but PostgreSQL for our database.
+Also the javascript library to visualise the data has changed from Leaflet to Openlayer3.
+%these are decisions made after the last meeting
+The borrowings in the library data were enhanced with the library location of a particular book by parsing it from a column with multiple
+We decided to finalize the journalists "Summer books" website as well as the visualisation per neighbourhood of library data.
+

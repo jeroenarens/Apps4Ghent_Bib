@@ -27,9 +27,11 @@ DataManager.prototype.updateBorrowersCount = function(callback) {
   var self = this;
 
   this.apiHandler.getBorrowersCount(function(bcount) {
+    console.log(bcount);
     var countPerSector = [];
     bcount.forEach(function(count) {
-      countPerSector[self.sectorsPerId[count.sector].number] = count.borrower_count;
+      var sector = self.sectorsPerId[count.sector];
+      if (sector && sector.number) countPerSector[sector.number] = count.borrower_count;
     });
 
     self.borrowersCountPerSectorNumber = countPerSector;

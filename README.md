@@ -7,13 +7,14 @@ The website consists of four parts: <br />
 <ul>
 <li> <b> FrontEnd </b>: here, the rendering and visualisation of the processed/queried library data will be fulfilled. Highmaps is used for these functions </li>
 <li> <b> BackEnd </b>: Here we use Django to process the incoming requests from the frontend and get the requested results from the database. </li>
-<li> <b> Non-Relational Database </b>: To store the data, MongoDB is used to store the library data. </li>
-<li> <b> Import & Mapping </b>: To import the data, the API from the Open Datatank will be used. Before importing the data, a mapping will be done from csv to json linked data (json LD) </li>
+<li> <b> Non-Relational Database </b>: To store the data, Postgresql is used to store the library data. </li>
+<li> <b> Import & Mapping </b>: To import the data, an R script is written to import and clean the data </li>
 </ul>
 Coding style
 ---------------
 Before you want to help us coding, make sure to follow the coding conventions from Django (see [Django coding style](https://docs.djangoproject.com/en/1.7/internals/contributing/writing-code/coding-style/)). <br />
 Besides these coding conventions, please make sure your editor removes whitespace at the end of a line and let the tabs be changed to 4 spaces instead.
+Also javascript conventions should be used.
 
 Documentation
 --------------
@@ -34,12 +35,13 @@ Besides these directories, also a manage.py file is present which will be used t
 How to run?
 -------------
 before running the project itself, please install python3.4 ([Link](https://www.python.org/downloads/)) and Django 1.7 ([Link](https://docs.djangoproject.com/en/1.7/topics/install/)) <br />
-Also make sure you have installed mongodb and you have the mongodb service running on your pc when starting the server ([Link](http://docs.mongodb.org/manual/installation/)).<br/>
+Also be sure to have a postgresql server locally installed.
 To set up the django project, first install the packages from the requirements file with the following command: 
 <br />
  <code> pip3 install -r requirements.txt </code>
 <br/>
-Afterwards, set up the database with:
+Then, import the database onto your postgresql server using the fullimport.sql file in the database folder<br>
+Afterwards, set up the database with in python
 <br />
  <code> python3 manage.py syncdb </code>
 <br />

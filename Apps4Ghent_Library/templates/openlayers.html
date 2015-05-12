@@ -40,7 +40,7 @@
         var map, mapUI, apiHandler, dataManager;
 
         $(function () {
-            apiHandler = new ApiHandler('http://localhost:3000');
+            apiHandler = new ApiHandler('http://localhost:8000');
             dataManager = new DataManager(apiHandler);
 
             mapUI = new MapUI();
@@ -101,10 +101,16 @@
                 <div id="layers" class="panel-collapse collapse in">
                     <div class="panel-body list-group">
                         <a href="#" class="list-group-item" data-map="empty">
-                            <i class="fa fa-globe"></i> Map van Gent
+                            <i class="fa fa-globe"></i> Map of Ghent
                         </a>
-                        <a href="#" class="list-group-item" data-map="borrowersPerArea">
-                            <i class="fa fa-globe"></i> Leners / km^2
+                        <a href="#" class="list-group-item" id="Borrowers" data-map="borrowersPerArea">
+                            <i class="fa fa-globe"></i> Borrowers
+                        </a>
+                        <a href="#" class="list-group-item" id="Sectors">
+                            <i class="fa fa-globe"></i> Sectors
+                        </a>
+                        <a href="#" class="list-group-item" id="Borrowings">
+                            <i class="fa fa-globe"></i> Borrowings
                         </a>
                     </div>
                 </div>
