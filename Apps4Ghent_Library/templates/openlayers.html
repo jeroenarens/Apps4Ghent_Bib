@@ -27,6 +27,7 @@
     <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.6/mapbox.js'></script>
 
     <script src="{% static 'js/api_handler.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/data_manager.js' %}" type="text/javascript"></script>
 
     <script src="{% static 'js/map_ui.js' %}" type="text/javascript"></script>
     <script src="{% static 'js/map_styles.js' %}" type="text/javascript"></script>
@@ -35,17 +36,21 @@
 
     <!-- this script is used to load the map, together with all it's layers, check out the js files for more info -->
     <script type="text/javascript">
-        var map, mapUI, apiHandler;
+        var map, mapUI, apiHandler, dataManager;
 
         $(function () {
             apiHandler = new ApiHandler('http://localhost:3000');
+            dataManager = new DataManager(apiHandler);
 
             mapUI = new MapUI();
             mapUI.registerSidebarHandlers();
 
-            map = new Map(apiHandler, mapUI, '{% static "map/wijkenGent.geojson" %}');
+            map = new Map(apiHandler, dataManager, mapUI, '{% static "map/wijkenGent.geojson" %}');
             map.registerEventHandlers();
             map.drawLibraries();
+
+            // Fetch initial values from api
+            dataManager.updateBorrowersCountPerSector();
         });
     </script>
 </head>

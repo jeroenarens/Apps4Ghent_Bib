@@ -1,5 +1,6 @@
-function Map(apiHandler, mapUI, sectionsUrl) {
+function Map(apiHandler, dataManager, mapUI, sectionsUrl) {
   this.apiHandler = apiHandler;
+  this.dataManager = dataManager;
   this.mapUI = mapUI;
 
   this._generateLayers(sectionsUrl);
@@ -164,8 +165,9 @@ Map.prototype.registerEventHandlers = function() {
           if (!layer) {
               return;
           }
+          var borrowers = self.dataManager.borrowersCountPerSector ? self.dataManager.borrowersCountPerSector[feature.get('wijknr')] : 'loading...';
           $('#title').html(feature.get('name'));
-          $('#contentgeojson').html('<p>' + "wijk nummer: " + feature.get('wijknr') + '</p>' + '<p>' + "Aantal leners: " + feature.get('borrowers') + '</p>');
+          $('#contentgeojson').html('<p>' + "wijk nummer: " + feature.get('wijknr') + '</p>' + '<p>' + "Aantal leners: " + borrowers + '</p>');
       });
   });
 };

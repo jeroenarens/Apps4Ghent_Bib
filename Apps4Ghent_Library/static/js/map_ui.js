@@ -109,7 +109,6 @@ MapUI.prototype.registerLayerChangeHandlers = function(Map) {
       Map.map.addLayer(Map.layers.wijkLayer);
       Map.map.addLayer(Map.layers.sectionsLayer);
       Map.map.addLayer(Map.layers.librariesLayer);
-
   });
 
   $('#OpenStreet').on('click', function () {
