@@ -10,9 +10,5 @@ function getLibraryLatLong(library) {
     ];
 }
 
-function getLibraries(callback) {
-    $.get('http://localhost:8000/api/v1/libraries', function (data) {
-        callback(data.results);
-    });
-}
+
 

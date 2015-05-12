@@ -1,4 +1,5 @@
-function Map(mapUI, sectionsUrl) {
+function Map(apiHandler, mapUI, sectionsUrl) {
+  this.apiHandler = apiHandler;
   this.mapUI = mapUI;
 
   this._generateLayers(sectionsUrl);
@@ -138,6 +139,7 @@ Map.prototype.registerEventHandlers = function() {
   });
 
   //functionality to let a click cursor appear when hovering over the sectionslayer
+  /*
   this.map.on('pointermove', function (evt) {
       if (evt.dragging) {
           return;
@@ -148,8 +150,9 @@ Map.prototype.registerEventHandlers = function() {
               return true;
           }
       });
-      self.map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+      if (hit) self.map.getTargetElement().style.cursor = 'pointer';
   })
+  */
 
   //functionality when a statistical sector is clicked upon
   this.map.on('singleclick', function (clickevent) {
@@ -170,7 +173,7 @@ Map.prototype.registerEventHandlers = function() {
 Map.prototype.drawLibraries = function() {
     var self = this;
 
-    getLibraries(function(libraries) {
+    this.apiHandler.getLibraries(function(libraries) {
         // Gather the lat,long points from the library
         var library_coordinates = libraries.map(getLibraryLatLong);
 
@@ -188,11 +191,11 @@ Map.prototype.drawLibraries = function() {
             features: features
         });
 
-        self.layers.vectorLayer = new ol.layer.Vector({
+        self.layers.librariesLayer = new ol.layer.Vector({
             source: vectorSource
         });
 
-        self.map.addLayer(self.layers.vectorLayer);
+        self.map.addLayer(self.layers.librariesLayer);
 
         self.mapUI.registerLayerChangeHandlers(self);
     });

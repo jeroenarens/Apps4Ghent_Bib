@@ -105,10 +105,10 @@ MapUI.prototype.registerLayerChangeHandlers = function(Map) {
       Map.map.removeLayer(Map.layers.sectionsLayer);
       Map.map.removeLayer(Map.layers.wijkLayer);
       Map.map.removeLayer(Map.layers.lenersLayer);
-      Map.map.removeLayer(Map.layers.vectorLayer);
+      Map.map.removeLayer(Map.layers.librariesLayer);
       Map.map.addLayer(Map.layers.wijkLayer);
       Map.map.addLayer(Map.layers.sectionsLayer);
-      Map.map.addLayer(Map.layers.vectorLayer);
+      Map.map.addLayer(Map.layers.librariesLayer);
 
   });
 
@@ -116,19 +116,19 @@ MapUI.prototype.registerLayerChangeHandlers = function(Map) {
       Map.map.removeLayer(Map.layers.sectionsLayer);
       Map.map.removeLayer(Map.layers.wijkLayer);
       Map.map.removeLayer(Map.layers.lenersLayer);
-      Map.map.removeLayer(Map.layers.vectorLayer);
+      Map.map.removeLayer(Map.layers.librariesLayer);
       Map.map.addLayer(Map.layers.lenersLayer);
       Map.map.addLayer(Map.layers.sectionsLayer);
-      Map.map.addLayer(Map.layers.vectorLayer);
+      Map.map.addLayer(Map.layers.librariesLayer);
   });
 
   $('#MapQuest').on('click', function () {
       Map.map.removeLayer(Map.layers.sectionsLayer);
       Map.map.removeLayer(Map.layers.wijkLayer);
       Map.map.removeLayer(Map.layers.lenersLayer);
-      Map.map.removeLayer(Map.layers.vectorLayer);
+      Map.map.removeLayer(Map.layers.librariesLayer);
       Map.map.addLayer(Map.layers.wijkLayer);
       Map.map.addLayer(Map.layers.sectionsLayer);
-      Map.map.addLayer(Map.layers.vectorLayer);
+      Map.map.addLayer(Map.layers.librariesLayer);
   });
 }
