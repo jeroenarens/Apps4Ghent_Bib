@@ -59,7 +59,7 @@ Map.prototype._generateLayers = function(sectionsUrl) {
           url: sectionsUrl
       }),
       projection: 'EPSG:4326',
-      style: MapStyle.styleFunctionLeners
+      style: MapStyle.styleFunctionBorrowersPerArea
   });
 
   //This is the layer beneath, which shows you a version of the map

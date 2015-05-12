@@ -113,6 +113,12 @@ MapUI.prototype.registerLayerChangeHandlers = function(Map) {
     case 'empty':
       break;
     case 'borrowersPerArea':
+      var borrowersPerArea = Map.dataManager.borrowersCountPerSectorNumber.map(function(count, snumber) {
+        var area = Map.dataManager.sectorsPerSectorNumber[snumber].area;
+        if (area == 0) return 0;
+        return count / area;
+      });
+      MapStyle.borrowersPerAreaColorCalculator.update(borrowersPerArea);
       Map.map.addLayer(Map.layers.lenersLayer);
       break;
     }
