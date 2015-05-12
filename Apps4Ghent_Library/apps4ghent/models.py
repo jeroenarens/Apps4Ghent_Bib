@@ -70,7 +70,7 @@ class ItemCopy(Model):
     location = ForeignKey(Library, db_column='location', related_name='item_copy_set', null=True)
 
     def __str__(self):
-        return str(self.id) + ": " + str(self.item_id)
+        return str(self.id)
 
     class Meta:
         db_table = 'items_copy'
@@ -111,7 +111,7 @@ class Borrower(Model):
 class Borrowing(Model):
     """Represents an instance of a borrowing of an item, containing information like dates and the profile of the person that borrowed the item."""
     id = AutoField(primary_key=True)
-    from_date = CharField(max_length=10,null=True)
+    from_date = DateField(null=True)
     lid_number = CharField(max_length=64,null=True)
     barcode = CharField(max_length=64, null=True)
     loan_period = IntegerField(null=True)

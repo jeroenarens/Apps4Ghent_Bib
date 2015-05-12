@@ -36,7 +36,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Books4Summer</a>
+        <a class="navbar-brand" href={% url 'index' %}>Books4Summer</a>
 
     </div>
     <!-- /.container -->
@@ -64,8 +64,10 @@
                         <img src="{% static "img/Unknown-Book.jpg" %}" alt="" class="img-rounded img-responsive"/>
                     </div>
                     <div class="col-sm-6 col-md-8">
-                        <h4>{{ item.item_copy.item.title }}</h4>
-                        <p>{{ item.item_copy.item.author_firstname }}{{ item.item_copy.item.author_lastname }}</p>
+                        <h4>{{ item.item_copy__item__title }}</h4>
+                        <p> <b>isbn</b>: {{ item.item_copy__item__isbn }}<br>
+                        <b>Auteur</b>: {{ item.item_copy__item__author_firstname }} {{ item.item_copy__item__author_lastname }}</p>
+                        <p>{{ item.count }} keer geleend</p>
                     </div>
                 </div>
             </div>
