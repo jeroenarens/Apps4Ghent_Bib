@@ -50,7 +50,9 @@
             map.drawLibraries();
 
             // Fetch initial values from api
-            dataManager.updateBorrowersCountPerSector();
+            dataManager.updateSectors(function() {
+                dataManager.updateBorrowersCount();
+            });
         });
     </script>
 </head>

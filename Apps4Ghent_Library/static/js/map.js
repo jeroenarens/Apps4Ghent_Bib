@@ -165,7 +165,9 @@ Map.prototype.registerEventHandlers = function() {
           if (!layer) {
               return;
           }
-          var borrowers = self.dataManager.borrowersCountPerSector ? self.dataManager.borrowersCountPerSector[feature.get('wijknr')] : 'loading...';
+
+          var nr = feature.get('wijknr');
+          var borrowers = self.dataManager.borrowersCountPerSectorNumber ? self.dataManager.borrowersCountPerSectorNumber[nr] : 'loading...';
           $('#title').html(feature.get('name'));
           $('#contentgeojson').html('<p>' + "wijk nummer: " + feature.get('wijknr') + '</p>' + '<p>' + "Aantal leners: " + borrowers + '</p>');
       });

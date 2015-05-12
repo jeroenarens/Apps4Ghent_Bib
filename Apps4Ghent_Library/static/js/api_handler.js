@@ -18,3 +18,9 @@ ApiHandler.prototype.getBorrowersCount = function(callback) {
     callback(data.results);
   });
 };
+
+ApiHandler.prototype.getSectors = function(callback) {
+  $.get(this.getUrl('sectors'), function(data) {
+    callback(data.results);
+  });
+};
