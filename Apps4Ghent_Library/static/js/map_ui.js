@@ -1,4 +1,6 @@
-function applyMargins() {
+function MapUI() { }
+
+MapUI.prototype.applyMargins = function() {
     var leftToggler = $(".mini-submenu-left");
     var rightToggler = $(".mini-submenu-right");
     if (leftToggler.is(":visible")) {
@@ -25,12 +27,12 @@ function applyMargins() {
     }
 }
 
-function isConstrained() {
+MapUI.prototype.isConstrained = function() {
     return $("div.mid").width() == $(window).width();
 }
 
-function applyInitialUIState() {
-    if (isConstrained()) {
+MapUI.prototype.applyInitialUIState = function() {
+    if (this.isConstrained()) {
         $(".sidebar-left .sidebar-body").fadeOut('slide');
         $(".sidebar-right .sidebar-body").fadeOut('slide');
         $('.mini-submenu-left').fadeIn();
@@ -38,7 +40,7 @@ function applyInitialUIState() {
     }
 }
 
-function getColor(d) {
+MapUI.prototype.getColor = function(d) {
     return d > 1000 ? '#800026' :
             d > 500 ? '#BD0026' :
                     d > 200 ? '#E31A1C' :
@@ -49,7 +51,7 @@ function getColor(d) {
                                                             '#FFEDA0';
 }
 
-function style(feature) {
+MapUI.prototype.style = function(feature) {
     return {
         fillColor: getColor(feature.properties.density),
         weight: 2,
@@ -60,12 +62,12 @@ function style(feature) {
     };
 }
 
-function registerMapUIEventHandlers() {
+MapUI.prototype.registerMapUIEventHandlers = function() {
   $('.sidebar-left .slide-submenu').on('click', function () {
       var thisEl = $(this);
       thisEl.closest('.sidebar-body').fadeOut('slide', function () {
           $('.mini-submenu-left').fadeIn();
-          applyMargins();
+          this.applyMargins();
       });
   });
 
@@ -73,14 +75,14 @@ function registerMapUIEventHandlers() {
       var thisEl = $(this);
       $('.sidebar-left .sidebar-body').toggle('slide');
       thisEl.hide();
-      applyMargins();
+      this.applyMargins();
   });
 
   $('.sidebar-right .slide-submenu').on('click', function () {
       var thisEl = $(this);
       thisEl.closest('.sidebar-body').fadeOut('slide', function () {
           $('.mini-submenu-right').fadeIn();
-          applyMargins();
+          this.applyMargins();
       });
   });
 
@@ -88,10 +90,10 @@ function registerMapUIEventHandlers() {
       var thisEl = $(this);
       $('.sidebar-right .sidebar-body').toggle('slide');
       thisEl.hide();
-      applyMargins();
+      this.applyMargins();
   });
 
-  $(window).on("resize", applyMargins);
-  applyInitialUIState();
-  applyMargins();
+  $(window).on("resize", this.applyMargins);
+  this.applyInitialUIState();
+  this.applyMargins();
 }
