@@ -47,7 +47,7 @@
                     url: '{% static "map/wijkenGent.geojson" %}'
                 }),
                 projection: 'EPSG:4326',
-                style: normalStyle
+                style: MapStyle.normalStyle
             });
 
             //the layer that is used to show the different wijknr's in color
@@ -57,7 +57,7 @@
                     url: '{% static "map/wijkenGent.geojson" %}'
                 }),
                 projection: 'EPSG:4326',
-                style: styleFunctionWijk
+                style: MapStyle.styleFunctionWijk
             });
 
             //the layer that is used to show the different wijknr's in color
@@ -67,7 +67,7 @@
                     url: '{% static "map/wijkenGent.geojson" %}'
                 }),
                 projection: 'EPSG:4326',
-                style: styleFunctionLeners
+                style: MapStyle.styleFunctionLeners
             });
 
             //This is the layer beneath, which shows you a version of the map
@@ -108,12 +108,12 @@
             //Now the overlayfeature that is defined (will be used when a mouse moves over a statistical sector
             var featureOverlay = new ol.FeatureOverlay({
                 map: map,
-                style: styleFunction
+                style: MapStyle.styleFunction
             });
 
             var featureOverlayWijk = new ol.FeatureOverlay({
                 map: map,
-                style: styleFunctionWijk
+                style: MapStyle.styleFunctionWijk
             })
 
             //Here follows the interactive part, so a movement of the mouse over a statistical sector will be noticed
