@@ -38,6 +38,13 @@ var MapStyle = {
       zIndex: 1
   }),
 
+  highlightStyle2: new ol.style.Style({
+      fill: new ol.style.Fill({
+          color: [255, 0, 0, 1]
+      }),
+      zIndex: 50
+  }),
+
   //the colors used for the wijknr
   getColorWijk: function(d) {
       return d > 30 ? 'rgba(128, 0, 38, 0.6)' :
@@ -99,6 +106,14 @@ var MapStyle = {
       else {
           style = MapStyle.highlightStyle;
       }
+      return [style];
+  },
+
+  // Style function for libraries
+  styleFunctionlibs: function(feature, resolution) {
+      var style;
+      var geom = feature.getGeometry();
+      style = MapStyle.highlightStyle2;
       return [style];
   }
 

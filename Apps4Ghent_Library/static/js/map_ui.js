@@ -62,7 +62,7 @@ MapUI.prototype.style = function(feature) {
     };
 }
 
-MapUI.prototype.registerMapUIEventHandlers = function() {
+MapUI.prototype.registerSidebarHandlers = function() {
   $('.sidebar-left .slide-submenu').on('click', function () {
       var thisEl = $(this);
       thisEl.closest('.sidebar-body').fadeOut('slide', function () {
@@ -96,4 +96,38 @@ MapUI.prototype.registerMapUIEventHandlers = function() {
   $(window).on("resize", this.applyMargins);
   this.applyInitialUIState();
   this.applyMargins();
+}
+
+// Registers event handlers that have functionality to change between layer
+MapUI.prototype.registerLayerChangeHandlers = function(Map) {
+  $('#OSM').on('click', function () {
+      Map.map.removeLayer(Map.layers.sectionsLayer);
+      Map.map.removeLayer(Map.layers.wijkLayer);
+      Map.map.removeLayer(Map.layers.lenersLayer);
+      Map.map.removeLayer(Map.layers.vectorLayer);
+      Map.map.addLayer(Map.layers.wijkLayer);
+      Map.map.addLayer(Map.layers.sectionsLayer);
+      Map.map.addLayer(Map.layers.vectorLayer);
+
+  });
+
+  $('#OpenStreet').on('click', function () {
+      Map.map.removeLayer(Map.layers.sectionsLayer);
+      Map.map.removeLayer(Map.layers.wijkLayer);
+      Map.map.removeLayer(Map.layers.lenersLayer);
+      Map.map.removeLayer(Map.layers.vectorLayer);
+      Map.map.addLayer(Map.layers.lenersLayer);
+      Map.map.addLayer(Map.layers.sectionsLayer);
+      Map.map.addLayer(Map.layers.vectorLayer);
+  });
+
+  $('#MapQuest').on('click', function () {
+      Map.map.removeLayer(Map.layers.sectionsLayer);
+      Map.map.removeLayer(Map.layers.wijkLayer);
+      Map.map.removeLayer(Map.layers.lenersLayer);
+      Map.map.removeLayer(Map.layers.vectorLayer);
+      Map.map.addLayer(Map.layers.wijkLayer);
+      Map.map.addLayer(Map.layers.sectionsLayer);
+      Map.map.addLayer(Map.layers.vectorLayer);
+  });
 }
