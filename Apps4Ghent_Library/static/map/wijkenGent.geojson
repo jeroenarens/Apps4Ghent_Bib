@@ -10,7 +10,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:50:24Z",
         "wijknr": 13,
-        "borrowers": 1260
+        "borrowers": 1260,
+        "center": [3.749674,51.051696]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -175,7 +176,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:51:07Z",
         "wijknr": 9,
-        "borrowers": 466
+        "borrowers": 466,
+        "center": [3.749674,51.051696]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -348,7 +350,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:51:26Z",
         "wijknr": 7,
-        "borrowers": 498
+        "borrowers": 498,
+        "center": [3.714991,51.064269]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -497,7 +500,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:53:51Z",
         "wijknr": 15,
-        "borrowers": 893
+        "borrowers": 893,
+        "center": [3.761444,51.024552]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -698,7 +702,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:50:59Z",
         "wijknr": 8,
-        "borrowers": 580
+        "borrowers": 580,
+        "center": [3.720313,51.079549]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1059,7 +1064,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:51:17Z",
         "wijknr": 4,
-        "borrowers": 1779
+        "borrowers": 1779,
+        "center": [3.686661,51.05572]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1356,7 +1362,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:51:47Z",
         "wijknr": 24,
-        "borrowers": 1968
+        "borrowers": 1968,
+        "center": [3.678451,51.068255]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1701,7 +1708,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:54:01Z",
         "wijknr": 20,
-        "borrowers": 522
+        "borrowers": 522,
+        "center": [3.732421,51.019865]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1978,7 +1986,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:52:53Z",
         "wijknr": 6,
-        "borrowers": 844
+        "borrowers": 844,
+        "center": [3.714991,51.055892]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2111,7 +2120,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:53:26Z",
         "wijknr": 3,
-        "borrowers": 192
+        "borrowers": 192,
+        "center": [3.73806,51.050984]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2228,7 +2238,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:55:01Z",
         "wijknr": 10,
-        "borrowers": 76
+        "borrowers": 76,
+        "center": [3.732967,51.071782]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2413,7 +2424,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:53:39Z",
         "wijknr": 16,
-        "borrowers": 575
+        "borrowers": 575,
+        "center": [3.771469,51.039724]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2694,7 +2706,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:55:23Z",
         "wijknr": 1,
-        "borrowers": 1479
+        "borrowers": 1479,
+        "center": [3.729557,51.045619]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2959,7 +2972,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:56:09Z",
         "wijknr": 5,
-        "borrowers": 1188
+        "borrowers": 1188,
+        "center": [3.696784,51.047243]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3288,7 +3302,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:55:11Z",
         "wijknr": 2,
-        "borrowers": 683
+        "borrowers": 683,
+        "center": [3.727547,51.060877]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3465,7 +3480,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:54:39Z",
         "wijknr": 21,
-        "borrowers": 379
+        "borrowers": 379,
+        "center": [3.70818,51.030088]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3654,7 +3670,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:55:59Z",
         "wijknr": 22,
-        "borrowers": 754
+        "borrowers": 754,
+        "center": [3.713186,51.041042]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3867,7 +3884,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:55:38Z",
         "wijknr": 17,
-        "borrowers": 447
+        "borrowers": 447,
+        "center": [3.756585,51.041996]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4072,7 +4090,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:55:47Z",
         "wijknr": 18,
-        "borrowers": 731
+        "borrowers": 731,
+        "center": [3.74082,51.034977]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4269,7 +4288,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:49:53Z",
         "wijknr": 11,
-        "borrowers": 50
+        "borrowers": 50,
+        "center": [3.777835,51.132465]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -5534,7 +5554,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:50:03Z",
         "wijknr": 12,
-        "borrowers": 793
+        "borrowers": 793,
+        "center": [3.787304,51.099152]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6147,7 +6168,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:50:17Z",
         "wijknr": 14,
-        "borrowers": 2547
+        "borrowers": 2547,
+        "center": [3.767371,51.067993]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6520,7 +6542,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:54:10Z",
         "wijknr": 19,
-        "borrowers": 579
+        "borrowers": 579,
+        "center": [3.707694,51.002661]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -7001,7 +7024,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:54:19Z",
         "wijknr": 23,
-        "borrowers": 361
+        "borrowers": 361,
+        "center": [3.667631,51.030343]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -7482,7 +7506,8 @@
         "created_at": "2013-07-23T14:48:23Z",
         "updated_at": "2013-07-23T14:54:48Z",
         "wijknr": 25,
-        "borrowers": 2606
+        "borrowers": 2606,
+        "center": [3.63069,51.039913]
       },
       "geometry": {
         "type": "MultiPolygon",
