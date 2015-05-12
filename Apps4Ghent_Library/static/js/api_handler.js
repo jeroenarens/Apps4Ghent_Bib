@@ -4,7 +4,7 @@ function ApiHandler (host, prefix) {
 }
 
 ApiHandler.prototype.getUrl = function(url) {
-  return this.host + this.prefix + url;
+  return this.host + this.prefix + url +'?format=json';
 };
 
 ApiHandler.prototype.getLibraries = function(callback) {

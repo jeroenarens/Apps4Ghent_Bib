@@ -39,7 +39,7 @@
         var map, mapUI, apiHandler, dataManager;
 
         $(function () {
-            apiHandler = new ApiHandler('http://localhost:3000');
+            apiHandler = new ApiHandler('http://localhost:8000');
             dataManager = new DataManager(apiHandler);
 
             mapUI = new MapUI();
@@ -97,14 +97,14 @@
                 </div>
                 <div id="layers" class="panel-collapse collapse in">
                     <div class="panel-body list-group">
-                        <a href="#" class="list-group-item" id="OpenStreet">
-                            <i class="fa fa-globe"></i> Leners
+                        <a href="#" class="list-group-item" id="Borrowers">
+                            <i class="fa fa-globe"></i> Borrowers
                         </a>
-                        <a href="#" class="list-group-item" id="MapQuest">
-                            <i class="fa fa-globe"></i> Wijken
+                        <a href="#" class="list-group-item" id="Sectors">
+                            <i class="fa fa-globe"></i> Sectors
                         </a>
-                        <a href="#" class="list-group-item" id="OSM">
-                            <i class="fa fa-globe"></i> Wijken
+                        <a href="#" class="list-group-item" id="Borrowings">
+                            <i class="fa fa-globe"></i> Borrowings
                         </a>
                     </div>
                 </div>

@@ -100,7 +100,7 @@ MapUI.prototype.registerSidebarHandlers = function() {
 
 // Registers event handlers that have functionality to change between layer
 MapUI.prototype.registerLayerChangeHandlers = function(Map) {
-  $('#OSM').on('click', function () {
+  $('#Sectors').on('click', function () {
       Map.map.removeLayer(Map.layers.sectionsLayer);
       Map.map.removeLayer(Map.layers.wijkLayer);
       Map.map.removeLayer(Map.layers.lenersLayer);
@@ -110,7 +110,7 @@ MapUI.prototype.registerLayerChangeHandlers = function(Map) {
       Map.map.addLayer(Map.layers.librariesLayer);
   });
 
-  $('#OpenStreet').on('click', function () {
+  $('#Borrowers').on('click', function () {
       Map.map.removeLayer(Map.layers.sectionsLayer);
       Map.map.removeLayer(Map.layers.wijkLayer);
       Map.map.removeLayer(Map.layers.lenersLayer);
@@ -120,7 +120,7 @@ MapUI.prototype.registerLayerChangeHandlers = function(Map) {
       Map.map.addLayer(Map.layers.librariesLayer);
   });
 
-  $('#MapQuest').on('click', function () {
+  $('#Borrowings').on('click', function () {
       Map.map.removeLayer(Map.layers.sectionsLayer);
       Map.map.removeLayer(Map.layers.wijkLayer);
       Map.map.removeLayer(Map.layers.lenersLayer);
