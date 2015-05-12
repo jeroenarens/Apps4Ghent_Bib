@@ -31,7 +31,7 @@ DataManager.prototype.updateBorrowersCount = function(callback) {
     var countPerSector = [];
     bcount.forEach(function(count) {
       var sector = self.sectorsPerId[count.sector];
-      if (sector && sector.number) countPerSector[sector.number] = count.borrower_count;
+      countPerSector[sector.number] = count.borrower_count;
     });
 
     self.borrowersCountPerSectorNumber = countPerSector;
