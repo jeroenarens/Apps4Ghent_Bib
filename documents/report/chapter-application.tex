@@ -7,18 +7,36 @@
  	 \caption{The final architecture of our web application}
 \end{figure}
 \subsection{Frontend}
-At the frontend side of our web application, we will have two main components, a rendering component and a visualization component. At the rendering block, the data requested via the API from the backend will be transformed into e.g. figures, dots, that can be displayed on the browser. When the transformation is finished, the visualization block will show the transformed data on the website itself.\\
-
-\subsection{Backend}
-We make use of three main components in the backend.
-First there is part responsible for importing the data consisting of a script in R that performs a cleanup of the CSV data provided by the Open Datatank and a script that imports this CSV into the database. The second component is the database, for which we will use PostgreSQL, a commonly used relational database. As last main component, we have the django web framework. The blocks in this framework consist of an online and offline section. In the online section we have the REST-API which will be used to open up our data to our website and also towards other applications because of the open data concept. Besides this REST-API there is also a logical unit where the caching of requests, data,... will happen. At the offline section of the Django Web Framework, we will provide an import unit to put the data provided as CSV into our database. This is an offline block since the data is provided as a data dump and only needs to imported once. Since it will make use of the mapping that Django provides between the database and Python objects, it is included in the Django block.\\
 
 
 \begin{figure}[h!]
-  \centering
-      \includegraphics[width=16cm]{fig/frontend}
- 	 \caption{Preview of the frontend, when you click on a certain neighbourhood on the interactive map}
+	\centering
+	\includegraphics[width=16cm]{fig/frontend}
+	\caption{Preview of the frontend, when you click on a certain neighbourhood on the interactive map}
+	\label{fig:frontend}
 \end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=16cm]{fig/books4summer}
+	\caption{A website for the journalists with the list of the most borrowed books in summer based on selected criteria.}
+	\label{fig:books4summer}
+\end{figure}
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=16cm]{fig/books4summer-result}
+	\caption{Example of the most borrowed books in summer 2009-2014 for men born in 1940's.}
+	\label{fig:books4summer-result}
+\end{figure}
+
+At the frontend side of our web application (Fig.~\ref{fig:frontend}), we will have two main components, a rendering component and a visualization component. At the rendering block, the data requested via the API from the backend will be transformed into e.g. figures, dots, that can be displayed on the browser. When the transformation is finished, the visualization block will show the transformed data on the website itself.\\
+An additional website (Fig.~\ref{fig:books4summer}) that uses the library data was made for the journalists. It presents the most borrowed books in summer 2009-2014 based on selected criteria (age and gender). The results are shown together with a cover which is retrieved from public API of website Bibliotheek.be (Fig.~\ref{fig:books4summer-result}).
+
+\subsection{Backend}
+We make use of three main components in the backend.
+First there is part responsible for importing the data consisting of a script in R that performs a cleanup of the CSV data provided by the Open Datatank and a script that imports this CSV into the database. The second component is the database, for which we will use PostgreSQL, a commonly used relational database. As last main component, we have the Django web framework. The blocks in this framework consist of an online and offline section. In the online section we have the REST-API which will be used to open up our data to our website and also towards other applications because of the open data concept. Besides this REST-API there is also a logical unit where the caching of requests, data,... will happen. At the offline section of the Django Web Framework, we will provide an import unit to put the data provided as CSV into our database. This is an offline block since the data is provided as a data dump and only needs to imported once. Since it will make use of the mapping that Django provides between the database and Python objects, it is included in the Django block.\\
 
 
 
@@ -43,7 +61,7 @@ In order to provide data to the frontend and external services (such as linked d
 
 {\bf Usage}:
 \begin{verbatim}
-http://api.honegger.elis.ugent.be/v1/}
+http://api.honegger.elis.ugent.be/v1/
 \end{verbatim}
 
 The API will be accessible through URLs that start with \texttt{http://api.honegger.elis.ugent.be/v1/}, where \texttt{v1} indicates the major version of the API. This version number is included so future versions of the API can deprecate certain parts without having to worry about external services breaking because of these changes.
