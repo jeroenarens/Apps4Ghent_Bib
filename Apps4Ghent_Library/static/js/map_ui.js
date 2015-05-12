@@ -100,33 +100,24 @@ MapUI.prototype.registerSidebarHandlers = function() {
 
 // Registers event handlers that have functionality to change between layer
 MapUI.prototype.registerLayerChangeHandlers = function(Map) {
-  $('#OSM').on('click', function () {
-      Map.map.removeLayer(Map.layers.sectionsLayer);
-      Map.map.removeLayer(Map.layers.wijkLayer);
-      Map.map.removeLayer(Map.layers.lenersLayer);
-      Map.map.removeLayer(Map.layers.librariesLayer);
-      Map.map.addLayer(Map.layers.wijkLayer);
-      Map.map.addLayer(Map.layers.sectionsLayer);
-      Map.map.addLayer(Map.layers.librariesLayer);
-  });
+  $('[data-map]').click(function(e) {
+    var data = $(this).data('map');
 
-  $('#OpenStreet').on('click', function () {
-      Map.map.removeLayer(Map.layers.sectionsLayer);
-      Map.map.removeLayer(Map.layers.wijkLayer);
-      Map.map.removeLayer(Map.layers.lenersLayer);
-      Map.map.removeLayer(Map.layers.librariesLayer);
+    // Reset all layers
+    Map.map.removeLayer(Map.layers.sectionsLayer);
+    Map.map.removeLayer(Map.layers.wijkLayer);
+    Map.map.removeLayer(Map.layers.lenersLayer);
+    Map.map.removeLayer(Map.layers.librariesLayer);
+
+    switch(data) {
+    case 'empty':
+      break;
+    case 'borrowersPerArea':
       Map.map.addLayer(Map.layers.lenersLayer);
-      Map.map.addLayer(Map.layers.sectionsLayer);
-      Map.map.addLayer(Map.layers.librariesLayer);
-  });
+      break;
+    }
 
-  $('#MapQuest').on('click', function () {
-      Map.map.removeLayer(Map.layers.sectionsLayer);
-      Map.map.removeLayer(Map.layers.wijkLayer);
-      Map.map.removeLayer(Map.layers.lenersLayer);
-      Map.map.removeLayer(Map.layers.librariesLayer);
-      Map.map.addLayer(Map.layers.wijkLayer);
-      Map.map.addLayer(Map.layers.sectionsLayer);
-      Map.map.addLayer(Map.layers.librariesLayer);
+    Map.map.addLayer(Map.layers.sectionsLayer);
+    Map.map.addLayer(Map.layers.librariesLayer);
   });
 }
