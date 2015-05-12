@@ -28,8 +28,17 @@ def index(request):
             #Now, get the books from the last 5 years:
             summer_start = date(2009,6,21)
             summer_end = date(2014,9,21)
-            borrowings = borrowings.filter(from_date__gte=summer_start, from_date__lte=summer_end)
-
+            summermonths=[6,7,8,9]
+            borrowings = borrowings.filter(Q(from_date__month=6)|
+                                           Q(from_date__month=7)|
+                                           Q(from_date__month=8)|
+                                           Q(from_date__month=9))
+            borrowings = borrowings.filter(Q(from_date__year=2009)|
+                                           Q(from_date__year=2010)|
+                                           Q(from_date__year=2011)|
+                                           Q(from_date__year=2012)|
+                                           Q(from_date__year=2013)|
+                                           Q(from_date__year=2014))
             #get the item_copies of the most rent items
             #borrowings = borrowings.annotate(bcount=Count('barcode')).order_by('-bcount')[:10]
             borrowings = borrowings.values(*prefix_list('item_copy__item__', ['id', 'title', 'author_firstname','author_lastname', 'isbn'])).annotate(count=Count('item_copy__item__id')).order_by('-count')[2:12]
