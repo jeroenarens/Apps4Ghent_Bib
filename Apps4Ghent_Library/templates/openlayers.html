@@ -161,6 +161,33 @@
                                  <option value="Tijdschrift">Tijdschrift</option>
                             </select>
                         </a>
+                        <a href="#" class="list-group-item">
+                            <label>Borrower birthdecade</label>
+                            <select data-filter="decade">
+                                <option value="null">All</option>
+                                <option value="1950">1950</option>
+                                <option value="1960">1960</option>
+                                <option value="1970">1970</option>
+                                <option value="1980">1980</option>
+                                <option value="1990">1990</option>
+                                <option value="2000">2000</option>
+                            </select>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <label>Borrower Sex</label>
+                            <select data-filter="sex">
+                                <option value="null">All</option>
+                                <option value="M">Male</option>
+                                <option value="V">Female</option>
+                            </select>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <label>Borrowed between<label>
+                            <input type="date" data-filter="from_date" />
+                            <br/>
+                            <label>and</label>
+                            <input type="date" data-filter="until_date" />
+                        </a>
                     </div>
                 </div>
             </div>

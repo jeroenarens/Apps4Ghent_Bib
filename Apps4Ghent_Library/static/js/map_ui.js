@@ -144,7 +144,7 @@ MapUI.prototype.changeLayer = function(Map, layer) {
 };
 
 MapUI.prototype.registerFilterHandlers = function(Map) {
-  $('[data-filter=type]').change(function(event) {
-    Map.dataManager.setFilter(Map, 'type', $(this).val());
+  $('[data-filter]').change(function(event) {
+    Map.dataManager.setFilter(Map, $(this).data('filter'), $(this).val());
   });
 };
