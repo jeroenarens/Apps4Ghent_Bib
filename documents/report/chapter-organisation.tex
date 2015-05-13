@@ -16,7 +16,7 @@
 
 \section{Infrastructure decisions}
 \begin{itemize}
-	\item A private git repository is set up via Github on which the project development will take place.
+	\item A public git repository is set up via Github on which the project development will take place.
     \item To keep the communication clear and well structured, Slack is used to handle the communication between the computer science students. Communication with other sources will be done by email.
     \item Slack will also be used for stand-up meetings with the group. If a call is needed, Google hangouts (integrated into Slack) will be used.
 \end{itemize}
@@ -33,15 +33,20 @@
 		\item The Linked data part will not be done, due to timing constraints. (02/04)
 		\item To perform the data cleaning, a script will be written in R, this is because of the help of a competitor at the Apps4Ghent competition, which already had a good functioning base of the needed script
 		\item Mongodb will not be used anymore, due to enduring issues when using it with the Django Web Framework. As a substitute, Postgresql is used to store the data. This database technology works well with the library data.
-		\item Instead of leaflet, Openlayers will be used to visualize the data. Leaflet does not provide enough documentation in our opinion to perform our task well for the library. Openlayers provides a good documentation, and will therefore be used for the website of the library
+		\item Instead of leaflet, Openlayers will be used to visualize the data. Leaflet does not provide enough documentation in our opinion to perform 		our task well for the library. Openlayers provides a good documentation, and will therefore be used for the website of the library
 	\end{itemize}
-	
+\subsection{3rd cycle}
+	\begin{itemize}
+		\item The second part of the data cleaning is being continued on improved data from the library (libraries are available now)
+		\item The visualisation for the library and the REC is being continued and finished
+		\item The API endpoints are improved with filtering possibilities and extra endpoints
+	\end{itemize}
 
 \section{Risks}
 
   \subsection{Front end}
-	{\bf Risk}: The main risk on the front end of the website is the visualisation is not finished in time so the application for the library is not responsive or fancy enough for the library. It also eliminates the possibility for the journalism students to extract an interesting story.\\
-	{\bf Impact}: Medium. The impact on our project is of medium level, because some of the important needs of our clients is not fulfilled.\\
+	{\bf Risk}: The main risk of the front of the website is that the visualisation is not finished in time so the application for the library is not responsive or fancy enough for the library. It also eliminates the possibility for the journalism students to extract an interesting story.\\
+	{\bf Impact}: Medium. The impact on our project is of medium level, because some of the important needs of our clients are not fulfilled.\\
 	{\bf Status} The frontend website is finished and works fine with the API, but has some small flaws on mobile devices. 
   \subsection{Library data missing or not useful}
 	{\bf Risk}: if the data of the library is missing or contains too many flaws, than it is for us not possible to get some useful characteristics of the data.\\
@@ -59,8 +64,8 @@
 \section{Technologies used}
 
 \begin{itemize}
-	\item Django with django REST framework for the web application and API.
-	\item Apache2 webserver with Web Server Gateway Interface (WSGI) for serving Python applications.
+ \item Django with django REST framework for the web application and API.
+ \item Apache2 webserver with Web Server Gateway Interface (WSGI) for serving Python applications.
   \item PostgreSQL* database.
   \item Openlayers is used for the visualisation on the client side. \cite{openlayers}
   \item R is used to perform a cleanup of the data.
