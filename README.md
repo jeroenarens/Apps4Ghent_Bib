@@ -50,6 +50,7 @@ Afterwards, set up the database with in python
 Now you can start the server by typing: 
 <br />
 <code> python3 manage.py runserver </code>
+<br/>
+For a more detailed documentation about cleaning/importing the data or using the API, please read our [Wiki](https://github.com/jeroenarens/Apps4Ghent_Bib/wiki)
 <br/> <br/>
 Be aware that you do not need to change any settings, you should be able to run this project locally without changing anything to these settings!
-
