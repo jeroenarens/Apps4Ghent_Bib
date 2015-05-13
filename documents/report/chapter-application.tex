@@ -64,33 +64,6 @@ Although this is an interesting idea, we did not continue with it because of ext
 
 In order to provide data to the frontend and external services (such as linked data applications), an API has to be decided on. The aim of this section is to give an overview of the calls that can be made this API and the kind of data it will return.
 
-\subsubsection{Root URL}
-
-{\bf Usage}:
-\begin{verbatim}
-http://api.honegger.elis.ugent.be/v1/
-\end{verbatim}
-
-The API will be accessible through URLs that start with \texttt{http://api.honegger.elis.ugent.be/v1/}, where \texttt{v1} indicates the major version of the API. This version number is included so future versions of the API can deprecate certain parts without having to worry about external services breaking because of these changes.
-
-\subsubsection{Items}
-
-{\bf Usage}:
-\begin{verbatim}
-http://api.honegger.elis.ugent.be/v1/items/[?param_1=value_1]
-  [&param_2=value_2]...[&param_n=value_n][/count]
-\end{verbatim}
-
-{\bf Parameters}:
-\begin{itemize}
-  \item \texttt{sector}: Identifier for the statistical sector. When provided, only items that were loaned by people living in the given sector will be returned.
-  \item \texttt{age\_description}: Description of the target age of the item.
-  \item \texttt{from\_date}: When provided, only items that were loaned after (and including) the given date are returned.
-  \item \texttt{until\_date}: When provided, only items that were loaned before (and including) the given date are returned.
-  \item \texttt{limit}: The maximum number of items that should be returned.
-  \item \texttt{order}: A comma-seperated list of properties on which to sort the data in ascending order. Descending order can be achieved by adding a $-$ before the property.
-\end{itemize}
-
 The main resources that are provided by the API are \emph{items} present in the library, such as \emph{books} and \emph{DVDs}.
 By calling the URL listed above, a list of \emph{items} can be fetched that can be filtered using various optional parameters.
 The return value should be a list of \emph{items} containing their unique identifiers, various metadata properties (such as title, genre, theme, ...), the library the item was loaned from and the number of times the items was loaned, given the parameters.\\

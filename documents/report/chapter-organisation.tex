@@ -9,9 +9,10 @@
  \item Damian will take care of the tasks of the system administrator. (25/02)
  \item Damian will take care of continuous integration system. (3/03)
  \item Harald will be reponsible for frontend matters. (3/03)
- \item Enver will focus on providing API. (3/03)
+ \item Enver will focus on providing the API. (3/03)
  \item Jeroen will help with Django related problems in backend due to his experience. (3/03)
 \end{itemize}
+
 
 \section{Infrastructure decisions}
 \begin{itemize}
@@ -20,24 +21,40 @@
     \item Slack will also be used for stand-up meetings with the group. If a call is needed, Google hangouts (integrated into Slack) will be used.
 \end{itemize}
 
+\section{Project decisions}
+\subsection{1st cycle}
+	\begin{itemize} 
+		\item The Django web framework will be used to develop the API (using the Django Rest Framework Module).
+   	 	\item In the frontend we will use leaflet with highmaps to show the visualisations of the library because of the simplicity it has at first sight
+		\item Mongodb will be used to store the library data, which can be later on used to built up a semantic network of data
+	\end{itemize}
+\subsection{2nd cycle}
+	\begin{itemize}
+		\item The Linked data part will not be done, due to timing constraints. (02/04)
+		\item To perform the data cleaning, a script will be written in R, this is because of the help of a competitor at the Apps4Ghent competition, which already had a good functioning base of the needed script
+		\item Mongodb will not be used anymore, due to enduring issues when using it with the Django Web Framework. As a substitute, Postgresql is used to store the data. This database technology works well with the library data.
+		\item Instead of leaflet, Openlayers will be used to visualize the data. Leaflet does not provide enough documentation in our opinion to perform our task well for the library. Openlayers provides a good documentation, and will therefore be used for the website of the library
+	\end{itemize}
+	
+
 \section{Risks}
 
   \subsection{Front end}
 	{\bf Risk}: The main risk on the front end of the website is the visualisation is not finished in time so the application for the library is not responsive or fancy enough for the library. It also eliminates the possibility for the journalism students to extract an interesting story.\\
 	{\bf Impact}: Medium. The impact on our project is of medium level, because some of the important needs of our clients is not fulfilled.\\
-	{\bf Status} The frontend website is already finished and ready to incorporate the data provided from the API. It is responsive on pc's, but has some small flaws on mobile devices. 
+	{\bf Status} The frontend website is finished and works fine with the API, but has some small flaws on mobile devices. 
   \subsection{Library data missing or not useful}
 	{\bf Risk}: if the data of the library is missing or contains too many flaws, than it is for us not possible to get some useful characteristics of the data.\\
 	{\bf Impact}: Very high, if the data is not present or too uncomplete, a big part of our project can be influenced very hard in a bad way.\\
-	{\bf Status}: We received the data of the library a couple of weeks ago. The data contains however some flaws and a lot of data is not shown. It is not possible for us to show all the visualisations we would like to show because of this delay and lack of certain properties.
+	{\bf Status}: We received the data of the library a couple of weeks ago. The data contains however some flaws and a lot of data is not shown. We dit eventually manage to receive the necessary data to make a visualisation 1 week before the deadline
   \subsection{Data cleaning}
 	{\bf Risk}: The data cleaning is not done on time, which would mean that we would have to trust on the uncleaned data of the library.\\
 	{\bf Impact}: Medium: The lack of cleaning can cause a further diminishment of functionality of our tool or API.\\
-	{\bf Status}: The data cleaning is almost done and is thereby almost included in the database of our website. We also had some help from a participant of the Apps4Ghent hackathon which helped us to win some time.
+	{\bf Status}: The data cleaning is done and is thereby included in the database of our website. We also had some help from a participant of the Apps4Ghent hackathon which helped us to win some time.
   \subsection{API not working}
 	{\bf Risk}: The API is not finished on time.\\
 	{\bf Impact}: Very high: the main purpose of this project is also about open data. If we can not provide an API that can be used by others, this open data requirement can not be fulfilled.\\
-	{\bf Status}: A first version is made. For now we need to wait for the finalisation of the database with the cleaned data. Afterwards, the database can be included
+	{\bf Status}: The API is finished. All items can be looked up and can also be filtered upon (see API documentation).
 \newpage
 \section{Technologies used}
 

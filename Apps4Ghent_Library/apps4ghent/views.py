@@ -42,21 +42,15 @@ def index(request):
             #return the top 10
 
             context['items'] = borrowings
-            return render_to_response('overview.html', context)
+            return render_to_response('summerbooks.html', context)
 
-    return render_to_response('index2.html',{'form': form})
+    return render_to_response('index.html',{'form': form})
 
-#can be ignored
-def leaflet(request):
-    return render_to_response('leaflet.html')
 
 #can be ignored
-def openlayers(request):
-    return render_to_response('openlayers.html')
+def library(request):
+    return render_to_response('library.html')
 
-#can be ignored
-def highmap(request):
-    return render_to_response('highmaps.html')
 
 #From here on the views for the API are defined
 #API view for the items

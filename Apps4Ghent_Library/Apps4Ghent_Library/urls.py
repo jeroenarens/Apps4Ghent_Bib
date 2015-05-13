@@ -19,7 +19,7 @@ router.register(r'booksPerLibrary', views.BooksPerLibraryViewSet)
 urlpatterns = patterns('',
     # General urls
     url(r'^$', views.index, name='index'),
-    url(r'^openlayers/', views.openlayers, name='openlayers'),
+    url(r'^library/', views.library, name='library'),
     
     # Admin section
     url(r'^admin/', include(admin.site.urls)),

@@ -190,4 +190,16 @@ h2.subtitle {
 p.copyright {
 	color: #fff;
 	text-align: center;
-}	
+}
+
+#mediaslider {
+    position: relative;
+    height: 500px;
+    max-height: 80%;
+}
+
+.carousel-inner.img{
+    position: relative;
+    height: 100px;
+    widht: 200px;
+}

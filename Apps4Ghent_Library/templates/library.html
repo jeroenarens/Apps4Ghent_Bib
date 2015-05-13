@@ -41,7 +41,8 @@
 
         $(function () {
             mapUI = new MapUI();
-            apiHandler = new ApiHandler('http://localhost:3000');
+            //needs to be set onto your website url
+            apiHandler = new ApiHandler('http://localhost:8000');
             dataManager = new DataManager(mapUI, apiHandler);
 
             mapUI.registerSidebarHandlers();
