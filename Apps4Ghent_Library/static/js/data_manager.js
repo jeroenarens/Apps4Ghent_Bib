@@ -2,6 +2,7 @@ function DataManager(mapUI, apiHandler) {
   this.mapUI = mapUI;
   this.apiHandler = apiHandler;
 
+  this.selectedSector = undefined;
   this.currentLayer = "empty";
   this.filters = {};
 
@@ -105,6 +106,13 @@ DataManager.prototype.setCurrentLayer = function(Map, layer) {
     this.mapUI.changeLayer(Map, layer);
   }
 };
+
+DataManager.prototype.setSelectedSector = function(Map, sector) {
+  if (this.selectedSector != sector) {
+    this.selectedSector = sector;
+    this.mapUI.refreshInfoBox(Map, sector);
+  }
+}
 
 DataManager.prototype._clearData = function() {
   this.clearableProperties.forEach(function(prop) {

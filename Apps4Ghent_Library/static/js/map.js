@@ -177,46 +177,7 @@ Map.prototype.registerEventHandlers = function() {
               return;
           }
 
-          var nr = feature.get('wijknr');
-
-          // Generate info to show in the right sidebar
-          var info = ["Information is loading..."];
-
-          // Total no borrowers
-          if (self.dataManager.borrowersCountPerSectorNumber) {
-              var borrowers =  self.dataManager.borrowersCountPerSectorNumber[nr];
-              info = ["Total no. Borrowers: " + borrowers];
-          }
-
-          // Total no borrowings
-          if (self.dataManager.borrowingCountsPerSectorNumber) {
-              info.push("Total no. Borrowings: " + self.dataManager.borrowingCountsPerSectorNumber[nr]);
-          }
-
-          // Borrowings per library
-          if (self.dataManager.sectorsPerSectorNumber && self.dataManager.borrowingCounts) {
-              var sector_id = self.dataManager.sectorsPerSectorNumber[nr].id;
-              var libraryInfo = [];
-
-              self.dataManager.borrowingCounts.sort(function(a, b) {
-                return b.borrowing_count - a.borrowing_count;
-              }).forEach(function(count) {
-                  if (count.to_sector == sector_id) {
-                    var from_library = count.from_library || "UNKNOWN";
-                    if (self.dataManager.librariesPerBranchCode && self.dataManager.librariesPerBranchCode[from_library])
-                        from_library = self.dataManager.librariesPerBranchCode[from_library].name || from_library;
-                    libraryInfo.push('<td>' + from_library + '</td><td>' + count.borrowing_count + '</td>');
-                  }
-              });
-
-              var list = libraryInfo.map(function(el) { return "<tr>" + el + "</lr>"; }).join('');
-              info.push("Borrowings per library: <table><tr><th>Library</th><th># Borrowings</th></tr>" + list + "</table>");
-          }
-
-          $('#title').html(feature.get('name'));
-          $('#contentgeojson').html(
-            info.map(function(el) { return '<p>' + el + '</p>' }).join('')
-          );
+          self.dataManager.setSelectedSector(self, feature);
       });
   });
 };
