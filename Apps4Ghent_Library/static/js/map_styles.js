@@ -60,7 +60,7 @@ var MapStyle = {
     return [style]
   },
 
-  borrowingsPerBorrowersColorCalculator: new ColorCalculator([128, 0, 38], [255, 237, 160], 10),
+  borrowingsPerBorrowersColorCalculator: new ColorCalculator([100, 20, 60], [255, 237, 200], 20),
 
   styleFunctionBorrowingsPerBorrowers: function(feature, resolution) {
     var number = feature.get('wijknr');
