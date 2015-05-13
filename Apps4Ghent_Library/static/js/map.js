@@ -197,15 +197,17 @@ Map.prototype.registerEventHandlers = function() {
               var sector_id = self.dataManager.sectorsPerSectorNumber[nr].id;
               var libraryInfo = [];
 
-              self.dataManager.borrowingCounts.forEach(function(count) {
+              self.dataManager.borrowingCounts.sort(function(a, b) {
+                return a.borrowing_count - b.borrowing_count;
+              }).forEach(function(count) {
                   if (count.to_sector == sector_id) {
                     var from_library = count.from_library || "UNKNOWN";
-                    libraryInfo.push(from_library + ': ' + count.borrowing_count + ' borrowings');
+                    libraryInfo.push('<td>' + from_library + '</td><td>' + count.borrowing_count + '</td>');
                   }
               });
 
-              var list = libraryInfo.map(function(el) { return "<li>" + el + "</li>"; }).join('');
-              info.push("Borrowings per library: <ul>" + list + "</ul>");
+              var list = libraryInfo.map(function(el) { return "<tr>" + el + "</lr>"; }).join('');
+              info.push("Borrowings per library: <table><tr><th>Library</th><th># Borrowings</th></tr>" + list + "</table>");
           }
 
           $('#title').html(feature.get('name'));
