@@ -7,6 +7,8 @@ function DataManager(apiHandler) {
   this.borrowingCounts = undefined;
   this.borrowingCountsPerSectorNumber = undefined;
   this.borrowingCountsPerLibrary = undefined;
+  this.librariesPerBranchCode = undefined;
+  this.libraries = undefined;
 }
 
 DataManager.prototype.updateSectors = function(callback) {
@@ -69,5 +71,21 @@ DataManager.prototype.updateBorrowingsCount = function(callback) {
     self.borrowingCountsPerLibrary = borrowingCountsPerLibrary;
 
     if (callback) callback(borrowingCountsPerSectorNumber, borrowingCountsPerLibrary);
+  });
+};
+
+DataManager.prototype.updateLibraries = function(callback) {
+  var self = this;
+
+  this.apiHandler.getLibraries(function(libraries) {
+    librariesPerId = {};
+
+    libraries.forEach(function(library) {
+      librariesPerId[library.branch_code] = library;
+    });
+
+    self.libraries = libraries;
+    self.librariesPerBranchCode = librariesPerId;
+    if (callback) callback(libraries, librariesPerId);
   });
 }

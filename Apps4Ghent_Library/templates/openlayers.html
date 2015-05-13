@@ -48,7 +48,6 @@
 
             map = new Map(apiHandler, dataManager, mapUI, '{% static "map/wijkenGent.geojson" %}');
             map.registerEventHandlers();
-            map.drawLibraries();
 
             // Fetch initial values from api
             dataManager.updateSectors(function() {
@@ -103,11 +102,11 @@
                         <a href="#" class="list-group-item" data-map="empty">
                             <i class="fa fa-globe"></i> Map of Ghent
                         </a>
+                        <a href="#" class="list-group-item" id="Libraries" data-map="libraries">
+                            <i class="fa fa-globe"></i> Libraries
+                        </a>
                         <a href="#" class="list-group-item" id="Borrowers" data-map="borrowersPerArea">
                             <i class="fa fa-globe"></i> Borrowers / km&sup2;
-                        </a>
-                        <a href="#" class="list-group-item" id="Sectors">
-                            <i class="fa fa-globe"></i> Sectors
                         </a>
                         <a href="#" class="list-group-item" id="Borrowings" data-map="borrowingsPerBorrowers">
                             <i class="fa fa-globe"></i> Borrowings / Borrowers

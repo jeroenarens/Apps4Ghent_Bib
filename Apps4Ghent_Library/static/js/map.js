@@ -7,6 +7,7 @@ function Map(apiHandler, dataManager, mapUI, sectionsUrl) {
   this._generateView();
   this._generateMap();
   this._generateOverlays();
+  this._generateLibrariesLayer();
 }
 
 Map.prototype._generateView = function() {
@@ -25,7 +26,7 @@ Map.prototype._generateMap = function() {
   //The layers of the different statistical sectors are added
   this.map = new ol.Map({
       target: "map",
-      layers: [this.layers.comicLayer, this.layers.sectionsLayer],
+      layers: [this.layers.comicLayer, this.layers.sectionsLayer, this.layers.loadingLayer],
       view: this.view
   });
 };
@@ -198,10 +199,12 @@ Map.prototype.registerEventHandlers = function() {
               var libraryInfo = [];
 
               self.dataManager.borrowingCounts.sort(function(a, b) {
-                return a.borrowing_count - b.borrowing_count;
+                return b.borrowing_count - a.borrowing_count;
               }).forEach(function(count) {
                   if (count.to_sector == sector_id) {
                     var from_library = count.from_library || "UNKNOWN";
+                    if (self.dataManager.librariesPerBranchCode && self.dataManager.librariesPerBranchCode[from_library])
+                        from_library = self.dataManager.librariesPerBranchCode[from_library].name || from_library;
                     libraryInfo.push('<td>' + from_library + '</td><td>' + count.borrowing_count + '</td>');
                   }
               });
@@ -218,10 +221,10 @@ Map.prototype.registerEventHandlers = function() {
   });
 };
 
-Map.prototype.drawLibraries = function() {
+Map.prototype._generateLibrariesLayer = function() {
     var self = this;
 
-    this.apiHandler.getLibraries(function(libraries) {
+    this.dataManager.updateLibraries(function(libraries, librariesPerBranchCode) {
         // Gather the lat,long points from the library
         var library_coordinates = libraries.map(getLibraryLatLong);
 
@@ -240,11 +243,14 @@ Map.prototype.drawLibraries = function() {
         });
 
         self.layers.librariesLayer = new ol.layer.Vector({
-            source: vectorSource
+            source: vectorSource,
+            projection: 'EPSG:4326',
+            style: MapStyle.styleFunctionLibraries
         });
 
-        self.map.addLayer(self.layers.librariesLayer);
-
+        // Only enable UI control after this layer is generated
         self.mapUI.registerLayerChangeHandlers(self);
+
+        self.map.removeLayer(self.layers.loadingLayer);
     });
 }

@@ -116,7 +116,6 @@ MapUI.prototype.registerLayerChangeHandlers = function(Map) {
     case 'empty':
       Map.map.removeLayer(Map.layers.loadingLayer);
       Map.map.addLayer(Map.layers.sectionsLayer);
-      Map.map.addLayer(Map.layers.librariesLayer);
       break;
     case 'borrowersPerArea':
       MapStyle.borrowersPerAreaColorCalculator.update(calculateBorrowersPerArea(Map.dataManager));
@@ -124,7 +123,6 @@ MapUI.prototype.registerLayerChangeHandlers = function(Map) {
 
       Map.map.addLayer(Map.layers.lenersLayer);
       Map.map.addLayer(Map.layers.sectionsLayer);
-      Map.map.addLayer(Map.layers.librariesLayer);
       break;
     case 'borrowingsPerBorrowers':
       Map.dataManager.updateBorrowingsCount(function() {
@@ -132,9 +130,12 @@ MapUI.prototype.registerLayerChangeHandlers = function(Map) {
         Map.map.removeLayer(Map.layers.loadingLayer);
         Map.map.addLayer(Map.layers.borrowingsLayer);
         Map.map.addLayer(Map.layers.sectionsLayer);
-        Map.map.addLayer(Map.layers.librariesLayer);
       });
       break;
+    case 'libraries':
+      Map.map.removeLayer(Map.layers.loadingLayer);
+      Map.map.addLayer(Map.layers.sectionsLayer);
+      Map.map.addLayer(Map.layers.librariesLayer);
     }
   });
 }

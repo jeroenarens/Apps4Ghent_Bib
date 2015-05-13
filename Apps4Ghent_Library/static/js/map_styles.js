@@ -114,11 +114,17 @@ var MapStyle = {
   },
 
   // Style function for libraries
-  styleFunctionlibs: function(feature, resolution) {
-      var style;
-      var geom = feature.getGeometry();
-      style = MapStyle.highlightStyle2;
-      return [style];
+  styleFunctionLibraries: function(feature, resolution) {
+      var iconStyle = new ol.style.Style({
+          image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+              anchor: [0.5, 46],
+              anchorXUnits: 'fraction',
+              anchorYUnits: 'pixels',
+              opacity: 1,
+              src: '../static/img/library_marker.png'
+          }))
+      });
+      return [iconStyle];
   }
 
 };
