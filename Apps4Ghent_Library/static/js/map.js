@@ -33,33 +33,43 @@ Map.prototype._generateMap = function() {
 Map.prototype._generateLayers = function(sectionsUrl) {
   this.layers = {};
 
+  var sectionSource = new ol.source.GeoJSON({
+      projection: 'EPSG:3857',
+      url: sectionsUrl
+  });
+
+  // Loading layer
+  this.layers.loadingLayer = new ol.layer.Vector({
+      source: sectionSource,
+      projection: 'EPSG:4326',
+      style: MapStyle.styleFunctionLoad
+  });
+
   this.layers.sectionsLayer = new ol.layer.Vector({
-      source: new ol.source.GeoJSON({
-          projection: 'EPSG:3857',
-          url: sectionsUrl
-      }),
+      source: sectionSource,
       projection: 'EPSG:4326',
       style: MapStyle.normalStyle
   });
 
   //the layer that is used to show the different wijknr's in color
   this.layers.wijkLayer = new ol.layer.Vector({
-      source: new ol.source.GeoJSON({
-          projection: 'EPSG:3857',
-          url: sectionsUrl
-      }),
+      source: sectionSource,
       projection: 'EPSG:4326',
       style: MapStyle.styleFunctionWijk
   });
 
   //the layer that is used to show the different loaners in color
   this.layers.lenersLayer = new ol.layer.Vector({
-      source: new ol.source.GeoJSON({
-          projection: 'EPSG:3857',
-          url: sectionsUrl
-      }),
+      source: sectionSource,
       projection: 'EPSG:4326',
       style: MapStyle.styleFunctionBorrowersPerArea
+  });
+
+  //the layer that is used to show the different borrowings in color
+  this.layers.borrowingsLayer = new ol.layer.Vector({
+      source: sectionSource,
+      projection: 'EPSG:4326',
+      style: MapStyle.styleFunctionBorrowingsPerBorrowers
   });
 
   //This is the layer beneath, which shows you a version of the map
@@ -167,9 +177,41 @@ Map.prototype.registerEventHandlers = function() {
           }
 
           var nr = feature.get('wijknr');
-          var borrowers = self.dataManager.borrowersCountPerSectorNumber ? self.dataManager.borrowersCountPerSectorNumber[nr] : 'loading...';
+
+          // Generate info to show in the right sidebar
+          var info = ["Information is loading..."];
+
+          // Total no borrowers
+          if (self.dataManager.borrowersCountPerSectorNumber) {
+              var borrowers =  self.dataManager.borrowersCountPerSectorNumber[nr];
+              info = ["Total no. Borrowers: " + borrowers];
+          }
+
+          // Total no borrowings
+          if (self.dataManager.borrowingCountsPerSectorNumber) {
+              info.push("Total no. Borrowings: " + self.dataManager.borrowingCountsPerSectorNumber[nr]);
+          }
+
+          // Borrowings per library
+          if (self.dataManager.sectorsPerSectorNumber && self.dataManager.borrowingCounts) {
+              var sector_id = self.dataManager.sectorsPerSectorNumber[nr].id;
+              var libraryInfo = [];
+
+              self.dataManager.borrowingCounts.forEach(function(count) {
+                  if (count.to_sector == sector_id) {
+                    var from_library = count.from_library || "UNKNOWN";
+                    libraryInfo.push(from_library + ': ' + count.borrowing_count + ' borrowings');
+                  }
+              });
+
+              var list = libraryInfo.map(function(el) { return "<li>" + el + "</li>"; }).join('');
+              info.push("Borrowings per library: <ul>" + list + "</ul>");
+          }
+
           $('#title').html(feature.get('name'));
-          $('#contentgeojson').html('<p>' + "wijk nummer: " + feature.get('wijknr') + '</p>' + '<p>' + "Aantal leners: " + borrowers + '</p>');
+          $('#contentgeojson').html(
+            info.map(function(el) { return '<p>' + el + '</p>' }).join('')
+          );
       });
   });
 };

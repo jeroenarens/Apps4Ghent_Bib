@@ -24,3 +24,16 @@ ApiHandler.prototype.getSectors = function(callback) {
     callback(data.results);
   });
 };
+
+ApiHandler.prototype.getBorrowingsCount = function(callback) {
+  $.get(this.getUrl('borrowed-items'), {format: 'json'}, function(data) {
+    var results = data.results;
+
+    // Recursively fetch the next batch of data
+    function getNext(next) {
+      if (next == null) callback(results);
+      else $.get(next, function(data) { results = results.concat(data.results); getNext(data.next); })
+    }
+    getNext(data.next);
+  });
+}

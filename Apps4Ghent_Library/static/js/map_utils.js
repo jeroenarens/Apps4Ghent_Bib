@@ -10,5 +10,18 @@ function getLibraryLatLong(library) {
     ];
 }
 
+function calculateBorrowersPerArea(dataManager) {
+    return dataManager.borrowersCountPerSectorNumber.map(function(count, snumber) {
+        var area = dataManager.sectorsPerSectorNumber[snumber].area;
+        if (area == 0) return 0;
+        return count / area;
+    });
+}
 
-
+function calculateBorrowingsPerBorrowers(dataManager) {
+    return dataManager.borrowingCountsPerSectorNumber.map(function(count, snumber) {
+      var bcount = dataManager.borrowersCountPerSectorNumber[snumber];
+      if (bcount == 0) return 0;
+      return count / bcount;
+    });
+}

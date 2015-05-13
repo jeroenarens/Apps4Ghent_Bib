@@ -103,27 +103,38 @@ MapUI.prototype.registerLayerChangeHandlers = function(Map) {
   $('[data-map]').click(function(e) {
     var data = $(this).data('map');
 
+    Map.map.addLayer(Map.layers.loadingLayer);
+
     // Reset all layers
     Map.map.removeLayer(Map.layers.sectionsLayer);
     Map.map.removeLayer(Map.layers.wijkLayer);
     Map.map.removeLayer(Map.layers.lenersLayer);
+    Map.map.removeLayer(Map.layers.borrowingsLayer);
     Map.map.removeLayer(Map.layers.librariesLayer);
 
     switch(data) {
     case 'empty':
+      Map.map.removeLayer(Map.layers.loadingLayer);
+      Map.map.addLayer(Map.layers.sectionsLayer);
+      Map.map.addLayer(Map.layers.librariesLayer);
       break;
     case 'borrowersPerArea':
-      var borrowersPerArea = Map.dataManager.borrowersCountPerSectorNumber.map(function(count, snumber) {
-        var area = Map.dataManager.sectorsPerSectorNumber[snumber].area;
-        if (area == 0) return 0;
-        return count / area;
-      });
-      MapStyle.borrowersPerAreaColorCalculator.update(borrowersPerArea);
+      MapStyle.borrowersPerAreaColorCalculator.update(calculateBorrowersPerArea(Map.dataManager));
+      Map.map.removeLayer(Map.layers.loadingLayer);
+
       Map.map.addLayer(Map.layers.lenersLayer);
+      Map.map.addLayer(Map.layers.sectionsLayer);
+      Map.map.addLayer(Map.layers.librariesLayer);
+      break;
+    case 'borrowingsPerBorrowers':
+      Map.dataManager.updateBorrowingsCount(function() {
+        MapStyle.borrowingsPerBorrowersColorCalculator.update(calculateBorrowingsPerBorrowers(Map.dataManager))
+        Map.map.removeLayer(Map.layers.loadingLayer);
+        Map.map.addLayer(Map.layers.borrowingsLayer);
+        Map.map.addLayer(Map.layers.sectionsLayer);
+        Map.map.addLayer(Map.layers.librariesLayer);
+      });
       break;
     }
-
-    Map.map.addLayer(Map.layers.sectionsLayer);
-    Map.map.addLayer(Map.layers.librariesLayer);
   });
 }

@@ -1,6 +1,5 @@
 var MapStyle = {
 
-  //The layer for where the different statistical sectors are drawn upon
   normalStyle: ol.style.Style({
       stroke: new ol.style.Stroke({
           color: '#800026',
@@ -45,25 +44,12 @@ var MapStyle = {
       zIndex: 50
   }),
 
-  //the colors used for the borrowers
-  getColorLeners: function(d) {
-      return d > 1750 ? 'rgba(128, 0, 38, 0.6)' :
-              d > 1500 ? 'rgba(189, 0, 38, 0.6)' :
-                      d > 1250 ? 'rgba(227, 26, 28, 0.6)' :
-                              d > 1000 ? 'rgba(252, 78, 42, 0.6)' :
-                                      d > 750 ? 'rgba(253, 141, 60, 0.6)' :
-                                              d > 500 ? 'rgba(254, 178, 76, 0.6)' :
-                                                      d > 250 ? 'rgba(254, 217, 118, 0.6)' :
-                                                              'rgba(255, 237, 160, 0.6)';
-  },
-
   borrowersPerAreaColorCalculator: new ColorCalculator([128, 0, 38], [255, 237, 160], 8),
 
   styleFunctionBorrowersPerArea: function(feature, resolution) {
     var number = feature.get('wijknr');
     var borrowersPerArea = dataManager.borrowersCountPerSectorNumber[number] / dataManager.sectorsPerSectorNumber[number].area;
     var color = MapStyle.borrowersPerAreaColorCalculator.getRgbaColor(borrowersPerArea, 0.6);
-    console.log('COLOR' + color);
 
     var style = new ol.style.Style({
         fill: new ol.style.Fill({
@@ -74,18 +60,40 @@ var MapStyle = {
     return [style]
   },
 
-  //The styling with the used wijknr
-  /*styleFunctionLeners: function(feature, resolution) {
-      var number = feature.get('wijknr');
-      var borrowersPerArea = dataManager.borrowersCountPerSectorNumber[number] / dataManager.sectorsPerSectorNumber[number];
-      var style = new ol.style.Style({
-          fill: new ol.style.Fill({
-              color: MapStyle.getColorLeners(borrowersPerArea),
-              opacity: 0.6
-          })
-      });
-      return [style]
-  },*/
+  borrowingsPerBorrowersColorCalculator: new ColorCalculator([128, 0, 38], [255, 237, 160], 20),
+
+  styleFunctionBorrowingsPerBorrowers: function(feature, resolution) {
+    var number = feature.get('wijknr');
+    var borrowingsPerBorrower = dataManager.borrowingCountsPerSectorNumber[number] / dataManager.borrowersCountPerSectorNumber[number];
+    var color = MapStyle.borrowingsPerBorrowersColorCalculator.getRgbaColor(borrowingsPerBorrower, 0.6);
+
+    var style = new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: color,
+            opacity: 0.6
+        })
+    });
+    return [style]
+  },
+
+  // Style function for loading sections
+  styleFunctionLoad: function(feature, resolution) {
+    var style = new ol.style.Style({
+      fill: new ol.style.Fill({
+        color: [0,0,0,0.8],
+      }),
+      stroke: new ol.style.Stroke({
+        color: [255,255,255,0.6],
+      }),
+      text: new ol.style.Text({
+        text: 'Loading...',
+        font: '12px Calibri,sans-serif',
+        fill: new ol.style.Fill({color: [255,255,255,1]})
+      })
+    });
+
+    return [style];
+  },
 
   //This is the style function, a function is used to make it more dynamic/flexible
   styleFunction: function(feature, resolution) {
