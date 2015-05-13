@@ -14,9 +14,10 @@ Coding style
 ---------------
 Before you want to help us coding, make sure to follow the coding conventions from Django (see [Django coding style](https://docs.djangoproject.com/en/1.7/internals/contributing/writing-code/coding-style/)). <br />
 Besides these coding convenmetions, please make sure your editor removes whitespace at the end of a line and let the tabs be changed to 4 spaces instead.
-Also javascript conventions should be used.
+Also javascript conventions should be used for the visualisation part(see [Javascript Convention tools](https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml)).
+For cleaning the data with R, please use the conventions found in the following link: [R Convention tools](https://google-styleguide.googlecode.com/svn/trunk/Rguide.xml)
 
-Documentation
+Progress Report Documentation
 --------------
 In the documents/report folder, you can find the documentation related to the progress of this project. To make a pdf output file, please make a map called 'output' in the same directory. <br />
 Afterwards, execute the following command: <code> make </code>. You will see the pdf file in the output folder.
