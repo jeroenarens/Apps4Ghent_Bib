@@ -101,41 +101,50 @@ MapUI.prototype.registerSidebarHandlers = function() {
 // Registers event handlers that have functionality to change between layer
 MapUI.prototype.registerLayerChangeHandlers = function(Map) {
   $('[data-map]').click(function(e) {
-    var data = $(this).data('map');
-
-    Map.map.addLayer(Map.layers.loadingLayer);
-
-    // Reset all layers
-    Map.map.removeLayer(Map.layers.sectionsLayer);
-    Map.map.removeLayer(Map.layers.wijkLayer);
-    Map.map.removeLayer(Map.layers.lenersLayer);
-    Map.map.removeLayer(Map.layers.borrowingsLayer);
-    Map.map.removeLayer(Map.layers.librariesLayer);
-
-    switch(data) {
-    case 'empty':
-      Map.map.removeLayer(Map.layers.loadingLayer);
-      Map.map.addLayer(Map.layers.sectionsLayer);
-      break;
-    case 'borrowersPerArea':
-      MapStyle.borrowersPerAreaColorCalculator.update(calculateBorrowersPerArea(Map.dataManager));
-      Map.map.removeLayer(Map.layers.loadingLayer);
-
-      Map.map.addLayer(Map.layers.lenersLayer);
-      Map.map.addLayer(Map.layers.sectionsLayer);
-      break;
-    case 'borrowingsPerBorrowers':
-      Map.dataManager.updateBorrowingsCount(function() {
-        MapStyle.borrowingsPerBorrowersColorCalculator.update(calculateBorrowingsPerBorrowers(Map.dataManager))
-        Map.map.removeLayer(Map.layers.loadingLayer);
-        Map.map.addLayer(Map.layers.borrowingsLayer);
-        Map.map.addLayer(Map.layers.sectionsLayer);
-      });
-      break;
-    case 'libraries':
-      Map.map.removeLayer(Map.layers.loadingLayer);
-      Map.map.addLayer(Map.layers.sectionsLayer);
-      Map.map.addLayer(Map.layers.librariesLayer);
-    }
+    var layer = $(this).data('map');
+    Map.dataManager.setCurrentLayer(Map, layer);
   });
-}
+};
+
+MapUI.prototype.changeLayer = function(Map, layer) {
+  Map.map.addLayer(Map.layers.loadingLayer);
+
+  // Reset all layers
+  Map.map.removeLayer(Map.layers.sectionsLayer);
+  Map.map.removeLayer(Map.layers.wijkLayer);
+  Map.map.removeLayer(Map.layers.lenersLayer);
+  Map.map.removeLayer(Map.layers.borrowingsLayer);
+  Map.map.removeLayer(Map.layers.librariesLayer);
+
+  switch(layer) {
+  case 'empty':
+    Map.map.removeLayer(Map.layers.loadingLayer);
+    Map.map.addLayer(Map.layers.sectionsLayer);
+    break;
+  case 'borrowersPerArea':
+    MapStyle.borrowersPerAreaColorCalculator.update(calculateBorrowersPerArea(Map.dataManager));
+    Map.map.removeLayer(Map.layers.loadingLayer);
+
+    Map.map.addLayer(Map.layers.lenersLayer);
+    Map.map.addLayer(Map.layers.sectionsLayer);
+    break;
+  case 'borrowingsPerBorrowers':
+    Map.dataManager.updateBorrowingsCount(function() {
+      MapStyle.borrowingsPerBorrowersColorCalculator.update(calculateBorrowingsPerBorrowers(Map.dataManager))
+      Map.map.removeLayer(Map.layers.loadingLayer);
+      Map.map.addLayer(Map.layers.borrowingsLayer);
+      Map.map.addLayer(Map.layers.sectionsLayer);
+    });
+    break;
+  case 'libraries':
+    Map.map.removeLayer(Map.layers.loadingLayer);
+    Map.map.addLayer(Map.layers.sectionsLayer);
+    Map.map.addLayer(Map.layers.librariesLayer);
+  }
+};
+
+MapUI.prototype.registerFilterHandlers = function(Map) {
+  $('[data-filter=type]').change(function(event) {
+    Map.dataManager.setFilter(Map, 'type', $(this).val());
+  });
+};

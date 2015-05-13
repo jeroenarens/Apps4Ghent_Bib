@@ -1,14 +1,23 @@
-function DataManager(apiHandler) {
+function DataManager(mapUI, apiHandler) {
+  this.mapUI = mapUI;
   this.apiHandler = apiHandler;
 
-  this.borrowersCountPerSectorNumber = undefined;
+  this.currentLayer = "empty";
+  this.filters = {};
+
+  this.libraries = undefined;
+  this.librariesPerBranchCode = undefined;
   this.sectorsPerId = undefined;
   this.sectorsPerSectorNumber = undefined;
+
+  this.borrowersCountPerSectorNumber = undefined;
   this.borrowingCounts = undefined;
   this.borrowingCountsPerSectorNumber = undefined;
   this.borrowingCountsPerLibrary = undefined;
-  this.librariesPerBranchCode = undefined;
-  this.libraries = undefined;
+
+  this.clearableProperties = [
+    'borrowersCountPerSectorNumber', 'borrowingCounts', 'borrowingCountsPerSectorNumber', 'borrowingCountsPerLibrary'
+  ];
 }
 
 DataManager.prototype.updateSectors = function(callback) {
@@ -31,7 +40,7 @@ DataManager.prototype.updateSectors = function(callback) {
 DataManager.prototype.updateBorrowersCount = function(callback) {
   var self = this;
 
-  this.apiHandler.getBorrowersCount(function(bcount) {
+  this.apiHandler.getBorrowersCount(this.filters, function(bcount) {
     var countPerSector = [];
     bcount.forEach(function(count) {
       var sector = self.sectorsPerId[count.sector];
@@ -46,7 +55,7 @@ DataManager.prototype.updateBorrowersCount = function(callback) {
 DataManager.prototype.updateBorrowingsCount = function(callback) {
   var self = this;
 
-  this.apiHandler.getBorrowingsCount(function(bcount) {
+  this.apiHandler.getBorrowingsCount(this.filters, function(bcount) {
     self.borrowingCounts = bcount;
 
     // Count per sector
@@ -88,4 +97,33 @@ DataManager.prototype.updateLibraries = function(callback) {
     self.librariesPerBranchCode = librariesPerId;
     if (callback) callback(libraries, librariesPerId);
   });
+};
+
+DataManager.prototype.setCurrentLayer = function(Map, layer) {
+  if (this.currentLayer != layer) {
+    this.currentLayer = layer;
+    this.mapUI.changeLayer(Map, layer);
+  }
+};
+
+DataManager.prototype._clearData = function() {
+  this.clearableProperties.forEach(function(prop) {
+    this[prop] = undefined;
+  });
 }
+
+DataManager.prototype.setFilter = function(Map, filter, value) {
+  if (value === 'null') value = undefined;
+
+  if (!!value) {
+    if (this.filters[filter] != value) {
+      this.filters[filter] = value;
+      this._clearData();
+      this.mapUI.changeLayer(Map, this.currentLayer);
+    }
+  } else if (this.filters[filter]) {
+    delete this.filters[filter];
+    this._clearData();
+    this.mapUI.changeLayer(Map, this.currentLayer);
+  }
+};

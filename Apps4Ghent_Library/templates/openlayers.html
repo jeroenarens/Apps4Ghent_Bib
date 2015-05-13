@@ -40,14 +40,15 @@
         var map, mapUI, apiHandler, dataManager;
 
         $(function () {
-            apiHandler = new ApiHandler('http://localhost:3000');
-            dataManager = new DataManager(apiHandler);
-
             mapUI = new MapUI();
+            apiHandler = new ApiHandler('http://localhost:3000');
+            dataManager = new DataManager(mapUI, apiHandler);
+
             mapUI.registerSidebarHandlers();
 
             map = new Map(apiHandler, dataManager, mapUI, '{% static "map/wijkenGent.geojson" %}');
             map.registerEventHandlers();
+            mapUI.registerFilterHandlers(map);
 
             // Fetch initial values from api
             dataManager.updateSectors(function() {
@@ -92,9 +93,6 @@
                             <i class="fa fa-list-alt"></i>
                             Map visualisations
                         </a>
-                  <span class="pull-right slide-submenu">
-                    <i class="fa fa-chevron-left"></i>
-                  </span>
                     </h4>
                 </div>
                 <div id="layers" class="panel-collapse collapse in">
@@ -110,6 +108,58 @@
                         </a>
                         <a href="#" class="list-group-item" id="Borrowings" data-map="borrowingsPerBorrowers">
                             <i class="fa fa-globe"></i> Borrowings / Borrowers
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-group sidebar-body" id="accordion-left-filters">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#filters">
+                            <i class="fa fa-list-alt"></i>
+                            Filters
+                        </a>
+                    </h4>
+                </div>
+                <div id="filters" class="panel-collapse collapse in">
+                    <div class="panel-body list-group">
+                        <a href="#" class="list-group-item">
+                            <label>Material type</label>
+                            <select data-filter="type">
+                                 <option value="null">Alles</option>
+                                 <option value="Track">Track</option>
+                                 <option value="CD-ROM">CD-ROM</option>
+                                 <option value="Hoofdstuk">Hoofdstuk</option>
+                                 <option value="Taalcursus">Taalcursus</option>
+                                 <option value="DVD-Video">DVD-Video</option>
+                                 <option value="Cassette">Cassette</option>
+                                 <option value="CD">CD</option>
+                                 <option value="Strip">Strip</option>
+                                 <option value="Kit">Kit</option>
+                                 <option value="Video">Video</option>
+                                 <option value="Digitaal document">Digitaal document</option>
+                                 <option value="LP">LP</option>
+                                 <option value="Krant">Krant</option>
+                                 <option value="Dia">Dia</option>
+                                 <option value="DVD-ROM">DVD-ROM</option>
+                                 <option value="Grote letter">Grote letter</option>
+                                 <option value="Vertelplaten">Vertelplaten</option>
+                                 <option value="Fundel">Fundel</option>
+                                 <option value="Artikel">Artikel</option>
+                                 <option value="Spel">Spel</option>
+                                 <option value="Daisy">Daisy</option>
+                                 <option value="Reeks">Reeks</option>
+                                 <option value="Playstation 2">Playstation 2</option>
+                                 <option value="Boek">Boek</option>
+                                 <option value="Website">Website</option>
+                                 <option value="Documentatiemap">Documentatiemap</option>
+                                 <option value="Bladmuziek">Bladmuziek</option>
+                                 <option value="Kaart">Kaart</option>
+                                 <option value="Tijdschrift">Tijdschrift</option>
+                            </select>
                         </a>
                     </div>
                 </div>

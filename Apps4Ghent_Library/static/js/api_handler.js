@@ -13,8 +13,16 @@ ApiHandler.prototype.getLibraries = function(callback) {
   });
 };
 
-ApiHandler.prototype.getBorrowersCount = function(callback) {
-  $.get(this.getUrl('borrowers/count'), {format: 'json'}, function(data) {
+ApiHandler.prototype.getBorrowersCount = function(options, callback) {
+  // options is optional
+  if (typeof(options) === "function") {
+    callback = options;
+    options = undefined;
+  } else {
+    options = $.extend({}, {format: 'json'}, options);
+  }
+
+  $.get(this.getUrl('borrowers/count'), options, function(data) {
     callback(data.results);
   });
 };
@@ -25,8 +33,16 @@ ApiHandler.prototype.getSectors = function(callback) {
   });
 };
 
-ApiHandler.prototype.getBorrowingsCount = function(callback) {
-  $.get(this.getUrl('borrowed-items'), {format: 'json'}, function(data) {
+ApiHandler.prototype.getBorrowingsCount = function(options, callback) {
+  // options is optional
+  if (typeof(options) === "function") {
+    callback = options;
+    options = undefined;
+  } else {
+    options = $.extend({}, {format: 'json'}, options);
+  }
+
+  $.get(this.getUrl('borrowed-items'), options, function(data) {
     var results = data.results;
 
     // Recursively fetch the next batch of data
