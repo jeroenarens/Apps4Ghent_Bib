@@ -51,6 +51,8 @@ Now you can start the server by typing:
 <br />
 <code> python3 manage.py runserver </code>
 <br/>
+
+!For using the visualisation of the library data, you need to change the source of the API towards the URL where your API is situated (see line 45 at Apps4Ghent_library/templates/library.html) 
 For a more detailed documentation about cleaning/importing the data or using the API, please read our [Wiki](https://github.com/jeroenarens/Apps4Ghent_Bib/wiki)
 <br/> <br/>
 Be aware that you do not need to change any settings, you should be able to run this project locally without changing anything to these settings!
