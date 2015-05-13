@@ -119,11 +119,11 @@ DataManager.prototype.setFilter = function(Map, filter, value) {
     if (this.filters[filter] != value) {
       this.filters[filter] = value;
       this._clearData();
-      this.mapUI.changeLayer(Map, this.currentLayer);
+      this.mapUI.refreshUI(Map);
     }
   } else if (this.filters[filter]) {
     delete this.filters[filter];
     this._clearData();
-    this.mapUI.changeLayer(Map, this.currentLayer);
+    this.mapUI.refreshUI(Map);
   }
 };

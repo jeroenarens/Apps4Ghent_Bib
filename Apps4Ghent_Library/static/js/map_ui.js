@@ -123,6 +123,7 @@ MapUI.prototype.changeLayer = function(Map, layer) {
     break;
   case 'borrowersPerArea':
     MapStyle.borrowersPerAreaColorCalculator.update(calculateBorrowersPerArea(Map.dataManager));
+    this.refreshLegend(Map, MapStyle.borrowersPerAreaColorCalculator);
     Map.map.removeLayer(Map.layers.loadingLayer);
 
     Map.map.addLayer(Map.layers.lenersLayer);
@@ -130,11 +131,12 @@ MapUI.prototype.changeLayer = function(Map, layer) {
     break;
   case 'borrowingsPerBorrowers':
     Map.dataManager.updateBorrowingsCount(function() {
-      MapStyle.borrowingsPerBorrowersColorCalculator.update(calculateBorrowingsPerBorrowers(Map.dataManager))
+      MapStyle.borrowingsPerBorrowersColorCalculator.update(calculateBorrowingsPerBorrowers(Map.dataManager));
+      this.refreshLegend(Map, MapStyle.borrowingsPerBorrowersColorCalculator);
       Map.map.removeLayer(Map.layers.loadingLayer);
       Map.map.addLayer(Map.layers.borrowingsLayer);
       Map.map.addLayer(Map.layers.sectionsLayer);
-    });
+    }.bind(this));
     break;
   case 'libraries':
     Map.map.removeLayer(Map.layers.loadingLayer);
@@ -147,4 +149,25 @@ MapUI.prototype.registerFilterHandlers = function(Map) {
   $('[data-filter]').change(function(event) {
     Map.dataManager.setFilter(Map, $(this).data('filter'), $(this).val());
   });
+};
+
+MapUI.prototype.refreshLegend = function(Map, colorCalculator) {
+  var table = $('#legendTable');
+
+  // Clear the table
+  table.html('');
+
+  // Add rows to the table one by one
+  for (var i=0; i < colorCalculator.numberOfColors; ++i) {
+    var value = colorCalculator.getValue(i);
+    var percentValue = (value - colorCalculator.minValue) / (colorCalculator.maxValue - colorCalculator.minValue);
+    var color = colorCalculator.getRgbaColor(value-0.0001, 1);
+
+    var row = $('<tr><td><div style="width: 30px; height: 20px; background: ' + color + ';"></div><td style="padding-left:10px">' + Math.round(percentValue*100) + '%</td></tr>');
+    table.append(row);
+  }
+};
+
+MapUI.prototype.refreshUI = function(Map) {
+  this.changeLayer(Map, Map.dataManager.currentLayer);
 };

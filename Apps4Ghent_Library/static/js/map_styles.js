@@ -44,7 +44,7 @@ var MapStyle = {
       zIndex: 50
   }),
 
-  borrowersPerAreaColorCalculator: new ColorCalculator([128, 0, 38], [255, 237, 160], 8),
+  borrowersPerAreaColorCalculator: new ColorCalculator([128, 0, 38], [255, 237, 160], 10),
 
   styleFunctionBorrowersPerArea: function(feature, resolution) {
     var number = feature.get('wijknr');
@@ -60,7 +60,7 @@ var MapStyle = {
     return [style]
   },
 
-  borrowingsPerBorrowersColorCalculator: new ColorCalculator([128, 0, 38], [255, 237, 160], 20),
+  borrowingsPerBorrowersColorCalculator: new ColorCalculator([128, 0, 38], [255, 237, 160], 10),
 
   styleFunctionBorrowingsPerBorrowers: function(feature, resolution) {
     var number = feature.get('wijknr');
