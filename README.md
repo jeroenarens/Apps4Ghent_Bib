@@ -36,7 +36,7 @@ Besides these directories, also a manage.py file is present which will be used t
 
 How to run?
 -------------
-before running the project itself, please install python3.4 ([Link](https://www.python.org/downloads/)) and Django 1.7 ([Link](https://docs.djangoproject.com/en/1.7/topics/install/)) <br />
+before running the project itself, please install python3.4 ([Link](https://www.python.org/downloads/)) and Django 1.7 ([Link](https://docs.djangoproject.com/en/1.7/topics/install/)), Pip ([link](https://pypi.python.org/pypi/pip)) and Postgresql ([link](http://www.postgresql.org/)).
 Also be sure to have a postgresql server locally installed.
 To set up the django project, first install the packages from the requirements file with the following command: 
 <br />
