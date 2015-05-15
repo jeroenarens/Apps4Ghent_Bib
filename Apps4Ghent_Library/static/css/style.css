@@ -198,8 +198,42 @@ p.copyright {
     max-height: 80%;
 }
 
-.carousel-inner.img{
-    position: relative;
-    height: 100px;
-    widht: 200px;
+.heightinherit{
+    height: inherit;
+}
+
+@media (max-width: 1200px){
+    #mediaslider {
+        display: none;
+    }
+}
+
+@media (max-height: 800px){
+    #header{
+        padding-top: 100px;
+    }
+}
+
+@media (max-height: 700px){
+    #mediaslider {
+        display: none;
+    }
+}
+
+#maximgheight{
+    height: 187px;
+}
+
+.img-maxheight{
+    height: inherit;
+    max-height: inherit;
+}
+
+.descriptino-maxheight{
+    height: inherit;
+    max-height: inherit;
+}
+
+.row{
+    max-height: 187px;
 }

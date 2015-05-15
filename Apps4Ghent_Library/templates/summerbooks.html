@@ -48,6 +48,7 @@
     <div class="row">
         <div id="filter-panel" class="filter-panel">
             <div class="panel panel-default">
+                <h4>These books were lent by people of your age and sex at Ghent Library during the last 5 summers. Enjoy!</h4>
             </div>
         </div>
     </div>
@@ -60,14 +61,14 @@
             <div class="well">
 
                 <div class="row">
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-4" id="maximgheight">
                     {% if item.item_copy__item__isbn %}
-                        <img src="http://webservices.bibliotheek.be/index.php?func=cover&ISBN={{ item.item_copy__item__isbn }}&coversize=medium" data-isbn="{{ item.item_copy__item__isbn }}" alt="" class="img-rounded img-responsive"/>
+                        <img src="http://webservices.bibliotheek.be/index.php?func=cover&ISBN={{ item.item_copy__item__isbn }}&coversize=medium" data-isbn="{{ item.item_copy__item__isbn }}" alt="" class="img-rounded img-responsive img-maxheight"/>
                     {% else %}
-                        <img src="{% static "img/Unknown-Book.jpg" %}" data-isbn="{{ item.item_copy__item__isbn }}" alt="" class="img-rounded img-responsive"/>
+                        <img src="{% static "img/Unknown-Book.jpg" %}" data-isbn="{{ item.item_copy__item__isbn }}" alt="" class="img-rounded img-responsive img-maxheight"/>
                     {% endif %}
                     </div>
-                    <div class="col-sm-6 col-md-8">
+                    <div class="col-sm-6 col-md-8 descriptino-maxheight">
                         <h4>{{ item.item_copy__item__title }}</h4>
                         <p> <b>isbn</b>: {{ item.item_copy__item__isbn }}<br>
                         <b>Auteur</b>: {{ item.item_copy__item__author_firstname }} {{ item.item_copy__item__author_lastname }}</p>
