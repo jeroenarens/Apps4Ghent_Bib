@@ -1,6 +1,6 @@
-function ColorCalculator(minColor, maxColor, numberOfColors) {
-  this.minColor = minColor;
-  this.maxColor = maxColor;
+function ColorCalculator(lowestColor, highestColor, numberOfColors) {
+  this.minColor = highestColor;
+  this.maxColor = lowestColor;
   this.numberOfColors = numberOfColors;
 }
 
@@ -8,7 +8,9 @@ ColorCalculator.prototype._calculateColorComponent = function(component, i) {
   var a = this.minColor[component];
   var b = this.maxColor[component];
 
-  return Math.floor(a + ((b - a) / this.numberOfColors) * i);
+  var index = this.numberOfColors - i - 1;
+
+  return Math.floor(a + ((b - a) / this.numberOfColors) * index);
 };
 
 ColorCalculator.prototype._calculateColor = function(i) {
