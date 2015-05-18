@@ -38,6 +38,7 @@ Map.prototype._generateLayers = function(sectionsUrl) {
       projection: 'EPSG:3857',
       url: sectionsUrl
   });
+  this.sectionSource = sectionSource;
 
   // Loading layer
   this.layers.loadingLayer = new ol.layer.Vector({
@@ -215,3 +216,9 @@ Map.prototype._generateLibrariesLayer = function() {
         self.map.removeLayer(self.layers.loadingLayer);
     });
 }
+
+Map.prototype.redrawLayers = function() {
+  var features = this.sectionSource.getFeatures();
+  this.sectionSource.clear();
+  this.sectionSource.addFeatures(features);
+};

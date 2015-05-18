@@ -100,9 +100,32 @@ MapUI.prototype.registerSidebarHandlers = function() {
 
 // Registers event handlers that have functionality to change between layer
 MapUI.prototype.registerLayerChangeHandlers = function(Map) {
+  var self = this;
+
   $('[data-map]').click(function(e) {
     var layer = $(this).data('map');
     Map.dataManager.setCurrentLayer(Map, layer);
+  });
+
+  // Color change handlers
+  $('[data-color]').change(function(e) {
+    var color = $(this).data('color');
+    if (color === "lowest") {
+      var newVal = hexToRgb($(this).val());
+      if (self.currentColorCalculator.maxColor === newVal) return;
+      self.currentColorCalculator.maxColor = newVal;
+    } else if (color === "highest") {
+      var newVal = hexToRgb($(this).val());
+      if (self.currentColorCalculator.minColor === newVal) return;
+      self.currentColorCalculator.minColor = newVal;
+    } else if (color === "level") {
+      var newVal = $(this).val();
+      if (self.currentColorCalculator.numberOfColors === newVal) return;
+      self.currentColorCalculator.numberOfColors = newVal;
+    }
+
+    self.refreshLegend();
+    Map.redrawLayers();
   });
 };
 
@@ -153,6 +176,16 @@ MapUI.prototype.registerFilterHandlers = function(Map) {
 };
 
 MapUI.prototype.refreshLegend = function(Map, colorCalculator) {
+  colorCalculator = colorCalculator || this.currentColorCalculator;
+
+  // Update the color selector
+  if (this.currentColorCalculator !== colorCalculator) {
+    this.currentColorCalculator = colorCalculator;
+    $('[data-color=lowest]').val(rgbToHex(colorCalculator.maxColor));
+    $('[data-color=highest]').val(rgbToHex(colorCalculator.minColor));
+    $('[data-color=level]').val(colorCalculator.numberOfColors);
+  }
+
   var table = $('#legendTable');
 
   // Clear the table
@@ -166,6 +199,8 @@ MapUI.prototype.refreshLegend = function(Map, colorCalculator) {
 
     var row = $('<tr><td><div style="width: 30px; height: 20px; background: ' + color + ';"></div><td style="padding-left:10px">' + Math.round(percentValue*100) + '%</td></tr>');
     table.append(row);
+
+    $('#legend-colors').css('display', 'block');
   }
 };
 
