@@ -24,8 +24,7 @@ def index(request):
             decade = form.cleaned_data['decade']
             sex = form.cleaned_data['sex']
             category = form.cleaned_data['category']
-            borrower = Borrower.objects.filter(decade=decade, sex=sex)
-            borrowings = Borrowing.objects.filter(borrower=borrower,item_copy__item__type='Boek', item_copy__item__literarytype=category)
+            borrowings = DenormalisedBorrowing.objects.filter(decade=decade, sex=sex, type='Boek', literarytype=category)
 
             #Now, get the books from the last 5 years during the summer months
             borrowings = borrowings.filter(Q(from_date__month=6)|
@@ -39,7 +38,7 @@ def index(request):
                                            Q(from_date__year=2013)|
                                            Q(from_date__year=2014))
             #get the item_copies of the most rent items
-            borrowings = borrowings.values(*prefix_list('item_copy__item__', ['id', 'title', 'author_firstname','author_lastname', 'isbn'])).annotate(count=Count('item_copy__item__id')).order_by('-count')[:52]
+            borrowings = borrowings.values('item_id', 'title', 'author_firstname','author_lastname', 'isbn').annotate(count=Count('item_id')).order_by('-count')[:52]
             #return the top 10
 
             context['items'] = borrowings

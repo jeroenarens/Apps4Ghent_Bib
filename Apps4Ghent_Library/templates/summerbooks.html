@@ -62,16 +62,16 @@
 
                 <div class="row">
                     <div class="col-sm-6 col-md-4" id="maximgheight">
-                    {% if item.item_copy__item__isbn %}
-                        <img src="http://webservices.bibliotheek.be/index.php?func=cover&ISBN={{ item.item_copy__item__isbn }}&coversize=medium" data-isbn="{{ item.item_copy__item__isbn }}" alt="" class="img-rounded img-responsive img-maxheight"/>
+                    {% if item.isbn %}
+                        <img src="http://webservices.bibliotheek.be/index.php?func=cover&ISBN={{ item.isbn }}&coversize=medium" data-isbn="{{ item.isbn }}" alt="" class="img-rounded img-responsive img-maxheight"/>
                     {% else %}
-                        <img src="{% static "img/Unknown-Book.jpg" %}" data-isbn="{{ item.item_copy__item__isbn }}" alt="" class="img-rounded img-responsive img-maxheight"/>
+                        <img src="{% static "img/Unknown-Book.jpg" %}" data-isbn="{{ item.isbn }}" alt="" class="img-rounded img-responsive img-maxheight"/>
                     {% endif %}
                     </div>
                     <div class="col-sm-6 col-md-8 descriptino-maxheight">
-                        <h4>{{ item.item_copy__item__title }}</h4>
-                        <p> <b>isbn</b>: {{ item.item_copy__item__isbn }}<br>
-                        <b>Auteur</b>: {{ item.item_copy__item__author_firstname }} {{ item.item_copy__item__author_lastname }}</p>
+                        <h4>{{ item.title }}</h4>
+                        <p> <b>isbn</b>: {{ item.isbn }}<br>
+                        <b>Auteur</b>: {{ item.author_firstname }} {{ item.author_lastname }}</p>
                         <p>{{ item.count }} keer geleend</p>
                     </div>
                 </div>
