@@ -124,3 +124,66 @@ class Borrowing(Model):
     class Meta:
         db_table = 'borrowings'
 
+class DenormalisedBorrowing(Model):
+    id = AutoField(primary_key=True)
+    from_date = DateField(null=True)
+    lid_number = CharField(max_length=64,null=True)
+    barcode = CharField(max_length=64, null=True)
+    loan_period = IntegerField(null=True)
+
+    # Borrower
+    borrower_id = IntegerField(null=False)
+    lid_number = CharField(max_length=64,null=True)
+    decade = IntegerField(null=True)
+    sex = CharField(max_length=1,null=True)
+    postcode_start = CharField(max_length=1,null=True)
+    subscription_year = IntegerField(null=True)
+    subscription_location = CharField(max_length=8,null=True)
+    category = CharField(max_length=8,null=True)
+    sector_number = IntegerField(null=True)
+    sector = ForeignKey(Sector, db_column='sector_id', related_name='denorm_borrowing_set', null=True)
+
+    # Item Copy
+    item_copy_id = IntegerField(null=False)
+    nature = IntegerField(null=True)
+    copy_pk = CharField(max_length=128, null=True)
+    in_date = CharField(max_length=10, null=True)
+    location = ForeignKey(Library, db_column='location', related_name='denorm_borrowing_set', null=True)
+
+    # Item
+    item_id = IntegerField(null=False)
+    category_music = CharField(max_length=50,null=True)
+    type = CharField(max_length=30,null=True)
+    title = TextField(null=True)
+    author_type = CharField(max_length=30,null=True)
+    isbn_wrong = CharField(max_length=50,null=True)
+    category_youth = CharField(max_length=50,null=True)
+    issn = CharField(max_length=30,null=True)
+    language = CharField(max_length=50,null=True)
+    ean = CharField(max_length=30,null=True)
+    age = CharField(max_length=30,null=True)
+    series_edition = CharField(max_length=255,null=True)
+    keywords_youth = CharField(max_length=128,null=True)
+    author_lastname = CharField(max_length=128,null=True)
+    publisher = CharField(max_length=255,null=True)
+    author_firstname = CharField(max_length=128,null=True)
+    keywords_libraries = CharField(max_length=128,null=True)
+    year_published = CharField(max_length=128,null=True)
+    keywords_local = CharField(max_length=128,null=True)
+    pages = CharField(max_length=255,null=True)
+    category_adults = CharField(max_length=64,null=True)
+    siso = CharField(max_length=64,null=True)
+    literarytype = CharField(max_length=64,null=True)
+    ean_wrong = CharField(max_length=64,null=True)
+    isbn = CharField(max_length=64,null=True)
+    issn_wrong = CharField(max_length=64, null=True)
+    siso_libraries = CharField(max_length=64, null=True)
+    avi = CharField(max_length=16, null=True)
+    openvlaccid = CharField(max_length=16, null=True)
+    keyword_adults = CharField(max_length=128, null=True)
+    zizo = CharField(max_length=16, null=True)
+    series_title = CharField(max_length=255, null=True)
+    keyword_youth = CharField(max_length=64, null=True)
+
+    class Meta:
+        db_table = 'borrowings_denormalised'
