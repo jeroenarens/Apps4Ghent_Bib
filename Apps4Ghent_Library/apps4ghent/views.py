@@ -62,7 +62,7 @@ class ItemViewSet(viewsets.ReadOnlyModelViewSet):
 
 #API view for the items together with the total amount the item is borrowed
 class ItemBorrowingCountView(generics.ListAPIView):
-    queryset = Borrowing.objects.values(*prefix_list('item_copy__item__', ['id', 'title'])).annotate(count=Count('item_copy__item__id'))
+    queryset = DenormalisedBorrowing.objects.values('item_copy_id', 'title').annotate(count=Count('item_id'))
     serializer_class = ItemBorrowingCountSerializer
     filter_backends = (DjangoFilterBackend,OrderingFilter)
     filter_class = BorrowedItemFilter
@@ -94,7 +94,7 @@ class BorrowerViewSet(viewsets.ReadOnlyModelViewSet):
 
 #API view for the borrowings
 class BorrowingViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Borrowing.objects.all()
+    queryset = DenormalisedBorrowing.objects.all()
     serializer_class = BorrowingSerializer
     filter_class = BorrowingFilter
 
@@ -113,7 +113,7 @@ class BorrowingWithBorrowerViewSet(viewsets.ReadOnlyModelViewSet):
 
 #API view for the Borrowed items with respect to the location and the borrower and the count how much it is rent to each sector
 class ListBorrowedItemsView(generics.ListAPIView):
-    queryset = Borrowing.objects.values('item_copy__location', 'borrower__sector_id').annotate(bcount=Count('pk'))
+    queryset = DenormalisedBorrowing.objects.values('location', 'sector').annotate(bcount=Count('pk'))
     serializer_class = BorrowedItemSerializer
     filter_class = BorrowedItemFilter
 

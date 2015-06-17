@@ -8,8 +8,8 @@ class ItemSerializer(serializers.ModelSerializer):
 
 #serializer for the amount of times a certain item has been borrowed
 class ItemBorrowingCountSerializer(serializers.Serializer):
-    id = serializers.IntegerField(source='item_copy__item__id')
-    title = serializers.CharField(source='item_copy__item__title')
+    id = serializers.IntegerField(source='item__id')
+    title = serializers.CharField(source='title')
     borrowing_count = serializers.IntegerField(source='count')
 
 #serializer for a ItemCopy
@@ -50,6 +50,6 @@ class LibrarySerializer(serializers.ModelSerializer):
 
 #This serializer is used to serialize BorrowedItems from the views file
 class BorrowedItemSerializer(serializers.Serializer):
-    from_library = serializers.CharField(source='item_copy__location')
-    to_sector = serializers.IntegerField(source='borrower__sector_id')
+    from_library = serializers.CharField(source='location')
+    to_sector = serializers.IntegerField(source='sector')
     borrowing_count = serializers.IntegerField(source='bcount')
