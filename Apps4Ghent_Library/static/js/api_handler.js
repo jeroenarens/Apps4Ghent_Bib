@@ -1,6 +1,9 @@
 function ApiHandler (host, prefix) {
   this.host = host;
   this.prefix = prefix || '/api/v1/';
+
+  // Dirty hacky value that enables us to get all results on one page, thus skipping pagination
+  this._page_size = 10000000
 }
 
 ApiHandler.prototype.getUrl = function(url) {
@@ -8,7 +11,7 @@ ApiHandler.prototype.getUrl = function(url) {
 };
 
 ApiHandler.prototype.getLibraries = function(callback) {
-  $.get(this.getUrl('libraries'), {format: 'json'}, function (data) {
+  $.get(this.getUrl('libraries'), {format: 'json', page_size: this._page_size}, function (data) {
     callback(data.results);
   });
 };
@@ -19,7 +22,7 @@ ApiHandler.prototype.getBorrowersCount = function(options, callback) {
     callback = options;
     options = undefined;
   } else {
-    options = $.extend({}, {format: 'json'}, options);
+    options = $.extend({}, {format: 'json', page_size: this._page_size}, options);
   }
 
   $.get(this.getUrl('borrowers/count'), options, function(data) {
@@ -28,7 +31,7 @@ ApiHandler.prototype.getBorrowersCount = function(options, callback) {
 };
 
 ApiHandler.prototype.getSectors = function(callback) {
-  $.get(this.getUrl('sectors'), {format: 'json'}, function(data) {
+  $.get(this.getUrl('sectors'), {format: 'json', page_size: this._page_size}, function(data) {
     callback(data.results);
   });
 };
@@ -39,7 +42,7 @@ ApiHandler.prototype.getBorrowingsCount = function(options, callback) {
     callback = options;
     options = undefined;
   } else {
-    options = $.extend({}, {format: 'json'}, options);
+    options = $.extend({}, {format: 'json', page_size: this._page_size}, options);
   }
 
   $.get(this.getUrl('borrowed-items'), options, function(data) {
